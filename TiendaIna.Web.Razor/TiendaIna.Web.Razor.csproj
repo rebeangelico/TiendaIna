@@ -6,4 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TiendaIna.Core\TiendaIna.Core.csproj" />
+    <ProjectReference Include="..\TiendaIna.Infrastructure\TiendaIna.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

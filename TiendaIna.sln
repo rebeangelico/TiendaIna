@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36221.1 d17.14
+VisualStudioVersion = 17.14.36221.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TiendaIna.Web.Razor", "TiendaIna.Web.Razor\TiendaIna.Web.Razor.csproj", "{B711AC53-CE88-47D8-BA87-32EEDF1C3590}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TiendaIna.Core", "TiendaIna.Core\TiendaIna.Core.csproj", "{37E47A79-CEDD-4905-9495-3ED342E28362}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TiendaIna.Infrastructure", "TiendaIna.Infrastructure\TiendaIna.Infrastructure.csproj", "{4298ABD6-1CD4-4826-8C28-BF7678F4C132}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{B711AC53-CE88-47D8-BA87-32EEDF1C3590}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B711AC53-CE88-47D8-BA87-32EEDF1C3590}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B711AC53-CE88-47D8-BA87-32EEDF1C3590}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37E47A79-CEDD-4905-9495-3ED342E28362}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37E47A79-CEDD-4905-9495-3ED342E28362}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37E47A79-CEDD-4905-9495-3ED342E28362}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37E47A79-CEDD-4905-9495-3ED342E28362}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4298ABD6-1CD4-4826-8C28-BF7678F4C132}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4298ABD6-1CD4-4826-8C28-BF7678F4C132}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4298ABD6-1CD4-4826-8C28-BF7678F4C132}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4298ABD6-1CD4-4826-8C28-BF7678F4C132}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
