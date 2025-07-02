@@ -1,3 +1,6 @@
+using TiendaIna.Core.Services;
+using TiendaIna.Infrastructure.Services;
+
 namespace TiendaIna.Web.Razor
 {
     public class Program
@@ -5,6 +8,10 @@ namespace TiendaIna.Web.Razor
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            //registro de vservios a falta de inyeccion de dependencias - AGREGAR LUEGO
+            builder.Services.AddScoped<ICategoriesService, CategoriesService>();
+            builder.Services.AddScoped<IProductsService, ProductsService>();
 
             // Add services to the container.
             builder.Services.AddRazorPages();

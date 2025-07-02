@@ -1,0 +1,17 @@
+﻿@page
+@using TiendaIna.Core.Services
+@using TiendaIna.Infrastructure
+@using TiendaIna.Core
+@using TiendaIna.Infrastructure.Services
+@model ProductModel
+@{
+}
+
+@inject IProductsService ProductsService
+
+@{
+    var producto = ProductsService.GetProductPruebas();
+}
+<h2>@producto.name</h2>
+<img src="@producto.imagen" asp-append-version="true" alt="Imagen del producto" />
+<p>Precio: $@producto.precio</p>
