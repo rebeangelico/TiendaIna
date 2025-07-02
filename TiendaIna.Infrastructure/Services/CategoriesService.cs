@@ -1,14 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TiendaIna.Core.Entities;
+﻿using TiendaIna.Core.Entities;
 using TiendaIna.Core.Services;
 
 namespace TiendaIna.Infrastructure.Services {
-    internal class CategoriesService : ICategoriesService {
+    public class CategoriesService : ICategoriesService {
         public Task<List<Category>> GetCategories() {
+            throw new NotImplementedException();
+        }
+        public Task<Category> GetCategory(int categoryId) {
+            throw new NotImplementedException();
+        }
+        public void AddCategory(Category category) {
+            throw new NotImplementedException();
+        }
+        public void UpdateCategory(int categoryId) {
+            throw new NotImplementedException();
+        }
+        public void DeleteCategory(int categoryId) {
             throw new NotImplementedException();
         }
     }

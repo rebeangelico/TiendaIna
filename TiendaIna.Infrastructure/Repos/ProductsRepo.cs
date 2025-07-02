@@ -2,8 +2,23 @@
 using TiendaIna.Core.Repos;
 
 namespace TiendaIna.Infrastructure.Repos {
-    internal class ProductsRepo : IProductsRepo {
+    public class ProductsRepo : IProductsRepo {
+        public Task<Product> GetProduct(int productId) {
+            throw new NotImplementedException();
+        }
+
         public Task<List<Product>> GetProductsAsync() {
+            throw new NotImplementedException();
+        }
+        public void AddProduct(Product product) {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteProduct(int productId) {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateProduct(int productId) {
             throw new NotImplementedException();
         }
     }
