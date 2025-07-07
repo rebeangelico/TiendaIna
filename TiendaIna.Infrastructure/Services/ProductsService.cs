@@ -8,11 +8,13 @@ namespace TiendaIna.Infrastructure.Services {
         }
         public Product GetProductPruebas() {
             return new Product() {
-                category = "arabe",
-                name = "The Lions",
-                description = "exquisito bla bla bla",
-                imagen = "https://bestbrandsperfume.com/wp-content/uploads/2024/11/ARMAF-THE-LIONS-CLUB-RUGIR-3.4-Oz-Eau-De-Parfum-For-Men.png",
-                precio = 50000
+                Id = 1,
+                Category = new Category() {Id=1, Name="arabe"},
+                Brand= new Brand() {Id=1, Name="Armaf"},
+                Name = "The Lions",
+                Description = "exquisito bla bla bla",
+                Imagen = "https://bestbrandsperfume.com/wp-content/uploads/2024/11/ARMAF-THE-LIONS-CLUB-RUGIR-3.4-Oz-Eau-De-Parfum-For-Men.png",
+                Price = 50000
             };
         }
 

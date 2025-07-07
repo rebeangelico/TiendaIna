@@ -1,0 +1,8 @@
+﻿
+namespace TiendaIna.Core.Entities {
+    public class Brand {
+        public int Id { get; set; } 
+        public string Name { get; set; }
+        public virtual ICollection<Product> ProductsBrand { get; set; }
+    }
+}
