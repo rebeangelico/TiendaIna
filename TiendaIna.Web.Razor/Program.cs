@@ -61,6 +61,9 @@ namespace TiendaIna.Web.Razor
                 var services = scope.ServiceProvider;
                 var context = services.GetRequiredService<TiendaInaWebRazorContext>();
                 context.Database.EnsureCreated();
+
+                //inicializa el contex con informacion inicial
+                DbInitializer.Initialize(context);
             }
 
 

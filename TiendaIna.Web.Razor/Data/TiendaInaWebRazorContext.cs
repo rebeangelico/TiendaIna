@@ -19,7 +19,7 @@ namespace TiendaIna.Web.Razor.Data
             modelBuilder.Entity<Product>()
              .HasMany(p => p.Categories)
              .WithMany(c => c.Products)
-             .UsingEntity(j => j.ToTable("ProductsCategory")); // Nombre de la tabla intermedia
+             .UsingEntity(j => j.ToTable("ProductsCategory"));
 
             modelBuilder.Entity<Product>()
              .HasOne(p => p.Brand)
