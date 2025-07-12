@@ -9,9 +9,10 @@ namespace TiendaIna.Core.Entities {
         public int Id { get; set; }
         public string? Name { get; set; }
         public int? Price { get; set; }
+        public int idBrand { get; set; }
         public virtual Brand Brand { get; set; }
         public string? Description { get; set; }
-        public virtual Category Category { get; set; }
+        public virtual ICollection<Category> Categories { get; set; } = new List<Category>();
         public string? Imagen { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace TiendaIna.Infrastructure.Services {
         public Product GetProductPruebas() {
             return new Product() {
                 Id = 1,
-                Category = new Category() {Id=1, Name="arabe"},
+                Categories = new List<Category> { new Category {Id= 1, Name= "Lattafa" } },
                 Brand= new Brand() {Id=1, Name="Armaf"},
                 Name = "The Lions",
                 Description = "exquisito bla bla bla",

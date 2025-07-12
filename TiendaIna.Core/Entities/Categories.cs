@@ -13,7 +13,8 @@ namespace TiendaIna.Core.Entities {
         public virtual ICollection<Category>? ChildCategories { get; set; }
 
         //coleccion productos por categoria
-        public virtual ICollection<Product>? ProductsCategory { get; set; }
+        public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+
 
     }
 }
