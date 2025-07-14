@@ -21,7 +21,9 @@ namespace TiendaIna.Web.Razor.Data {
                 new Category {
                     Name="Perfumes Arabes"},
                 new Category {
-                    Name="Perfumes Nacionales"}
+                    Name="Perfumes Nacionales"},
+                new Category {
+                    Name="Perfumes Femeninos", ParentCategoryId=1}
             };
             contex.Categories.AddRange(categories);
             contex.SaveChanges();

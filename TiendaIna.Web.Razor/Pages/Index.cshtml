@@ -1,10 +1,116 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "INICIO";
 }
 
+@*
 <div class="text-center">
     <h1 class="display-4">Tienda INA</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+*@
+
+
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <!-- Logo -->
+        <a class="navbar-brand" href="#">
+            <img src="~/lib/images/logo_oficial-sin fondo negro.sinMargenpng.png" alt="Logo" height="50">
+        </a>
+
+        <!-- Texto corto -->
+        <span class="navbar-text me-auto fs-3 fw-bold">
+            "TIENDA INA" tu tienda de confianza.
+        </span>
+
+        <!-- Buscador -->
+        <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Buscar productos..." aria-label="Buscar">
+            <button class="btn btn-outline-success" type="submit">Buscar</button>
+        </form>
+    </div>
+</nav>
+
+
+@*BARRA LATERAL EN DESARROLO*@
+
+
+
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Barra lateral -->
+        <div class="col-md-3">
+            <aside class="bg-light border-end p-3" style="min-height: 100vh;">
+
+
+                <h5 class="mb-4">Categorías</h5>
+                <ul class="nav flex-column">
+
+                    <!-- PERFUMERIA -->
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#subPERFUMERIA" role="button" aria-expanded="false" aria-controls="subElectronica">
+                            PERFUMERIA
+                        </a>
+                        <div class="collapse" id="subPERFUMERIA">
+                            <ul class="nav flex-column ms-3">
+                                <li><a class="nav-link" href="/Categorias/PERFUMERIA/PERFUMES MASCULINOS">PERFUMES MASCULINOS</a></li>
+                                <li><a class="nav-link" href="/Categorias/PERFUMERIA/PERFUMES FEMENINOS">PERFUMES FEMENINOS</a></li>
+                                <li><a class="nav-link" href="/Categorias/PERFUMERIA/PERFUMES UNISEX">PERFUMES UNISEX</a></li>
+                                <li><a class="nav-link" href="/Categorias/PERFUMERIA/PERFUMES INFANTILES">PERFUMES INFANTILES</a></li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <!-- PRODUCTOS CAPILARES -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/CATEGORIAS/PRODUCTOSCCAPILARES">PRODUCTOS CAPILARES</a>
+                    </li>
+
+                </ul>
+            </aside>
+        </div>
+
+        @*CARRUSEL EN PROCESO*@
+
+
+        <div class="col-md-9">
+            <div id="carouselExampleIndicators" class="carousel slide mb-4" data-bs-ride="carousel">
+
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                </div>
+
+                <div class="carousel-inner" style="max-height: 500px;">
+                    <div class="carousel-item active">
+                        <img src="~/lib/images/DESTACADOS/armaf-cdn-sillage-1.jpg" class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="~/lib/images/DESTACADOS/OIP (2).jpg" class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="~/lib/images/DESTACADOS/OIP.jpg" class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="~/lib/images/DESTACADOS/sWHIyAJcBENr1feE.jpg" class="d-block w-100" alt="...">
+                    </div>
+                </div>
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
