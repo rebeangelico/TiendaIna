@@ -1,11 +1,19 @@
 ﻿@page
+@using TiendaIna.Core.Entities
+@using TiendaIna.Core.Services
 @model IndexModel
 @{
     ViewData["Title"] = "INICIO";
 }
 
-
-
+@inject IProductsService ProductsService //podria configurarlo desde el page-model profundizar!
+@{
+    var producto = await ProductsService.GetProduct(1);
+    var productos = await ProductsService.GetProducts();
+}
+@{
+var categories = producto.Categories?.ToList() ?? new List<Category>();
+}
 
 @*
 <div class="text-center">
@@ -96,11 +104,6 @@
                         <img src="~/lib/images/DESTACADOS/armaf-cdn-sillage-1.jpg" class="d-block w-100" alt="...">
                     </div>
 
-                    contex
-
-
-
-
 
                     <div class="carousel-item active">
                         <img src="~/lib/images/DESTACADOS/armaf-cdn-sillage-1.jpg" class="d-block w-100" alt="...">
@@ -136,47 +139,45 @@
 
             @*TABLAS PRODUCTOS VISTA PREVIA*@
 
-
-
-
-            <div class="card" style="width: 18rem;">
-                <img src="~/lib/images/PRODUCTOS/khamrah.jpg" class="card-img-top" alt="KHAMRAH">
-                <div class="card-body">
-                    <h5 class="card-title">KHAMRAH BY LATTAFA</h5>
-                    <p class="card-text">El perfume Khamrah de Lattafa es una fragancia sofisticada y seductora, inspirada en la belleza natural de los países orientales. Se considera un perfume intenso, cálido y especiado, con un poderoso aroma que perdura durante horas en la piel</p>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">CATEGORIA</li>
-                    <li class="list-group-item">MARCA</li>
-                    <li class="list-group-item">PRECIO</li>
-                </ul>
-                <div class="card-body">
-                    <a href="#" class="card-link">LINK PRODUCTO</a>
-                    <a href="#" class="card-link">LINK CATEGORIA</a>
-                </div>
+            <div class="row">
+                @foreach (var p in productos) {
+                    <div class="col-6 col-md-4 mb-4">
+                        <div class="card h-100">
+                            <img src="@p.Imagen" class="card-img-top" alt="@p.Name">
+                            <div class="card-body">
+                                <h5 class="card-title">@p.Name</h5>
+                                <p class="card-text">@p.Description</p> 
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    Categorías:
+                                    @if (categories.Any()) {
+                                        for (int i = 0; i < categories.Count; i++) {
+                                            var cat = categories[i];
+                                            <a href="/Categoria/@cat.Id" class="text-decoration-none">@cat.Name</a>
+                                            if (i < categories.Count - 1) {
+                                                <text>, </text>
+                                            }
+                                        }
+                                    } else {
+                                        <span>—</span>
+                                    }
+                                </li>
+                                <li class="list-group-item">
+                                    Marca: <span class="badge bg-primary">@p.Brand.Name</span>
+                                </li>
+                                <li class="list-group-item">
+                                    Precio: <span class="badge bg-success">$@p.Price</span>
+                                </li>
+                            </ul>
+                            <div class="card-body">
+                                <a href="/Producto/@p.Id" class="card-link">Ver producto</a>
+                                <a href="/Marca/@p.Brand.Id" class="card-link">Ver marca</a>
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
-
-
-            <div class="card" style="width: 18rem;">
-                <img src="~/lib/images/PRODUCTOS/khamrah.jpg" class="card-img-top" alt="KHAMRAH">
-                <div class="card-body">
-                    <h5 class="card-title">KHAMRAH BY LATTAFA</h5>
-                    <p class="card-text">El perfume Khamrah de Lattafa es una fragancia sofisticada y seductora, inspirada en la belleza natural de los países orientales. Se considera un perfume intenso, cálido y especiado, con un poderoso aroma que perdura durante horas en la piel</p>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">CATEGORIA</li>
-                    <li class="list-group-item">MARCA</li>
-                    <li class="list-group-item">PRECIO</li>
-                </ul>
-                <div class="card-body">
-                    <a href="#" class="card-link">LINK PRODUCTO</a>
-                    <a href="#" class="card-link">LINK CATEGORIA</a>
-                </div>
-            </div>
-
-
-
-
 
 
 

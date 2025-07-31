@@ -6,19 +6,17 @@ using TiendaIna.Infrastructure.Repos;
 namespace TiendaIna.Infrastructure.Services {
     public class ProductsService : IProductsService {
 
-        private readonly InMemoryProductsRepo _productsRepo;
-            public ProductsService(InMemoryProductsRepo productsRepo) { 
+        private readonly IProductsRepo _productsRepo;
+            public ProductsService(IProductsRepo productsRepo) { 
                 this._productsRepo = productsRepo ?? throw new ArgumentNullException(nameof(productsRepo));
             }
 
         Task<List<Product>> IProductsService.GetProducts() {
-            var products = _productsRepo.GetProductsEL();
-            return Task.FromResult(products);
+            return _productsRepo.GetProductsAsync();
         }
 
         public Task<Product> GetProduct(int productId) {
-            var products = _productsRepo.GetProductEL(1);
-            return Task.FromResult(products);
+            return _productsRepo.GetProduct(1);
         }
 
         public void AddProduct(Product product) {
