@@ -10,7 +10,7 @@
 @inject IProductsService ProductsService
 
 @{
-    var producto = ProductsService.GetProductPruebas();
+    var producto = await ProductsService.GetProduct(1);
 }
 <h2>@producto.Name</h2>
 <img src="@producto.Imagen" asp-append-version="true" alt="Imagen del producto" />

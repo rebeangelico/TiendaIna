@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TiendaIna.Core.Repos;
 using TiendaIna.Core.Services;
+using TiendaIna.Infrastructure.Repos;
 using TiendaIna.Infrastructure.Services;
 using TiendaIna.Web.Razor.Data;
 
@@ -14,6 +16,8 @@ namespace TiendaIna.Web.Razor
             //registro de vservios a falta de inyeccion de dependencias - AGREGAR LUEGO
             builder.Services.AddScoped<ICategoriesService, CategoriesService>();
             builder.Services.AddScoped<IProductsService, ProductsService>();
+            builder.Services.AddScoped<InMemoryProductsRepo, ProductsRepo>();
+            builder.Services.AddScoped<InMemoryCategoriesRepo, CategoriesRepo>();
             builder.Services.AddDbContext<TiendaInaWebRazorContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("TiendaInaWebRazorContext") ?? throw new InvalidOperationException("Connection string 'TiendaInaWebRazorContext' not found.")));
 

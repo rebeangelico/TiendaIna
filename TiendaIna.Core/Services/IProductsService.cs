@@ -8,6 +8,5 @@ namespace TiendaIna.Core.Services {
         void UpdateProduct(int productId);
         void DeleteProduct(int productId);
 
-        public Product GetProductPruebas();
     }
 }

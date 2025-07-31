@@ -14,5 +14,7 @@ namespace TiendaIna.Core.Entities {
         public string? Description { get; set; }
         public virtual ICollection<Category> Categories { get; set; } = new List<Category>();
         public string? Imagen { get; set; }
+        public string? Gender { get; set; }
+        public bool? IsOutstanding { get; set; }
     }
 }
