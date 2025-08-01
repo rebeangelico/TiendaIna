@@ -11,18 +11,7 @@ namespace TiendaIna.Infrastructure.Repos {
             throw new NotImplementedException();
         }
 
-        public Task<Product> GetProduct(int productId) {
-            return Task.FromResult(new Product() {
-                Id = 1,
-                Categories = new List<Category> { new Category { Id = 1, Name = "Perfumes Arabes" }, new Category {Id= 2, Name= "Perfumes Masculinos"} },
-                Brand = new Brand() { Id = 1, Name = "Armaf" },
-                Name = "The Lions",
-                DescriptionMin = "exquisito bla bla bla",
-                Imagen = "https://bestbrandsperfume.com/wp-content/uploads/2024/11/ARMAF-THE-LIONS-CLUB-RUGIR-3.4-Oz-Eau-De-Parfum-For-Men.png",
-                Price = 50000,
-                Gender = "Masculino"
-            });
-        }
+        public async Task<Product> GetProduct(int productId) => (await GetProductsAsync()).Single(p => p.Id == productId);
 
         public Task<List<Product>> GetProductsAsync() {
             return Task.FromResult(new List<Product>
@@ -44,7 +33,7 @@ namespace TiendaIna.Infrastructure.Repos {
                 Categories = new List<Category> { new Category { Id = 1, Name = "Lattafa" } },
                 Brand = new Brand { Id = 1, Name = "Lattafa" },
                 Name = "Asad",
-                DescriptionMin = "Amaderado con un toque de vainilla.",
+                DescriptionMin = "Amaderado con vainilla.",
                 Imagen = "https://acdn-us.mitiendanube.com/stores/004/407/494/products/asad-d1a6c449c4071fd13017149465284044-1024-1024.webp",
                 Price = 45000,
                 Gender = "Masculino"
@@ -120,7 +109,7 @@ namespace TiendaIna.Infrastructure.Repos {
                 Categories = new List<Category> { new Category { Id = 2, Name = "Maison Alhambra" } },
                 Brand = new Brand { Id = 2, Name = "Maison Alhambra" },
                 Name = "Infini Oud",
-                DescriptionMin = "Profundo, oriental y sofisticado.",
+                DescriptionMin = "Profundo y sofisticado.",
                 Imagen = "https://orientaldream.b-cdn.net/3617-medium_default/maison-alhambra-infini-oud-joyous-edp-100ml.jpg",
                 Price = 60000,
                 Gender = "Unisex"
@@ -134,6 +123,26 @@ namespace TiendaIna.Infrastructure.Repos {
                 Imagen = "https://perfumescardales.com.ar/wp-content/uploads/2023/09/Fotos-pagina.pptx-24.jpg",
                 Price = 49000,
                 Gender = "Femenino",
+                IsOutstanding = true },
+              new Product {
+                Id = 11,
+                Categories = new List<Category> { new Category { Id = 1, Name = "Perfumes Arabes" }, new Category {Id= 2, Name= "Perfumes Masculinos"} },
+                Brand = new Brand() { Id = 1, Name = "Armaf" },
+                Name = "The Lions",
+                DescriptionMin = "exquisito bla bla bla",
+                Imagen = "https://bestbrandsperfume.com/wp-content/uploads/2024/11/ARMAF-THE-LIONS-CLUB-RUGIR-3.4-Oz-Eau-De-Parfum-For-Men.png",
+                Price = 50000,
+                Gender = "Masculino"
+                },
+              new Product {
+                Id = 12,
+                Categories = new List<Category> { new Category { Id = 1, Name = "Lattafa" } },
+                Brand = new Brand { Id = 1, Name = "Lattafa" },
+                Name = "Oud for Glory",
+                DescriptionMin = "Oriental, intenso y envolvente.",
+                Imagen = "https://dcdn-us.mitiendanube.com/stores/004/912/507/products/oudorflo-510777daeadf44959d17386008132208-1024-1024.webp",
+                Price = 42000,
+                Gender = "Unisex",
                 IsOutstanding = true
               }
 

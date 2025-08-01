@@ -1,17 +1,6 @@
-﻿@page
-@using TiendaIna.Core.Services
-@using TiendaIna.Infrastructure
-@using TiendaIna.Core
-@using TiendaIna.Infrastructure.Services
+﻿@page "/Product/{id:int}"
 @model ProductModel
-@{
-}
 
-@inject IProductsService ProductsService
-
-@{
-    var producto = await ProductsService.GetProduct(1);
-}
-<h2>@producto.Name</h2>
-<img src="@producto.Imagen" asp-append-version="true" alt="Imagen del producto" />
-<p>Precio: $@producto.Price</p>
+<h2>@Model.Product.Name</h2>
+<img src="@Model.Product.Imagen" asp-append-version="true" alt="Imagen del producto" />
+<p>Precio: $@Model.Product.Price</p>

@@ -16,7 +16,7 @@ namespace TiendaIna.Infrastructure.Services {
         }
 
         public Task<Product> GetProduct(int productId) {
-            return _productsRepo.GetProduct(1);
+            return _productsRepo.GetProduct(productId);
         }
 
         public void AddProduct(Product product) {

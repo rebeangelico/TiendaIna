@@ -20,3 +20,87 @@ html {
 body {
   margin-bottom: 60px;
 }
+/* site.css o estilos.css */
+.tarjeta-uniforme {
+    height: 520px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.tarjeta-compacta {
+    height: 420px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+    .tarjeta-compacta .card-body {
+        padding: 0.5rem;
+    }
+
+    .tarjeta-compacta .card-title,
+    .tarjeta-compacta .card-text {
+        margin-bottom: 0.25rem;
+    }
+
+    .tarjeta-compacta .card-link {
+        font-size: 0.75rem;
+        padding: 2px 0;
+        display: inline-block;
+    }
+
+.imagen-contenedor {
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    overflow: hidden;
+}
+
+.imagen-ajustada {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.nombre-contenedor {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 8px;
+    background-color: #f8f8f8;
+    border-top: 1px solid #ddd;
+}
+.nombre-contenedorOfertas {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 8px;
+    background-color: #f8f8f8;
+    border-top: 1px solid #ddd;
+}
+.custom-alert {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    cursor: pointer;
+}
+
+    .custom-alert:hover {
+        transform: scale(1.05);
+        background-color: #343a40; /* un tono más oscuro */
+        color: #ffffff;
+    }
+
+.enlace-compacto {
+    padding: 0.5rem 0.35rem;
+    text-align: center;
+}
+

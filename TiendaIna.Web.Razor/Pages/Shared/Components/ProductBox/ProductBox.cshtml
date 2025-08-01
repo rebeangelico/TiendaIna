@@ -1,0 +1,47 @@
+﻿@using TiendaIna.Core.Entities
+@model ProductBoxModel
+
+
+<div class="col-6 col-md-4 mb-4">
+    <div class="card tarjeta-uniforme">
+        <div class="imagen-contenedor">
+            <img src="@Model.Product.Imagen" class="imagen-ajustada" alt="@Model.Product.Name">
+        </div>
+
+        <div class="nombre-contenedor">
+            <h5 class="card-title">@Model.Product.Name</h5>
+        </div>
+
+        <div class="card-body">
+            <p class="card-text">@Model.Product.DescriptionMin</p>
+        </div>
+
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                Categorías:
+                @if (Model.Product.Categories.Any()) {
+                    for (int i = 0; i < Model.Product.Categories.Count; i++) {
+                        var cat = Model.Product.Categories.ToList()[i];
+                        <a href="/Categoria/@cat.Id" class="text-decoration-none">@cat.Name</a>
+                        if (i < Model.Product.Categories.Count - 1) {
+                            <text>, </text>
+                        }
+                    }
+                } else {
+                    <span>—</span>
+                }
+            </li>
+            <li class="list-group-item">
+                Marca: <span class="badge bg-primary">@Model.Product.Brand.Name</span>
+            </li>
+            <li class="list-group-item">
+                Precio: <span class="badge bg-success">$@Model.Product.Price</span>
+            </li>
+        </ul>
+
+        <div class="card-body">
+            <a asp-page="@ProductModel.PageName" asp-route-id="@Model.Product.Id">Ver producto</a>
+            <a asp-page="Marca" asp-route-id="@Model.Product.Brand.Id">Ver marca</a>
+        </div>
+    </div>
+</div>
