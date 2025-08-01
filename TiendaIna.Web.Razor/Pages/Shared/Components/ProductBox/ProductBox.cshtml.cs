@@ -7,12 +7,12 @@ using TiendaIna.Infrastructure.Services;
 
 namespace TiendaIna.Web.Razor.Pages
 {
-    public class ProductBoxModel : PageModel
+    public class ProductBoxViewModel : PageModel
     {
         public Product Product { get; }
         public bool ShowCategories { get; }
 
-        public ProductBoxModel(Product product, bool showCategories) {
+        public ProductBoxViewModel(Product product, bool showCategories) {
             Product = product;
             ShowCategories = showCategories;
         }

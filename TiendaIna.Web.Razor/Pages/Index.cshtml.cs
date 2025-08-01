@@ -7,12 +7,14 @@ using TiendaIna.Web.Razor.Data;
 
 namespace TiendaIna.Web.Razor.Pages
 {
-    public class IndexModel : PageModel
+    public class IndexViewModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        private readonly ILogger<IndexViewModel> _logger;
         private readonly IProductsService _productsService;
 
-        public IndexModel(ILogger<IndexModel> logger, IProductsService productsService)
+        public IEnumerable<ProductViewModel> MyProperty { get; set; }
+
+        public IndexViewModel(ILogger<IndexViewModel> logger, IProductsService productsService)
         {
             _logger = logger;
             _productsService = productsService;

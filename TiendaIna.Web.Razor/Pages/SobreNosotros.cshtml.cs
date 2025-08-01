@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace TiendaIna.Web.Razor.Pages
 {
-    public class SobreNosotrosModel : PageModel
+    public class SobreNosotrosViewModel : PageModel
     {
-        private readonly ILogger<SobreNosotrosModel> _logger;
+        private readonly ILogger<SobreNosotrosViewModel> _logger;
 
-        public SobreNosotrosModel(ILogger<SobreNosotrosModel> logger)
+        public SobreNosotrosViewModel(ILogger<SobreNosotrosViewModel> logger)
         {
             _logger = logger;
         }

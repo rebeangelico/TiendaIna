@@ -7,27 +7,34 @@ using TiendaIna.Infrastructure.Services;
 
 namespace TiendaIna.Web.Razor.Pages
 {
-    public class ProductModel : PageModel
+    public class ProductViewModel : PageModel
     {
-        public static string PageName => nameof(ProductModel).Replace("Model", "");
+        #region static methdos
+        public static string PageName => nameof(ProductViewModel).Replace("ViewModel", "");
+        #endregion
 
-
-        private readonly ILogger<IndexModel> _logger;
+        #region fields
         private readonly IProductsService _productsService;
+        #endregion
 
-        public ProductModel(ILogger<IndexModel> logger, IProductsService productsService) {
-            _logger = logger;
-            _productsService = productsService;
+        #region properties
+        public Product? Product { get; set; }
+        #endregion
+
+        #region constructors
+        public ProductViewModel(IProductsService productsService) {
+            _productsService = productsService ?? throw new ArgumentNullException(nameof(productsService));
         }
+        #endregion
 
-        public Product Product { get; set; }
-
-        public async Task<IActionResult> OnGetAsync(int id, string abc) {
+        #region public methods
+        public async Task<IActionResult> OnGetAsync(int id) {
             Product = await _productsService.GetProduct(id);
             if (Product == null) {
                 return NotFound();
             }
             return Page();
         }
+        #endregion
     }
 }

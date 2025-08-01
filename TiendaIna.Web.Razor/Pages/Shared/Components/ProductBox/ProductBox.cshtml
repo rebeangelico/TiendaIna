@@ -1,5 +1,5 @@
 ﻿@using TiendaIna.Core.Entities
-@model ProductBoxModel
+@model ProductBoxViewModel
 
 
 
@@ -42,7 +42,7 @@
     </ul>
 
     <div class="card-body">
-        <a asp-page="@ProductModel.PageName" asp-route-id="@Model.Product.Id">Ver producto</a>
+        <a asp-page="@ProductViewModel.PageName" asp-route-id="@Model.Product.Id">Ver producto</a>
         <a asp-page="Marca" asp-route-id="@Model.Product.Brand.Id">Ver marca</a>
     </div>
 </div>
