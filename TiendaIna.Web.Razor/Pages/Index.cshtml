@@ -189,25 +189,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             @*CARTEL DE PRODUCTOS*@
             <div class="alert alert-dark custom-alert" role="alert">
                 NUESTROS PRODUCTOS
@@ -218,19 +199,12 @@
 
             <div class="row">
                 @foreach (var p in productos) {
-                    
-                    <!-- <ProductBox product="@p"></ProductBox> -->
-                    <vc:product-box product="@p"></vc:product-box>
+                    <div class="col-6 col-md-4 mb-4">
+                        <vc:product-box product="@p" show-categories="false"></vc:product-box>
+                    </div>
                 }
             </div>
             @*Agregar paginacion de productos*@
-
-
-
-
-
-
-
         </div>
     </div>
 </div>
