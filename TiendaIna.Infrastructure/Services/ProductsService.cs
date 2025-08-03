@@ -1,4 +1,6 @@
-﻿using TiendaIna.Core.Entities;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using TiendaIna.Core.Entities;
+using TiendaIna.Core.Model;
 using TiendaIna.Core.Repos;
 using TiendaIna.Core.Services;
 using TiendaIna.Infrastructure.Repos;
@@ -11,12 +13,16 @@ namespace TiendaIna.Infrastructure.Services {
                 this._productsRepo = productsRepo ?? throw new ArgumentNullException(nameof(productsRepo));
             }
 
-        Task<List<Product>> IProductsService.GetProducts() {
-            return _productsRepo.GetProductsAsync();
+        public async Task<List<ProductModel>> GetProducts() {
+            var products = await _productsRepo.GetProductsAsync();
+            var models = products.Select(p => new ProductModel(p)).ToList();
+            return models;
         }
 
-        public Task<Product> GetProduct(int productId) {
-            return _productsRepo.GetProduct(productId);
+        public Task<ProductModel> GetProduct(int productId) {
+            var product = _productsRepo.GetProduct(productId).Result;
+            var model = new ProductModel(product);
+            return Task.FromResult(model);
         }
 
         public void AddProduct(Product product) {

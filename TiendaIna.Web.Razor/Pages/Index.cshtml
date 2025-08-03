@@ -1,5 +1,6 @@
 ﻿@page
 @using TiendaIna.Core.Entities
+@using TiendaIna.Core.Models
 @using TiendaIna.Core.Services
 @model IndexViewModel
 @{
@@ -10,7 +11,7 @@
 @{
     var producto = await ProductsService.GetProduct(1);
     var productos = await ProductsService.GetProducts();
-    var categories = producto.Categories?.ToList() ?? new List<Category>();
+    var categories = producto.Categories?.ToList() ?? new List<CategoryModel>();
 }
 
 @*
@@ -129,7 +130,7 @@
 
             @if (productos != null && productos.Any(p => p.IsOutstanding == true)) {
                 foreach (var p in productos.Where(p => p.IsOutstanding == true).Take(3)) {
-                    var categoriees = p.Categories?.ToList() ?? new List<Category>();
+                    var categoriees = p.Categories?.ToList() ?? new List<CategoryModel>();
 
                     <div class="col-6 col-md-4 mb-4">
                         <div class="card tarjeta-compacta">

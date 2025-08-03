@@ -18,8 +18,5 @@ namespace TiendaIna.Core.Entities {
         public string? Gender { get; set; }
         public bool? IsOutstanding { get; set; }
 
-        public static implicit operator Task<object>(Product v) {
-            throw new NotImplementedException();
-        }
     }
 }
