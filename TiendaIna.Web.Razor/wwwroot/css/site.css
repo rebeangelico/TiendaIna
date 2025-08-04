@@ -105,8 +105,10 @@ body {
 }
 
 .fondo-ofertas {
-    background-image: url('/images/FondoOfertas/fondo.jpg'); /* Cambiá por tu imagen */
+    background-image: url('/lib/images//FondoOfertas/fondo.jpeg');
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
+    min-height: 300px;
     border-radius: 12px;
 }
