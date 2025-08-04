@@ -7,19 +7,6 @@
     ViewData["Title"] = "INICIO";
 }
 
-@inject IProductsService ProductsService //podria configurarlo desde el page-model profundizar!
-@{
-    var producto = await ProductsService.GetProduct(1);
-    var productos = await ProductsService.GetProducts();
-    var categories = producto.Categories?.ToList() ?? new List<CategoryModel>();
-}
-
-@*
-<div class="text-center">
-    <h1 class="display-4">Tienda INA</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-*@
 
 
 <nav class="navbar navbar-expand-lg">
@@ -81,25 +68,17 @@
         </div>
 
         @*contenedor espacio fuera de la barra lateral*@
-
         <div class="col-md-9">
-
 
             @*Prueba ofertas semanales*@
             <div class="alert alert-dark custom-alertSale text-center" role="alert">
                 🔥 OFERTAS SEMANALES 🔥
             </div>
 
-
-
-
             @*Prueba de ofertas*@
-
-
-            @*logica destinada al ProductBoxViewModel *@
             <div class="row justify-content-center fondo-ofertas py-4">
-                @if (productos != null && productos.Any(p => p.IsOutstanding == true)) {
-                    @foreach (var p in productos.Where(p => p.IsOutstanding == true).Take(3)) {
+                @if (Model.Products != null && Model.Products.Any(p => p.IsOutstanding == true)) {
+                    @foreach (var p in Model.Products.Where(p => p.IsOutstanding == true).Take(3)) {
                         <div class="col-12 col-md-4 mb-4">
                             <vc:product-box-sale product="@p"></vc:product-box-sale>
                         </div>
@@ -111,14 +90,7 @@
                 }
             </div>
 
-            @*
-                @if (productos != null && productos.Any(p => p.IsOutstanding == true)) {
-                    foreach (var p in productos.Where(p => p.IsOutstanding == true).Take(3)) {}
-                *@
-
-
-
-            @*CARTEL DE PRODUCTOS*@
+            @*CARTEL DE PRESENTACION PRODUCTOS*@
             <div class="alert alert-dark custom-alert" role="alert">
                 NUESTROS PRODUCTOS
             </div>
@@ -127,9 +99,9 @@
             @*TABLAS PRODUCTOS VISTA PREVIA*@
 
             <div class="row">
-                @foreach (var p in productos) {
+                @foreach (var p in @Model.Products) {
                     <div class="col-6 col-md-4 mb-4">
-                        <vc:product-box product="@p" show-categories="false"></vc:product-box>
+                        <vc:product-box product="@p" show-categories="true"></vc:product-box>
                     </div>
                 }
             </div>
