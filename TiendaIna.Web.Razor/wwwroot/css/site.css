@@ -29,11 +29,16 @@ body {
 }
 
 .tarjeta-compacta {
-    height: 420px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    transform: scale(0.95); /* Las hace visualmente más pequeñas */
+    transition: all 0.3s ease-in-out; /* Suaviza el hover */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    border-radius: 12px;
+    overflow: hidden;
 }
+    .tarjeta-compacta:hover {
+        transform: scale(1.02); /* Zoom al pasar el mouse */
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Sombra más intensa */
+    }
 
     .tarjeta-compacta .card-body {
         padding: 0.5rem;
@@ -111,4 +116,28 @@ body {
     background-repeat: no-repeat;
     min-height: 300px;
     border-radius: 12px;
+}
+
+.custom-alertSale {
+    font-size: 1.5rem;
+    font-weight: bold;
+    background: linear-gradient(to right, #ff6a00, #ff0000); /* Fondo con degradado tipo fuego */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    animation: flamePulse 1.5s infinite;
+}
+
+/* Animación suave tipo pulso */
+@keyframes flamePulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+    }
+
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(255, 100, 0, 0.7);
+    }
 }

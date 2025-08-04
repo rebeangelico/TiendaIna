@@ -80,58 +80,23 @@
             </aside>
         </div>
 
-        @*CARRUSEL EN PROCESO*@
-
+        @*contenedor espacio fuera de la barra lateral*@
 
         <div class="col-md-9">
-            <div id="carouselExampleIndicators" class="carousel slide mb-4" data-bs-ride="carousel">
-
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
-                </div>
-
-                <div class="carousel-inner" style="max-height: 500px;">
-
-                    @*¨necesito un foreach de esto¨*@
-
-                    <div class="carousel-item active">
-                        <img src="~/lib/images/DESTACADOS/armaf-cdn-sillage-1.jpg" class="d-block w-100" alt="...">
-                    </div>
 
 
-                    <div class="carousel-item active">
-                        <img src="~/lib/images/DESTACADOS/armaf-cdn-sillage-1.jpg" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="~/lib/images/DESTACADOS/OIP (2).jpg" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="~/lib/images/DESTACADOS/OIP.jpg" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="~/lib/images/DESTACADOS/sWHIyAJcBENr1feE.jpg" class="d-block w-100" alt="...">
-                    </div>
-                </div>
-
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
+            @*Prueba ofertas semanales*@
+            <div class="alert alert-dark custom-alertSale text-center" role="alert">
+                🔥 OFERTAS SEMANALES 🔥
             </div>
+
+
+
 
             @*Prueba de ofertas*@
 
 
-
-
-
+            @*logica destinada al ProductBoxViewModel *@
             <div class="row justify-content-center fondo-ofertas py-4">
                 @if (productos != null && productos.Any(p => p.IsOutstanding == true)) {
                     foreach (var p in productos.Where(p => p.IsOutstanding == true).Take(3)) {
@@ -145,13 +110,12 @@
                             precioConDescuento = p.Price.Value - (p.Price.Value * descuento);
                         }
 
-                        
 
                         <div class="col-12 col-md-4 mb-4">
                             <div class="card tarjeta-compacta">
                                 <div class="imagen-contenedor position-relative">
                                     <img src="@p.Imagen" class="imagen-ajustada" alt="@p.Name">
-                                    <span class="badge bg-danger position-absolute fs-3 top-0 start-0 m-2">SALE</span>
+                                    <span class="badge bg-danger position-absolute top-0 start-50 translate-middle-x fs-3 px-3 py-2">SALE 15% OFF</span>
                                 </div>
 
                                 <div class="nombre-contenedorOfertas">
