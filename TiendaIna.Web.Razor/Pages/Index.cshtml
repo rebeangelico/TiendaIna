@@ -99,66 +99,9 @@
             @*logica destinada al ProductBoxViewModel *@
             <div class="row justify-content-center fondo-ofertas py-4">
                 @if (productos != null && productos.Any(p => p.IsOutstanding == true)) {
-                    foreach (var p in productos.Where(p => p.IsOutstanding == true).Take(3)) {
-
-                        var categoriees = p.Categories?.ToList() ?? new List<CategoryModel>();
-                        var descuento = 0.20;
-                        double precioConDescuento = 0;
-                        var precioFormateado = precioConDescuento.ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
-
-                        if (p.Price.HasValue) {
-                            precioConDescuento = p.Price.Value - (p.Price.Value * descuento);
-                        }
-
-
+                    @foreach (var p in productos.Where(p => p.IsOutstanding == true).Take(3)) {
                         <div class="col-12 col-md-4 mb-4">
-                            <div class="card tarjeta-compacta">
-                                <div class="imagen-contenedor position-relative">
-                                    <img src="@p.Imagen" class="imagen-ajustada" alt="@p.Name">
-                                    <span class="badge bg-danger position-absolute top-0 start-50 translate-middle-x fs-3 px-3 py-2">SALE 15% OFF</span>
-                                </div>
-
-                                <div class="nombre-contenedorOfertas">
-                                    <h5 class="card-title">@p.Name</h5>
-                                </div>
-
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">
-                                        Categorías:
-                                        @if (categoriees.Any()) {
-                                            for (int i = 0; i < categoriees.Count; i++) {
-                                                var cat = categoriees[i];
-                                                <a href="/Categoria/@cat.Id" class="text-decoration-none">@cat.Name</a>
-                                                if (i < categoriees.Count - 1) {
-                                                    <text>, </text>
-                                                }
-                                            }
-                                        } else {
-                                            <span>—</span>
-                                        }
-                                    </li>
-                                    <li class="list-group-item">
-                                        Marca:
-                                        <a href="/Perfumes/Marca/@p.Brand.Name" class="badge bg-primary text-decoration-none">
-                                            @p.Brand.Name
-                                        </a>
-                                    </li>
-                                    <li class="list-group-item">
-                                        Precio:
-                                        <span class="badge bg-secondary text-decoration-line-through">$@p.Price</span>
-                                        <span class="badge bg-success ms-2">$@precioFormateado</span>
-                                    </li>
-                                    <li class="list-group-item">
-                                        Género:
-                                        <a href="/Perfumes/Genero/@p.Gender" class="badge bg-primary text-decoration-none">
-                                            @p.Gender
-                                        </a>
-                                    </li>
-                                </ul>
-                                <div class="text-center" style="padding: 2px 0;">
-                                    <a href="/Product/@p.Id" class="card-link" style="font-size: 1.1rem;">Ver producto</a>
-                                </div>
-                            </div>
+                            <vc:product-box-sale product="@p"></vc:product-box-sale>
                         </div>
                     }
                 } else {
@@ -168,13 +111,10 @@
                 }
             </div>
 
-
-
-
-
-
-
-
+            @*
+                @if (productos != null && productos.Any(p => p.IsOutstanding == true)) {
+                    foreach (var p in productos.Where(p => p.IsOutstanding == true).Take(3)) {}
+                *@
 
 
 

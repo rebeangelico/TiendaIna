@@ -1,5 +1,54 @@
 ﻿@using TiendaIna.Core.Entities
-@model ProductBoxViewModel
+@using TiendaIna.Core.Models
+@model ProductBoxSaleViewModel
 
+
+                <div class="card tarjeta-compacta">
+                    <div class="imagen-contenedor position-relative">
+                        <img src="@Model.Product.Imagen" class="imagen-ajustada" alt="@Model.Product.Name">
+                        <span class="badge bg-danger position-absolute top-0 start-50 translate-middle-x fs-3 px-3 py-2">SALE 15% OFF</span>
+                    </div>
+
+                    <div class="nombre-contenedorOfertas">
+                        <h5 class="card-title">@Model.Product.Name</h5>
+                    </div>
+
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            Categorías:
+                            @if (Model.Categories.Any()) {
+                                for (int i = 0; i < Model.Categories.Count; i++) {
+                                    var cat = Model.Categories[i];
+                                    <a href="/Categoria/@cat.Id" class="text-decoration-none">@cat.Name</a>
+                                    if (i < Model.Categories.Count - 1) {
+                                        <text>, </text>
+                                    }
+                                }
+                            } else {
+                                <span>—</span>
+                            }
+                        </li>
+                        <li class="list-group-item">
+                            Marca:
+                            <a href="/Perfumes/Marca/@Model.Product.Brand.Name" class="badge bg-primary text-decoration-none">
+                                @Model.Product.Brand.Name
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            Precio:
+                <span class="badge bg-secondary text-decoration-line-through">$@Model.Product.Price</span>
+                            <span class="badge bg-success ms-2">$@Model.PrecioFormateado</span>
+                        </li>
+                        <li class="list-group-item">
+                            Género:
+                            <a href="/Perfumes/Genero/@Model.Product.Gender" class="badge bg-primary text-decoration-none">
+                                @Model.Product.Gender
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="text-center" style="padding: 2px 0;">
+                        <a href="/Product/@Model.Product.Id" class="card-link" style="font-size: 1.1rem;">Ver producto</a>
+                    </div>
+                </div>
 
 

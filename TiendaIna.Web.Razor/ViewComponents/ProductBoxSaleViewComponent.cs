@@ -7,6 +7,6 @@ namespace TiendaIna.Web.Razor.ViewComponents;
 public class ProductBoxSaleViewComponent : ViewComponent {
     public IViewComponentResult Invoke(ProductModel product) {
         var model = new ProductBoxSaleViewModel(product);
-        return View("ProductBox", model);
+        return View("ProductBoxSale", model);
     }
 }
