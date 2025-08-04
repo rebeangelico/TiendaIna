@@ -104,3 +104,9 @@ body {
     text-align: center;
 }
 
+.fondo-ofertas {
+    background-image: url('/images/FondoOfertas/fondo.jpg'); /* Cambiá por tu imagen */
+    background-size: cover;
+    background-position: center;
+    border-radius: 12px;
+}
