@@ -25,7 +25,6 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/SobreNosotros">SobreNosotros</a>
                         </li>
-@*pag agregadas*@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Product">Product</a>
                         </li>
@@ -33,12 +32,18 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Categories/Index">Categories</a>
                         </li>
-
                     </ul>
                 </div>
             </div>
+
         </nav>
+        <div class="container">
+            @await Html.PartialAsync("Shared/Partials/Header")
+        </div>
     </header>
+
+
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
