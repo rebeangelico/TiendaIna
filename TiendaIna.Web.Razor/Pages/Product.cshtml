@@ -1,6 +1,10 @@
 ﻿@page "/Product/{id:int}"
 @model ProductViewModel
 
-<h2>@Model.Product.Name</h2>
-<img src="@Model.Product.Imagen" asp-append-version="true" alt="Imagen del producto" />
-<p>Precio: $@Model.Product.Price</p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <vc:product-detail product="@Model.Product"></vc:product-detail>
+        </div>
+    </div>
+</div>

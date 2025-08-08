@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using TiendaIna.Core.Entities;
 using TiendaIna.Core.Model;
 using TiendaIna.Core.Services;
-using TiendaIna.Infrastructure.Services;
+
 
 
 namespace TiendaIna.Web.Razor.Pages
@@ -16,9 +15,11 @@ namespace TiendaIna.Web.Razor.Pages
 
         #region fields
         private readonly IProductsService _productsService;
+        private readonly ILogger<IndexViewModel> _logger;
         #endregion
 
         #region properties
+        public List<ProductModel> Products { get; set; }
         public ProductModel? Product { get; set; }
         #endregion
 
@@ -29,11 +30,18 @@ namespace TiendaIna.Web.Razor.Pages
         #endregion
 
         #region public methods
-        public async Task<IActionResult> OnGetAsync(int id) {
-            Product = await _productsService.GetProduct(id);
-            if (Product == null) {
-                return NotFound();
+        public async Task<IActionResult> OnGetAsync(int? id = null) {
+            if (id.HasValue) {
+                // Cargar producto específico
+                Product = await _productsService.GetProduct(id.Value);
+                if (Product == null) {
+                    return NotFound();
+                }
+            } else {
+                // Cargar lista de productos
+                Products = await _productsService.GetProducts();
             }
+
             return Page();
         }
         #endregion
