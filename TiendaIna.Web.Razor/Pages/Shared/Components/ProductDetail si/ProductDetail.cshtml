@@ -1,0 +1,144 @@
+﻿@model ProductDetailViewModel
+
+<div class="product-detail-container">
+    <div class="row">
+        <!-- Imagen del producto -->
+        <div class="col-md-6">
+            <div class="product-image-container">
+                <img src="@Model.Product.Imagen"
+                     class="product-detail-image"
+                     alt="@Model.Product.Name"
+                     onerror="this.src='/images/no-image.jpg';">
+
+                @if (Model.Product.IsOutstanding == true) {
+                    <div class="outstanding-badge">
+                        <i class="fas fa-star"></i> Destacado
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Información del producto -->
+        <div class="col-md-6">
+            <div class="product-info">
+                <!-- Título y precio -->
+                <div class="product-header">
+                    <h1 class="product-title">@Model.Product.Name</h1>
+                    <div class="product-price">
+                        <span class="price-label">Precio:</span>
+                        <span class="price-value">$@Model.Product.Price?.ToString("N0")</span>
+                    </div>
+                </div>
+
+                <!-- Descripción mínima -->
+                @if (!string.IsNullOrEmpty(Model.Product.DescriptionMin)) {
+                    <div class="product-summary">
+                        <p class="summary-text">@Model.Product.DescriptionMin</p>
+                    </div>
+                }
+
+                <!-- Información básica -->
+                <div class="product-meta">
+                    <div class="meta-item">
+                        <span class="meta-label">Marca:</span>
+                        <a asp-page="Marca" asp-route-id="@Model.Product.Brand.Id"
+                           class="brand-link">
+                            <span class="badge bg-primary">@Model.Product.Brand.Name</span>
+                        </a>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.Product.Gender)) {
+                        <div class="meta-item">
+                            <span class="meta-label">Género:</span>
+                            <span class="badge bg-info">@Model.Product.Gender</span>
+                        </div>
+                    }
+
+                    @if (Model.ShowCategories && Model.Product.Categories.Any()) {
+                        <div class="meta-item">
+                            <span class="meta-label">Categorías:</span>
+                            <div class="categories-container">
+                                @foreach (var category in Model.Product.Categories) {
+                                    <a href="/Categoria/@category.Id"
+                                       class="category-tag">@category.Name</a>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <!-- Acciones -->
+                <div class="product-actions">
+                    <button class="btn btn-primary btn-lg add-to-cart">
+                        <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                    </button>
+                    <button class="btn btn-outline-secondary btn-wishlist">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <button class="btn btn-outline-info btn-share">
+                        <i class="fas fa-share-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Descripción completa -->
+    @if (!string.IsNullOrEmpty(Model.Product.Description)) {
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="product-description-section">
+                    <h3 class="section-title">Descripción del Producto</h3>
+                    <div class="description-content">
+                        <p>@Model.Product.Description</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Especificaciones -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="product-specifications">
+                <h3 class="section-title">Especificaciones</h3>
+                <div class="specifications-grid">
+                    <div class="spec-item">
+                        <span class="spec-label">ID del Producto:</span>
+                        <span class="spec-value">#@Model.Product.Id</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Marca:</span>
+                        <span class="spec-value">@Model.Product.Brand.Name</span>
+                    </div>
+                    @if (!string.IsNullOrEmpty(Model.Product.Gender)) {
+                        <div class="spec-item">
+                            <span class="spec-label">Género:</span>
+                            <span class="spec-value">@Model.Product.Gender</span>
+                        </div>
+                    }
+                    @if (Model.Product.Categories.Any()) {
+                        <div class="spec-item">
+                            <span class="spec-label">Categorías:</span>
+                            <span class="spec-value">@string.Join(", ", Model.Product.Categories.Select(c => c.Name))</span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Productos relacionados o acciones adicionales -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="additional-actions">
+                <a asp-page="@ProductViewModel.PageName" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left"></i> Volver a productos
+                </a>
+                <a asp-page="Marca" asp-route-id="@Model.Product.Brand.Id" class="btn btn-outline-secondary">
+                    <i class="fas fa-building"></i> Ver más de @Model.Product.Brand.Name
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
