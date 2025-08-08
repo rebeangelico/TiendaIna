@@ -1,20 +1,48 @@
-﻿@{
-}
-<nav class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-        <!-- Logo -->
+﻿
+
+<nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <div class="container">
         <a class="navbar-brand" asp-area="" asp-page="/Index">
             <img src="~/lib/images/logo_oficial-sin fondo negro.sinMargenpng.png" alt="Logo" height="50">
         </a>
-        <!-- Texto corto -->
-        <span class="navbar-text me-auto fs-3 fw-bold">
-            "TIENDA INA" tu tienda de confianza.
-        </span>
 
-        <!-- Buscador -->
-        <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Buscar productos..." aria-label="Buscar">
-            <button class="btn btn-outline-success" type="submit">Buscar</button>
-        </form>
+        <a class="navbar-brand" asp-area="" asp-page="/Home">TIENDA INA</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+            <ul class="navbar-nav flex-grow-1">
+                <!-- Home -->
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-page="/Index">INICIO</a>
+                </li>
+
+                <!-- PERFUMERIA Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-dark" href="#" id="perfumeriaDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        PERFUMERIA
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="perfumeriaDropdown">
+                        <li><a class="dropdown-item" href="/Categorias/PERFUMERIA/PERFUMES MASCULINOS">PERFUMES MASCULINOS</a></li>
+                        <li><a class="dropdown-item" href="/Categorias/PERFUMERIA/PERFUMES FEMENINOS">PERFUMES FEMENINOS</a></li>
+                        <li><a class="dropdown-item" href="/Categorias/PERFUMERIA/PERFUMES UNISEX">PERFUMES UNISEX</a></li>
+                        <li><a class="dropdown-item" href="/Categorias/PERFUMERIA/PERFUMES INFANTILES">PERFUMES INFANTILES</a></li>
+                    </ul>
+                </li>
+
+                <!-- PRODUCTOS CAPILARES -->
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="/CATEGORIAS/PRODUCTOSCCAPILARES">PRODUCTOS CAPILARES</a>
+                </li>
+                <!-- Buscador -->
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Buscar productos..." aria-label="Buscar">
+                    <button class="btn btn-outline-success" type="submit">Buscar</button>
+                </form>
+            </ul>
+        </div>
     </div>
 </nav>
