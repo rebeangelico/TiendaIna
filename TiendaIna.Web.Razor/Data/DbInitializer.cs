@@ -35,14 +35,14 @@ namespace TiendaIna.Web.Razor.Data {
                             idBrand=contex.Brands.First(b => b.Name=="Lattafa").Id,
                             Description="Her Confession de Lattafa es un perfume femenino con una mezcla cautivadora de notas. La apertura destaca por canela y acordes místicos, mientras que el corazón presenta jazmín y nardo. El fondo combina haba tonka, almizcle y vainilla. Ideal para mujeres que irradian confianza y misterio",
                             Price=60000,
-                            Imagen="https://perfumeoriental.com/cdn/shop/files/Perfume-mujer-Her-Confession-100ml-Lattafa-Perfume-Oriental.webp?v=1738581096&width=1946"
+                            Image="https://perfumeoriental.com/cdn/shop/files/Perfume-mujer-Her-Confession-100ml-Lattafa-Perfume-Oriental.webp?v=1738581096&width=1946"
                             ,Categories= contex.Categories.ToList()
                 },
                 new Product {Name="Khamrra",
                             idBrand=contex.Brands.First(b => b.Name=="Lattafa").Id,
                             Description="El perfume Khamrra de Lattafa es una fragancia aromática especiada lanzada en 2022. Sus notas de salida incluyen canela, nuez moscada y bergamota. Es una fragancia exótica y seductora que se presenta en una elegante botella de 100 ml",
                             Price=80000,
-                            Imagen="https://tse3.mm.bing.net/th/id/OIP.Brq456BYeC1xj8AF3GEFdgHaFT?rs=1&pid=ImgDetMain&o=7&rm=3"
+                            Image="https://tse3.mm.bing.net/th/id/OIP.Brq456BYeC1xj8AF3GEFdgHaFT?rs=1&pid=ImgDetMain&o=7&rm=3"
                             ,Categories= contex.Categories.ToList()
                             }
             };

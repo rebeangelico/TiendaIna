@@ -13,7 +13,8 @@ namespace TiendaIna.Core.Model {
         public string? Description { get; set; }
         public List<int>? IdsCategories { get; set; }
         public virtual ICollection<CategoryModel> Categories { get; set; } = new List<CategoryModel>();
-        public string? Imagen { get; set; }
+        public string? Image { get; set; }
+        public ICollection<string> Images { get; set; }
         public string? Gender { get; set; }
         public bool? IsOutstanding { get; set; }
 
@@ -26,7 +27,8 @@ namespace TiendaIna.Core.Model {
             Description = product.Description;
             Categories = CategoryModel.FromCollection(product.Categories);
             IdsCategories = Categories?.Select(c => c.Id).ToList() ?? new List<int>();
-            Imagen = product.Imagen;
+            Image = product.Image;
+            Images = product.Images;
             Gender = product.Gender;
             IsOutstanding = product.IsOutstanding;
         }

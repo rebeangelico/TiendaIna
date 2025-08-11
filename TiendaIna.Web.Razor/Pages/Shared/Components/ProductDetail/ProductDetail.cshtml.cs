@@ -44,7 +44,7 @@ namespace TiendaIna.Web.Razor.Pages
         }
 
         public bool HasImage() {
-            return !string.IsNullOrEmpty(Product.Imagen);
+            return !string.IsNullOrEmpty(Product.Image);
         }
 
         public bool HasDescription() {

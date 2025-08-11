@@ -22,7 +22,7 @@ namespace TiendaIna.Infrastructure.Repos {
                 Brand = new Brand { Id = 1, Name = "Lattafa" },
                 Name = "Oud for Glory",
                 DescriptionMin = "Oriental, intenso y envolvente.",
-                Imagen = "https://dcdn-us.mitiendanube.com/stores/004/912/507/products/oudorflo-510777daeadf44959d17386008132208-1024-1024.webp",
+                Image = "https://dcdn-us.mitiendanube.com/stores/004/912/507/products/oudorflo-510777daeadf44959d17386008132208-1024-1024.webp",
                 Price = 42000,
                 Gender = "Unisex",
                 IsOutstanding = true
@@ -34,7 +34,7 @@ namespace TiendaIna.Infrastructure.Repos {
                 Brand = new Brand { Id = 1, Name = "Lattafa" },
                 Name = "Asad",
                 DescriptionMin = "Amaderado con vainilla.",
-                Imagen = "https://acdn-us.mitiendanube.com/stores/004/407/494/products/asad-d1a6c449c4071fd13017149465284044-1024-1024.webp",
+                Image = "https://acdn-us.mitiendanube.com/stores/004/407/494/products/asad-d1a6c449c4071fd13017149465284044-1024-1024.webp",
                 Price = 45000,
                 Gender = "Masculino"
               },
@@ -45,7 +45,7 @@ namespace TiendaIna.Infrastructure.Repos {
                 Brand = new Brand { Id = 1, Name = "Lattafa" },
                 Name = "Ajwad",
                 DescriptionMin = "Dulce, afrutado y romántico.",
-                Imagen = "https://dcdn-us.mitiendanube.com/stores/004/912/507/products/ddsaafs-f442ef5b7698b7af9e17399108474461-1024-1024.webp",
+                Image = "https://dcdn-us.mitiendanube.com/stores/004/912/507/products/ddsaafs-f442ef5b7698b7af9e17399108474461-1024-1024.webp",
                 Price = 39000,
                 Gender = "Femenino",
                 IsOutstanding = true
@@ -57,7 +57,7 @@ namespace TiendaIna.Infrastructure.Repos {
                 Brand = new Brand { Id = 1, Name = "Lattafa" },
                 Name = "Raghba Wood Intense",
                 DescriptionMin = "Intenso, ahumado y elegante.",
-                Imagen = "https://mundoaromas.cl/cdn/shop/products/D_NQ_NP_968538-MLC47090611219_082021-O.jpg?v=1654892128",
+                Image = "https://mundoaromas.cl/cdn/shop/products/D_NQ_NP_968538-MLC47090611219_082021-O.jpg?v=1654892128",
                 Price = 47000,
                 Gender = "Masculino",
                 IsOutstanding = true
@@ -69,7 +69,7 @@ namespace TiendaIna.Infrastructure.Repos {
                 Brand = new Brand { Id = 1, Name = "Lattafa" },
                 Name = "Yara",
                 DescriptionMin = "Suave, floral y moderno.",
-                Imagen = "https://acdn-us.mitiendanube.com/stores/004/407/494/products/yara-cde4579cb71070a8c617135640512548-1024-1024.webp",
+                Image = "https://acdn-us.mitiendanube.com/stores/004/407/494/products/yara-cde4579cb71070a8c617135640512548-1024-1024.webp",
                 Price = 41000,
                 Gender = "Femenino"
               },
@@ -79,7 +79,7 @@ namespace TiendaIna.Infrastructure.Repos {
                 Brand = new Brand { Id = 2, Name = "Maison Alhambra" },
                 Name = "Kismet Angel",
                 DescriptionMin = "Gourmand, dulce y sensual.",
-                Imagen = "https://images-cdn.ubuy.com.sa/65c2c9bdcb433f25857ba359-kismet-angel-by-maison-alhambra-eau-de.jpg",
+                Image = "https://images-cdn.ubuy.com.sa/65c2c9bdcb433f25857ba359-kismet-angel-by-maison-alhambra-eau-de.jpg",
                 Price = 55000,
                 Gender = "Femenino"
               },
@@ -89,7 +89,7 @@ namespace TiendaIna.Infrastructure.Repos {
                 Brand = new Brand { Id = 2, Name = "Maison Alhambra" },
                 Name = "Barakkat Rouge 540",
                 DescriptionMin = "Misterioso, almizclado y chic.",
-                Imagen = "https://images-cdn.ubuy.com.ar/68854594650a231ef40dbb7e-rouge-540-extrait-by-fragrance-world.jpg",
+                Image = "https://images-cdn.ubuy.com.ar/68854594650a231ef40dbb7e-rouge-540-extrait-by-fragrance-world.jpg",
                 Price = 58000,
                 Gender = "Unisex",
                 IsOutstanding = true
@@ -100,7 +100,7 @@ namespace TiendaIna.Infrastructure.Repos {
                 Brand = new Brand { Id = 2, Name = "Maison Alhambra" },
                 Name = "Tobacco Touch",
                 DescriptionMin = "Tábaco cálido y especiado.",
-                Imagen = "https://acdn-us.mitiendanube.com/stores/004/407/494/products/tobacco-touch-07921cf3cbce0d074617231426991171-1024-1024.webp",
+                Image = "https://acdn-us.mitiendanube.com/stores/004/407/494/products/tobacco-touch-07921cf3cbce0d074617231426991171-1024-1024.webp",
                 Price = 52000,
                 Gender = "Masculino"
               },
@@ -110,7 +110,7 @@ namespace TiendaIna.Infrastructure.Repos {
                 Brand = new Brand { Id = 2, Name = "Maison Alhambra" },
                 Name = "Infini Oud",
                 DescriptionMin = "Profundo y sofisticado.",
-                Imagen = "https://orientaldream.b-cdn.net/3617-medium_default/maison-alhambra-infini-oud-joyous-edp-100ml.jpg",
+                Image = "https://orientaldream.b-cdn.net/3617-medium_default/maison-alhambra-infini-oud-joyous-edp-100ml.jpg",
                 Price = 60000,
                 Gender = "Unisex"
               },
@@ -120,7 +120,7 @@ namespace TiendaIna.Infrastructure.Repos {
                 Brand = new Brand { Id = 2, Name = "Maison Alhambra" },
                 Name = "Porto Neroli",
                 DescriptionMin = "Fresco, cítrico y luminoso.",
-                Imagen = "https://perfumescardales.com.ar/wp-content/uploads/2023/09/Fotos-pagina.pptx-24.jpg",
+                Image = "https://perfumescardales.com.ar/wp-content/uploads/2023/09/Fotos-pagina.pptx-24.jpg",
                 Price = 49000,
                 Gender = "Femenino",
                 IsOutstanding = true },
@@ -130,7 +130,7 @@ namespace TiendaIna.Infrastructure.Repos {
                 Brand = new Brand() { Id = 1, Name = "Armaf" },
                 Name = "The Lions",
                 DescriptionMin = "exquisito bla bla bla",
-                Imagen = "https://bestbrandsperfume.com/wp-content/uploads/2024/11/ARMAF-THE-LIONS-CLUB-RUGIR-3.4-Oz-Eau-De-Parfum-For-Men.png",
+                Image = "https://bestbrandsperfume.com/wp-content/uploads/2024/11/ARMAF-THE-LIONS-CLUB-RUGIR-3.4-Oz-Eau-De-Parfum-For-Men.png",
                 Price = 50000,
                 Gender = "Masculino"
                 },
@@ -140,7 +140,7 @@ namespace TiendaIna.Infrastructure.Repos {
                 Brand = new Brand { Id = 1, Name = "Lattafa" },
                 Name = "Oud for Glory",
                 DescriptionMin = "Oriental, intenso y envolvente.",
-                Imagen = "https://dcdn-us.mitiendanube.com/stores/004/912/507/products/oudorflo-510777daeadf44959d17386008132208-1024-1024.webp",
+                Image = "https://dcdn-us.mitiendanube.com/stores/004/912/507/products/oudorflo-510777daeadf44959d17386008132208-1024-1024.webp",
                 Price = 42000,
                 Gender = "Unisex",
                 IsOutstanding = true
