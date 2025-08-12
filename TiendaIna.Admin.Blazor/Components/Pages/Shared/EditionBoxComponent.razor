@@ -1,9 +1,12 @@
 ﻿@page "/edit-product/{ProductId:int}"
+@rendermode InteractiveServer
 @using TiendaIna.Core.Entities
 @using TiendaIna.Core.Model
 @using TiendaIna.Core.Services
 @inject IProductsService ProductsService
 @inject NavigationManager NavigationManager
+
+
 
 @code {
     [Parameter] public int ProductId { get; set; }
