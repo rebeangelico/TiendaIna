@@ -58,3 +58,10 @@ h1:focus {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
     text-align: start;
 }
+
+.nav-link .bi {
+    font-size: 1.2rem; /* tweak as needed */
+    line-height: 1; /* keep baseline with text */
+    vertical-align: middle; /* center in line */
+    margin-right: .5rem; /* space between icon & label */
+}
