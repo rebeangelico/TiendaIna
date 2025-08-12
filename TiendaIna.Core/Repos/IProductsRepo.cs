@@ -4,8 +4,8 @@ namespace TiendaIna.Core.Repos {
     public interface IProductsRepo {
         Task<List<Product>> GetProductsAsync();
         Task<Product> GetProduct(int productId);
-        void AddProduct(Product product);
-        void UpdateProduct(Product product);
-        void DeleteProduct(int productId);
+        Task AddProduct(Product product);
+        Task UpdateProduct(Product product);
+        Task DeleteProduct(int productId);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
+using System.Threading.Tasks;
 using TiendaIna.Core.Entities;
 using TiendaIna.Core.Model;
 using TiendaIna.Core.Repos;
@@ -25,16 +26,21 @@ namespace TiendaIna.Infrastructure.Services {
             return Task.FromResult(model);
         }
 
-        public void AddProduct(Product product) {
-            throw new NotImplementedException();
+
+        public async Task DeleteProduct(int productId) {
+            await _productsRepo.DeleteProduct(productId);
         }
 
-        public void UpdateProduct(int productId) {
-            throw new NotImplementedException();
+
+
+        public async Task UpdateProduct(ProductModel productModel) {
+            var product = new Product(productModel);
+            await _productsRepo.UpdateProduct(product);
+        }
+        public async Task AddProduct(ProductModel productModel) {
+            var product = new Product(productModel);
+            await _productsRepo.AddProduct(product);
         }
 
-        public void DeleteProduct(int productId) {
-            throw new NotImplementedException();
-        }
     }
 }

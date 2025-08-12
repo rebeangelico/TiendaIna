@@ -14,6 +14,7 @@ namespace TiendaIna.Infrastructure.Repos {
                 Name = "Oud for Glory",
                 DescriptionMin = "Oriental, intenso y envolvente.",
                 Image = "https://dcdn-us.mitiendanube.com/stores/004/912/507/products/oudorflo-510777daeadf44959d17386008132208-1024-1024.webp",
+                Images= {"https://i.ebayimg.com/images/g/akEAAOSwfz9f-wtH/s-l1600.webp","https://images-cdn.ubuy.com.ar/67d26db76b424b7fe204912b-oud-for-glory-bade-039-e-al-oud-lattafa.jpg","https://eclipseperfumes.cr/cdn/shop/products/375x500.64948.jpg?v=1680160661", "https://eclipseperfumes.cr/cdn/shop/products/375x500.64948.jpg?v=1680160661"  },
                 Price = 42000,
                 Gender = "Unisex",
                 IsOutstanding = true
@@ -139,18 +140,23 @@ namespace TiendaIna.Infrastructure.Repos {
         };
         #endregion
 
-        public void AddProduct(Product product) {
+        public Task AddProduct(Product product) {
             if (_products.Any(p => p.Id == product.Id))
                 throw new InvalidOperationException($"Ya existe un producto con ID {product.Id}");
+
             _products.Add(product);
+            return Task.CompletedTask;
         }
 
-        public void DeleteProduct(int productId) {
+        public Task DeleteProduct(int productId) {
             var product = _products.FirstOrDefault(p => p.Id == productId);
             if (product == null)
                 throw new KeyNotFoundException($"No se encontró el producto con ID {productId}");
+
             _products.Remove(product);
+            return Task.CompletedTask;
         }
+
 
         public async Task<Product> GetProduct(int productId) => (await GetProductsAsync()).Single(p => p.Id == productId);
 
@@ -158,7 +164,7 @@ namespace TiendaIna.Infrastructure.Repos {
             return Task.FromResult(_products);
         }
 
-        public void UpdateProduct(Product product) {
+        public Task UpdateProduct(Product product) {
             if (product == null)
                 throw new ArgumentNullException(nameof(product), "El producto no puede ser nulo.");
 
@@ -167,7 +173,9 @@ namespace TiendaIna.Infrastructure.Repos {
                 throw new KeyNotFoundException($"No se encontró el producto con ID {product.Id}");
 
             _products[index] = product;
+            return Task.CompletedTask;
         }
+
 
     }
 }

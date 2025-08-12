@@ -18,9 +18,10 @@
                 <td>@p.Name</td>
                 <td>@p.Price</td>
                 <td>
-                    <button class="btn btn-link p-0"  title="Editar">
+                    <a class="btn btn-link p-0" title="Editar" href="@($"/products/edit/{p.Id}")">
                         <i class="bi bi-pencil-fill"></i>
-                    </button>
+                    </a>
+
                 </td>
             </tr>
         }

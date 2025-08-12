@@ -1,0 +1,98 @@
+﻿@page "/edit-product/{ProductId:int}"
+@using TiendaIna.Core.Entities
+@using TiendaIna.Core.Model
+@using TiendaIna.Core.Services
+@inject IProductsService ProductsService
+@inject NavigationManager NavigationManager
+
+@code {
+    [Parameter] public int ProductId { get; set; }
+
+    private ProductModel? product;
+    private string? selectedImage;
+    private bool showModal = false;
+
+    protected override async Task OnInitializedAsync() {
+        product = await ProductsService.GetProduct(ProductId);
+    }
+
+    private void ShowImageModal(string image) {
+        selectedImage = image;
+        showModal = true;
+    }
+
+    private void CloseModal() {
+        showModal = false;
+        selectedImage = null;
+    }
+
+    private void DeleteImage(string image) {
+        product?.Images?.Remove(image);
+    }
+
+    private async Task SaveChanges() {
+        if (product != null) {
+            await ProductsService.UpdateProduct(product);
+            NavigationManager.NavigateTo("/products");
+        }
+    }
+}
+
+<div class="container mt-4">
+    @if (product != null) {
+        <div class="row">
+            <!-- Imagen principal y galería -->
+            <div class="col-md-6">
+                <img src="@product.Image" class="img-fluid mb-3" alt="Main Image" />
+
+                <div class="d-flex flex-wrap gap-2">
+                    @foreach (var img in product.Images) {
+                        <div class="position-relative">
+                            <img src="@img" class="img-thumbnail" style="width: 100px; height: 100px; cursor: pointer;" @onclick="@(() => ShowImageModal(img))" />
+                            <button class="btn btn-sm btn-danger position-absolute bottom-0 start-50 translate-middle-x" @onclick="@(() => DeleteImage(img))">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Campos editables -->
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="form-label">Nombre</label>
+                    <input class="form-control" @bind="product.Name" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Descripción corta</label>
+                    <textarea class="form-control" @bind="product.DescriptionMin"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Precio</label>
+                    <input type="number" class="form-control" @bind="product.Price" />
+                </div>
+
+                <button class="btn btn-primary" @onclick="SaveChanges">Guardar</button>
+            </div>
+        </div>
+    }
+</div>
+
+@if (showModal && selectedImage != null) {
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@System.IO.Path.GetFileName(selectedImage)</h5>
+                    <button type="button" class="btn-close" @onclick="CloseModal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="@selectedImage" class="img-fluid" />
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" @onclick="CloseModal">Salir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

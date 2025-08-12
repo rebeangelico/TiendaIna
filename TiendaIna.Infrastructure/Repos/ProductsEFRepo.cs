@@ -3,13 +3,11 @@ using TiendaIna.Core.Repos;
 
 namespace TiendaIna.Infrastructure.Repos {
     public class ProductsEFRepo : IProductsRepo {
-
-
-        public void AddProduct(Product product) {
+        public Task AddProduct(Product product) {
             throw new NotImplementedException();
         }
 
-        public void DeleteProduct(int productId) {
+        public Task DeleteProduct(int productId) {
             throw new NotImplementedException();
         }
 
@@ -21,7 +19,7 @@ namespace TiendaIna.Infrastructure.Repos {
             throw new NotImplementedException();
         }
 
-        public void UpdateProduct(Product product) {
+        public Task UpdateProduct(Product product) {
             throw new NotImplementedException();
         }
     }

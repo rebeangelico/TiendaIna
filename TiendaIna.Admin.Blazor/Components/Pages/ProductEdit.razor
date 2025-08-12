@@ -1,0 +1,26 @@
+﻿@page "/products/edit/{productId:int}"
+@using TiendaIna.Admin.Blazor.Components.Pages.Shared
+@using TiendaIna.Core.Model
+@using TiendaIna.Core.Services
+@inject IProductsService ProductsService
+
+<h2>Editar producto</h2>
+
+@code {
+    [Parameter] public int productId { get; set; }
+    private ProductModel? product;
+
+    protected override async Task OnInitializedAsync()
+    {
+        product = await ProductsService.GetProduct(productId);
+    }
+}
+
+@if (product != null)
+{
+        <EditionBoxComponent ProductId="product.Id" />
+}
+else
+{
+    <p>Cargando producto...</p>
+}
