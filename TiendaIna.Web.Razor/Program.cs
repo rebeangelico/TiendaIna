@@ -1,9 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TiendaIna.Core;
 using TiendaIna.Core.Repos;
 using TiendaIna.Core.Services;
 using TiendaIna.Infrastructure.Repos;
+using TiendaIna.Infrastructure;
 using TiendaIna.Infrastructure.Services;
 using TiendaIna.Web.Razor.Data;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace TiendaIna.Web.Razor
 {
@@ -14,18 +17,18 @@ namespace TiendaIna.Web.Razor
             var builder = WebApplication.CreateBuilder(args);
 
             //registro de vservios a falta de inyeccion de dependencias - AGREGAR LUEGO
-            builder.Services.AddScoped<ICategoriesService, CategoriesService>();
-            builder.Services.AddScoped<IProductsService, ProductsService>();
-            builder.Services.AddScoped<IProductsRepo, ProductsInMemoryRepo>();
+
+            DependencyInjections.Configure(builder.Services);
+
             builder.Services.AddDbContext<TiendaInaWebRazorContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("TiendaInaWebRazorContext") ?? throw new InvalidOperationException("Connection string 'TiendaInaWebRazorContext' not found.")));
-
             //package Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore necesario
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 
             // Add services to the container.
             builder.Services.AddRazorPages();
+
 
             var app = builder.Build();
 

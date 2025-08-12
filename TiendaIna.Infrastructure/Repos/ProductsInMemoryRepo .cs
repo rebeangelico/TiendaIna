@@ -3,6 +3,7 @@ using TiendaIna.Core.Repos;
 
 namespace TiendaIna.Infrastructure.Repos {
     public class ProductsInMemoryRepo : IProductsRepo {
+
         public void AddProduct(Product product) {
             throw new NotImplementedException();
         }
