@@ -21,7 +21,7 @@ namespace TiendaIna.Infrastructure.Repos {
             throw new NotImplementedException();
         }
 
-        public void UpdateProduct(int productId) {
+        public void UpdateProduct(Product product) {
             throw new NotImplementedException();
         }
     }

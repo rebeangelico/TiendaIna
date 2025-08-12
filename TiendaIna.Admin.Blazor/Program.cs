@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using TiendaIna.Admin.Blazor.Components;
 using TiendaIna.Admin.Blazor.Components.Account;
 using TiendaIna.Admin.Blazor.Data;
+using TiendaIna.Core;
 
 namespace TiendaIna.Admin.Blazor {
     public class Program {
@@ -18,6 +19,8 @@ namespace TiendaIna.Admin.Blazor {
             builder.Services.AddScoped<IdentityUserAccessor>();
             builder.Services.AddScoped<IdentityRedirectManager>();
             builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
+
+            DependencyInjections.Configure(builder.Services);
 
             builder.Services.AddAuthentication(options => {
                 options.DefaultScheme = IdentityConstants.ApplicationScheme;

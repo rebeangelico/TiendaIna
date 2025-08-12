@@ -4,18 +4,8 @@ using TiendaIna.Core.Repos;
 namespace TiendaIna.Infrastructure.Repos {
     public class ProductsInMemoryRepo : IProductsRepo {
 
-        public void AddProduct(Product product) {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteProduct(int productId) {
-            throw new NotImplementedException();
-        }
-
-        public async Task<Product> GetProduct(int productId) => (await GetProductsAsync()).Single(p => p.Id == productId);
-
-        public Task<List<Product>> GetProductsAsync() {
-            return Task.FromResult(new List<Product>
+        #region Readonly Products
+        private readonly List<Product> _products = new List<Product>
             {
               new Product {
                 Id = 1,
@@ -146,12 +136,38 @@ namespace TiendaIna.Infrastructure.Repos {
                 Gender = "Unisex",
                 IsOutstanding = true
               }
+        };
+        #endregion
 
-            });
+        public void AddProduct(Product product) {
+            if (_products.Any(p => p.Id == product.Id))
+                throw new InvalidOperationException($"Ya existe un producto con ID {product.Id}");
+            _products.Add(product);
         }
 
-        public void UpdateProduct(int productId) {
-            throw new NotImplementedException();
+        public void DeleteProduct(int productId) {
+            var product = _products.FirstOrDefault(p => p.Id == productId);
+            if (product == null)
+                throw new KeyNotFoundException($"No se encontró el producto con ID {productId}");
+            _products.Remove(product);
         }
+
+        public async Task<Product> GetProduct(int productId) => (await GetProductsAsync()).Single(p => p.Id == productId);
+
+        public Task<List<Product>> GetProductsAsync() {
+            return Task.FromResult(_products);
+        }
+
+        public void UpdateProduct(Product product) {
+            if (product == null)
+                throw new ArgumentNullException(nameof(product), "El producto no puede ser nulo.");
+
+            var index = _products.FindIndex(p => p.Id == product.Id);
+            if (index == -1)
+                throw new KeyNotFoundException($"No se encontró el producto con ID {product.Id}");
+
+            _products[index] = product;
+        }
+
     }
 }
