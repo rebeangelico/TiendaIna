@@ -1,18 +1,26 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using TiendaIna.Core.Model;
 using TiendaIna.Core.Services;
 
-public class ProductsListModel : ComponentBase
-{
-    [Inject] private IProductsService ProductsService { get; set; }
+namespace TiendaIna.Admin.Blazor.Components.Pages;
+public partial class ProductsList : ComponentBase {
+    #region fields
+    private readonly IProductsService _productsService;
+    #endregion
 
-    public List<ProductModel> products { get; set; }
+    #region properties
+    public List<ProductModel>? Products { get; set; }
+    #endregion
 
-    protected override async Task OnInitializedAsync()
-    {
-        products = await ProductsService.GetProducts() ?? new();
+    #region constructors
+    public ProductsList(IProductsService productsService) : base() {
+        _productsService = productsService ?? throw new ArgumentNullException(nameof(productsService));
     }
+    #endregion
 
+    #region overriden methods
+    protected override async Task OnInitializedAsync() {
+        Products = await _productsService.GetProducts();
+    }
+    #endregion
 }

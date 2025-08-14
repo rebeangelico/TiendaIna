@@ -1,0 +1,52 @@
+@page "/edit-images"
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
+@using TiendaIna.Core.Entities
+@using TiendaIna.Core.Model
+@using TiendaIna.Core.Services
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6">
+            @if (Product?.Image != null) {
+                <img src="@Product.Image" class="img-fluid mb-3" alt="Main Image" />
+            }
+
+            <div class="d-flex flex-wrap gap-2">
+                @if (Product?.Images != null) {
+                    @foreach (var img in Product.Images) {
+                        <div class="position-relative">
+                            <img src="@img" class="img-thumbnail"
+                                 style="width: 100px; height: 100px; cursor: pointer;"
+                                 @onclick="@(() => OnShowImageModal(img))" />
+                            <button class="btn btn-sm btn-danger position-absolute bottom-0 start-50 translate-middle-x"
+                                    @onclick="@(() => OnDeleteImage(img))">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (ShowModal && SelectedImage != null) {
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@System.IO.Path.GetFileName(SelectedImage)</h5>
+                    <button type="button" class="btn-close" @onclick="OnCloseModal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="@SelectedImage" class="img-fluid" />
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" @onclick="OnCloseModal">Salir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
