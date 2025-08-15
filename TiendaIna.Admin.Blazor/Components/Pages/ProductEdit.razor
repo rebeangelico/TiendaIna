@@ -6,19 +6,10 @@
 
 <h2>Editar producto</h2>
 
-@code {
-    [Parameter] public int productId { get; set; }
-    private ProductModel? product;
 
-    protected override async Task OnInitializedAsync()
-    {
-        product = await ProductsService.GetProduct(productId);
-    }
-}
-
-@if (product != null)
+@if (Product != null)
 {
-        <EditionBoxComponent ProductId="product.Id" />
+        <EditionBoxComponent ProductId="Product.Id" />
         
 }
 else
@@ -26,4 +17,4 @@ else
     <p>Cargando producto...</p>
 }
 
-<EditImages Product="product" />
+<EditImages Product="Product" />
