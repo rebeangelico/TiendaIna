@@ -19,8 +19,11 @@
 @if (product != null)
 {
         <EditionBoxComponent ProductId="product.Id" />
+        
 }
 else
 {
     <p>Cargando producto...</p>
 }
+
+<EditImages Product="product" />
