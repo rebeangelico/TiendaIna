@@ -18,6 +18,8 @@ namespace TiendaIna.Core.Model {
         public string? Gender { get; set; }
         public bool? IsOutstanding { get; set; }
 
+        public ProductModel() { }
+
         public ProductModel(Product product) {
             Id = product.Id;
             Name = product.Name;
