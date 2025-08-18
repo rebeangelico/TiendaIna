@@ -7,8 +7,8 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
     public partial class EditFields : ComponentBase {
 
         #region fields
-        [Inject] public IProductsService? ProductsService { get; set; }
-        [Inject] public NavigationManager? NavigationManager { get; set; }
+        private readonly IProductsService _productsService;
+        private readonly NavigationManager _navigationManager;
         #endregion
 
         #region Parameters
@@ -24,22 +24,15 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
         [Parameter] public bool? ShowIsOutstanding { get; set; }
         #endregion
 
-        /*public EditFields(ProductModel product, bool showName, bool showPrice, bool showBrand, bool showDescriptionMin, bool showDescription, bool showCategories, bool showGender, bool showIsOutstanding) {
-            Product = product;
-            ShowName = showName;
-            ShowPrice = showPrice;
-            ShowBrand = showBrand;
-            ShowDescriptionMin = showDescriptionMin;
-            ShowDescription = showDescription;
-            ShowCategories = showCategories;
-            ShowGender = showGender;
-            ShowIsOutstanding = showIsOutstanding;
-        }*/
+        public EditFields(IProductsService productsService, NavigationManager navigationManager) {
+            this._productsService = productsService ?? throw new ArgumentNullException(nameof(productsService));
+            this._navigationManager = navigationManager ?? throw new ArgumentNullException(nameof(navigationManager));
+        }
 
         private async Task SaveChanges() {
             if (Product is null) return;
-            await ProductsService!.UpdateProduct(Product);
-            NavigationManager!.NavigateTo("/products");
+            await _productsService.UpdateProduct(Product);
+            _navigationManager.NavigateTo("/products");
         }
     }
 }
