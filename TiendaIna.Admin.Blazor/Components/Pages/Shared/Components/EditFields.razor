@@ -1,18 +1,20 @@
 @page "/edit-fields"
 @rendermode InteractiveServer
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
 @using TiendaIna.Core.Entities
 @using TiendaIna.Core.Model
 @using TiendaIna.Core.Services
 
 
 <div class="container mt-4">
-            <div class="col-md-6">
-                @if (ShowName == true) {
-                    <div class="mb-3">
-                      <label class="form-label">Nombre</label>
-                       <input class="form-control" @bind="Product.Name"/>
-                     </div>
-                    }
+    <div class="col-md-6">
+        @if (ShowName == true) {
+            <div class="mb-3">
+                <label class="form-label">Nombre</label>
+                <input class="form-control" @bind="Product.Name" />
+            </div>
+        }
 
         @if (ShowPrice == true) {
             <div class="mb-3">
@@ -21,18 +23,17 @@
             </div>
         }
 
-
-                @if (ShowDescriptionMin == true) {
-                     <div class="mb-3">
-                       <label class="form-label">Descripción corta</label>
-                       <input class="form-control" @bind="Product.DescriptionMin" />
-                     </div>
-                    }
+        @if (ShowDescriptionMin == true) {
+            <div class="mb-3">
+                <label class="form-label">Descripción corta</label>
+                <input class="form-control" @bind="Product.DescriptionMin" />
+            </div>
+        }
 
         @if (ShowBrand == true) {
             <div class="mb-3">
                 <label class="form-label">Marca</label>
-                <input class="form-control" @bind="Product.Brand" />
+                <input class="form-control" @bind="Product.Brand.Name" />
             </div>
         }
 
@@ -58,6 +59,6 @@
             </div>
         }
 
-                <button class="btn btn-primary" @onclick="SaveChanges">Guardar</button>
-            </div>
+        <button class="btn btn-primary" @onclick="SaveChanges">Guardar</button>
+    </div>
 </div>

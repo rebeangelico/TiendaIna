@@ -13,17 +13,18 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
 
         #region Parameters
         [Parameter] public ProductModel Product { get; set; } = null!;
-        public bool? ShowName { get; }
-        public bool? ShowPrice { get; }
-        public bool? ShowBrand { get; }
-        public bool? ShowDescriptionMin { get; }
-        public bool? ShowDescription { get; }
-        public bool? ShowCategories { get; }
-        public bool? ShowGender { get; }
-        public bool? ShowIsOutstanding { get; }
+
+        [Parameter] public bool? ShowName { get; set; }
+        [Parameter] public bool? ShowPrice { get; set; }
+        [Parameter] public bool? ShowBrand { get; set; }
+        [Parameter] public bool? ShowDescriptionMin { get; set; }
+        [Parameter] public bool? ShowDescription { get; set; }
+        [Parameter] public bool? ShowCategories { get; set; }
+        [Parameter] public bool? ShowGender { get; set; }
+        [Parameter] public bool? ShowIsOutstanding { get; set; }
         #endregion
 
-        public EditFields(ProductModel product, bool showName, bool showPrice, bool showBrand, bool showDescriptionMin, bool showDescription, bool showCategories, bool showGender, bool showIsOutstanding) {
+        /*public EditFields(ProductModel product, bool showName, bool showPrice, bool showBrand, bool showDescriptionMin, bool showDescription, bool showCategories, bool showGender, bool showIsOutstanding) {
             Product = product;
             ShowName = showName;
             ShowPrice = showPrice;
@@ -33,7 +34,7 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
             ShowCategories = showCategories;
             ShowGender = showGender;
             ShowIsOutstanding = showIsOutstanding;
-        }
+        }*/
 
         private async Task SaveChanges() {
             if (Product is null) return;
