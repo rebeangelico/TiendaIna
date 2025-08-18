@@ -7,20 +7,33 @@
 <h2>Editar producto</h2>
 
 
-@if (Product != null)
-{
-        <EditionBoxComponent ProductId="Product.Id" />
-        
+<div class="container mt-4">
+@if (Product != null) {
+
+    <div class="row">
+        <div class="col-md-6">
+        <EditImages Product="Product" />
+                <EditFields Product="Product"
+                            ShowDescription="true" />
+        </div>
+
+        <div class="col-md-6">
+            <EditFields Product="Product"
+                        ShowName="true"
+                        ShowPrice="true"
+                        ShowBrand="true" 
+                        ShowDescriptionMin="true"
+                        ShowGender="true"
+                        ShowIsOutstanding="true"
+                        />
+        </div>
+
+    </div>
 }
 else
 {
     <p>Cargando producto...</p>
 }
+</div>
 
-<EditImages Product="Product" />
-<EditFields Product="Product"
-    ShowName="true"
-    ShowPrice="true"
-    ShowBrand="true"
 
-    />
