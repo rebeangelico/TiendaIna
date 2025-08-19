@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Radzen;
 using TiendaIna.Admin.Blazor.Components;
 using TiendaIna.Admin.Blazor.Components.Account;
 using TiendaIna.Admin.Blazor.Data;
@@ -14,6 +15,7 @@ namespace TiendaIna.Admin.Blazor {
             // Add services to the container.
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
+            builder.Services.AddRadzenComponents();
 
             builder.Services.AddHttpClient();
 
@@ -41,6 +43,8 @@ namespace TiendaIna.Admin.Blazor {
                 .AddDefaultTokenProviders();
 
             builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+
+            
 
             var app = builder.Build();
 

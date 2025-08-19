@@ -1,39 +1,45 @@
 ﻿@page "/products/edit/{productId:int}"
 @using TiendaIna.Admin.Blazor.Components.Pages.Shared.Components
-@using TiendaIna.Core.Model
+@using TiendaIna.Core.Models
 @using TiendaIna.Core.Services
+@rendermode InteractiveServer
+
 @inject IProductsService ProductsService
 
 <h2>Editar producto</h2>
 
 
 <div class="container mt-4">
-@if (Product != null) {
+    @if (Product != null) {
 
-    <div class="row">
-        <div class="col-md-6">
-        <EditImages Product="Product" />
+        <div class="row">
+            <div class="col-md-6">
+                <EditImages Product="Product" />
                 <EditFields Product="Product"
-                            ShowDescription="true" />
-        </div>
+                            ShowDescription="true" ShowCategories="true" />
+            </div>
 
-        <div class="col-md-6">
-            <EditFields Product="Product"
-                        ShowName="true"
-                        ShowPrice="true"
-                        ShowBrand="true" 
-                        ShowDescriptionMin="true"
-                        ShowGender="true"
-                        ShowIsOutstanding="true"
-                        />
-        </div>
+            <div class="col-md-6">
+                <EditFields Product="Product"
+                            ShowName="true"
+                            ShowPrice="true"
+                            ShowBrand="true"
+                            ShowDescriptionMin="true"
+                            ShowGender="true"
+                            ShowIsOutstanding="true" />
+            </div>
 
-    </div>
-}
-else
-{
-    <p>Cargando producto...</p>
-}
+            <div class="col-md-6">
+
+                <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.Center" Gap="0.5rem" class="rz-p-sm-12">
+                    <RadzenLabel Text="Select Values" Component="DropDownMultipleChips" />
+                    <RadzenDropDown @bind-Value=@SelectedCategories Data=@Categories TextProperty="@nameof(CategoryModel.Name)" ValueProperty="@nameof(Product.Id)" Name="DropDownMultipleChips" Multiple=true AllowClear=true Placeholder="Select products" Chips=true Style="width: 300px; max-width: 400px;" />
+                </RadzenStack>
+            </div>
+        </div>
+    } else {
+        <p>Cargando producto...</p>
+    }
 </div>
 
 

@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using TiendaIna.Core.Model;
+using TiendaIna.Core.Models;
 using TiendaIna.Core.Services;
 
 namespace TiendaIna.Web.Razor.Pages

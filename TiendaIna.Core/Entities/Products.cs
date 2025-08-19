@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TiendaIna.Core.Model;
 using TiendaIna.Core.Models;
 
 namespace TiendaIna.Core.Entities {

@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using System.Threading.Tasks;
-using TiendaIna.Core.Entities;
-using TiendaIna.Core.Model;
+﻿using TiendaIna.Core.Entities;
+using TiendaIna.Core.Models;
 using TiendaIna.Core.Repos;
 using TiendaIna.Core.Services;
-using TiendaIna.Infrastructure.Repos;
 
 namespace TiendaIna.Infrastructure.Services {
     public class ProductsService : IProductsService {

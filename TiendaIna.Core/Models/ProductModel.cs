@@ -1,8 +1,6 @@
-﻿using System.Collections.Immutable;
-using TiendaIna.Core.Entities;
-using TiendaIna.Core.Models;
+﻿using TiendaIna.Core.Entities;
 
-namespace TiendaIna.Core.Model {
+namespace TiendaIna.Core.Models {
     public class ProductModel {
         public int Id { get; set; }
         public string? Name { get; set; }

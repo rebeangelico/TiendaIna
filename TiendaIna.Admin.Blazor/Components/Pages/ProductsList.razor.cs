@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Components;
-using TiendaIna.Core.Model;
+using TiendaIna.Core.Models;
 using TiendaIna.Core.Services;
 
 namespace TiendaIna.Admin.Blazor.Components.Pages;

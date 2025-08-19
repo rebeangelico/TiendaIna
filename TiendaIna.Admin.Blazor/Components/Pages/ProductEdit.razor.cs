@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Components;
-using TiendaIna.Core.Model;
+using TiendaIna.Core.Models;
 using TiendaIna.Core.Services;
 
 namespace TiendaIna.Admin.Blazor.Components.Pages;
@@ -11,6 +11,9 @@ public partial class ProductEdit : ComponentBase {
     #region properties
     [Parameter] public int productId { get; set; }
     public ProductModel? Product { get; set; }
+
+    public IEnumerable<CategoryModel> Categories = new List<CategoryModel> { new() { Id = 1, Name = "Cat1" }, new() { Id = 2, Name = "Cat2" } };
+    public IList<int> SelectedCategories = [1] ;
     #endregion
 
     #region constructors
