@@ -30,11 +30,7 @@
             </div>
 
             <div class="col-md-6">
-
-                <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.Center" Gap="0.5rem" class="rz-p-sm-12">
-                    <RadzenLabel Text="Select Values" Component="DropDownMultipleChips" />
-                    <RadzenDropDown @bind-Value=@SelectedCategories Data=@Categories TextProperty="@nameof(CategoryModel.Name)" ValueProperty="@nameof(Product.Id)" Name="DropDownMultipleChips" Multiple=true AllowClear=true Placeholder="Select products" Chips=true Style="width: 300px; max-width: 400px;" />
-                </RadzenStack>
+                <EditCategories Product="Product" />
             </div>
         </div>
     } else {

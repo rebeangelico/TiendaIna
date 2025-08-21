@@ -9,7 +9,7 @@ namespace TiendaIna.Infrastructure {
             this.AddRange([
               new Product {
                 Id = 1,
-                Categories = new List<Category> { new Category { Id = 1, Name = "Lattafa" } },
+                Categories = new List<Category> { new Category { Id = 1, Name = "Lattafa" }, new Category { Id = 2, Name = "Maison Alhambra" } },
                 Brand = new Brand { Id = 1, Name = "Lattafa" },
                 Name = "Oud for Glory",
                 DescriptionMin = "Oriental, intenso y envolvente.",
