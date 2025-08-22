@@ -4,12 +4,15 @@ namespace TiendaIna.Infrastructure {
     public interface IInMemoryProductsStore : IList<Product> { }
 
     public class InMemoryProductsStore : List<Product>, IInMemoryProductsStore {
-        public InMemoryProductsStore() {
+        private readonly IInMemoryCategories _categories;
+        public InMemoryProductsStore(IInMemoryCategories categories) {
+            _categories = categories;
+
             this.Clear();
             this.AddRange([
               new Product {
                 Id = 1,
-                Categories = new List<Category> { new Category { Id = 1, Name = "Lattafa" }, new Category { Id = 2, Name = "Maison Alhambra" } },
+                Categories = GetCategoriesByIds([1, 2, 3]) ,
                 Brand = new Brand { Id = 1, Name = "Lattafa" },
                 Name = "Oud for Glory",
                 DescriptionMin = "Oriental, intenso y envolvente.",
@@ -138,6 +141,9 @@ namespace TiendaIna.Infrastructure {
                 IsOutstanding = true
               }
         ]);
+        }
+        private List<Category> GetCategoriesByIds(int[] categoryIds) {
+            return _categories.Where(c => categoryIds.Contains(c.Id)).ToList();
         }
     }
 }

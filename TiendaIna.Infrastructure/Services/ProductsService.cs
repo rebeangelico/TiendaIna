@@ -28,8 +28,6 @@ namespace TiendaIna.Infrastructure.Services {
             await _productsRepo.DeleteProduct(productId);
         }
 
-
-
         public async Task UpdateProduct(ProductModel productModel) {
             var product = new Product(productModel);
             await _productsRepo.UpdateProduct(product);

@@ -1,15 +1,23 @@
-﻿using TiendaIna.Core.Entities;
+﻿using TiendaIna.Core.Models;
+using TiendaIna.Core.Repos;
 using TiendaIna.Core.Services;
 
 namespace TiendaIna.Infrastructure.Services {
     public class CategoriesService : ICategoriesService {
-        public Task<List<Category>> GetCategories() {
+        private readonly ICategoriesRepo _categoriesRepo;
+        public CategoriesService(ICategoriesRepo categoriesRepo) {
+            this._categoriesRepo = categoriesRepo ?? throw new ArgumentNullException(nameof(categoriesRepo));
+        }
+
+        public async Task<List<CategoryModel>> GetCategories() {
+            var categories = await _categoriesRepo.GetCategoriesAsync();
+            var models = categories.Select(c => new CategoryModel(c)).ToList();
+            return models;
+        }
+        public async Task<CategoryModel> GetCategory(int categoryId) {
             throw new NotImplementedException();
         }
-        public Task<Category> GetCategory(int categoryId) {
-            throw new NotImplementedException();
-        }
-        public void AddCategory(Category category) {
+        public void AddCategory(CategoryModel category) {
             throw new NotImplementedException();
         }
         public void UpdateCategory(int categoryId) {

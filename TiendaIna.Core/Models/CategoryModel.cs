@@ -7,7 +7,8 @@ namespace TiendaIna.Core.Models {
 
         public CategoryModel() { }
 
-        public CategoryModel(Category category) {
+        public 
+            CategoryModel(Category category) {
             Id = category.Id;
             Name = category.Name;
         }
