@@ -32,6 +32,13 @@
             <div class="col-md-6">
                 <EditCategories Product="Product" />
             </div>
+
+            <div class="col-md-6">
+                <EditText @bind-Value="Product.Name" />
+            </div>
+
+
+
         </div>
     } else {
         <p>Cargando producto...</p>

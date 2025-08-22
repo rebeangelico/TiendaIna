@@ -1,0 +1,15 @@
+@page "/edit-text"
+@rendermode InteractiveServer
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
+@using TiendaIna.Core.Entities
+@using TiendaIna.Core.Models
+@using TiendaIna.Core.Services
+
+<RadzenTextArea Value="@Value"
+                ValueChanged="@OnValueChanged"
+                Placeholder="@Placeholder"
+                Rows="@Rows"
+                Disabled="@Disabled"
+                class="@CssClass"
+                Style="width: 100%;" />
