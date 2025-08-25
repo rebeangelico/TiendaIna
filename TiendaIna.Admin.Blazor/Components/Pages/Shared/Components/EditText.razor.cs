@@ -13,7 +13,7 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
         [Parameter] public string Value { get; set; } = string.Empty;
         [Parameter] public EventCallback<string> ValueChanged { get; set; }
         [Parameter] public string Placeholder { get; set; } = "Escribí aquí...";
-        [Parameter] public int Rows { get; set; } = 5;
+        [Parameter] public int Rows { get; set; } = 3;
         [Parameter] public string? CssClass { get; set; }
         [Parameter] public bool Disabled { get; set; } = false;
 

@@ -10,7 +10,7 @@ namespace TiendaIna.Core.Entities {
     public class Product {
         public int Id { get; set; }
         public string? Name { get; set; }
-        public int? Price { get; set; }
+        public decimal? Price { get; set; }
         public int idBrand { get; set; }
         public virtual Brand Brand { get; set; }
         public string? DescriptionMin { get; set; }

@@ -12,8 +12,8 @@ namespace TiendaIna.Web.Razor.Pages
     {
         public ProductModel Product { get; }
         public List<CategoryModel> Categories { get; }
-        public double Descuento { get; set; } = 0.20;
-        public double PrecioConDescuento { get; set; }
+        public decimal Descuento { get; set; } = 0.20m;
+        public decimal PrecioConDescuento { get; set; }
         public string PrecioFormateado { get; set; }
 
 
@@ -21,7 +21,7 @@ namespace TiendaIna.Web.Razor.Pages
         public ProductBoxSaleViewModel(ProductModel product) {
             Product = product;
             Categories = Product.Categories?.ToList() ?? new List<CategoryModel>();
-            Descuento = 0.20;
+            Descuento = 0.20m;
             PrecioConDescuento = 0;
             PrecioFormateado = PrecioConDescuento.ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
             if (product.Price.HasValue) {

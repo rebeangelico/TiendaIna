@@ -1,0 +1,17 @@
+@page "/edit-number"
+@rendermode InteractiveServer
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
+@using TiendaIna.Core.Entities
+@using TiendaIna.Core.Models
+@using TiendaIna.Core.Services
+
+<RadzenNumeric @bind-Value="@Value"
+               Change="@ValueChanged"
+               Placeholder="@Placeholder"
+               Disabled="@Disabled"
+               Style="width: 100%;"
+               class="@CssClass"
+               Step="@Step.ToString()"
+               Min="0"
+               Format="@CurrencyFormat" />
