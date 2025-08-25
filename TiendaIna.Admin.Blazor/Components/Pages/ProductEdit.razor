@@ -34,7 +34,11 @@
             </div>
 
             <div class="col-md-6">
-                <EditText @bind-Value="Product.Name" Disabled="true" />
+                <EditText @bind-Value="Product.Name" />
+            </div>
+
+            <div class="col-md-6">
+                <EditNumber TValue="decimal?" @bind-Value="Product.Price" />
             </div>
 
 
