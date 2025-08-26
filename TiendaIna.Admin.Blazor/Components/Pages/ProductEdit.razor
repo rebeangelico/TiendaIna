@@ -37,16 +37,19 @@
                 <EditText @bind-Value="Product.Name" />
             </div>
 
+
+
+
+
             <div class="col-md-6">
-                <EditNumber TValue="decimal?" @bind-Value="Product.Price" />
+                <RadzenNumeric TValue="decimal?" @bind-Value="Product.Price" Format="$0.00" Min="0m" />
             </div>
-
-
-
         </div>
     } else {
         <p>Cargando producto...</p>
     }
 </div>
+
+<div style="height: 50px;" />
 
 

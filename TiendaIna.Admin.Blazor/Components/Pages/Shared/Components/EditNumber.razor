@@ -3,12 +3,12 @@
 
 <RadzenNumeric TValue="TValue"
                @bind-Value="@Value"
-               Placeholder="@Placeholder"
                Disabled="@Disabled"
-               Style="width: 100%;"
-               class="@CssClass"
-               Step="@GetStepValue()"
-               Min="@GetMinValue()"
-               Max="@GetMaxValue()"
+               Min="@Min"
+               Max="@Max"
+               Step="@Step"
+               Placeholder="@Placeholder"
                ShowUpDown="@ShowUpDown"
-               Format="@GetFormatString()" />
+               Format="@Format"
+               Style="width: 100%;"
+               class="@CssClass" />
