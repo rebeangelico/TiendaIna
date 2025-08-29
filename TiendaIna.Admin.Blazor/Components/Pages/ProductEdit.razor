@@ -15,51 +15,33 @@
         <div class="row">
             <!-- Columna izquierda mia-->
         <div class="col-md-7 col-12">
-            <div class="row">
+             <div class="row">
                     <div class="col-md-6 col-12 mb-3 border rounded shadow-sm">
                         <h4 class="mb-1" style="font-size: 1.1rem;">Nombre</h4>
-                        <RadzenTextArea @bind-Value="Product.Name"
-                                        Placeholder="Escribí el nombre del producto"
-                                        Style="width: 100%; font-size: 1.1rem; height: 40px;" />
+                        <RadzenTextArea @bind-Value="Product.Name" Placeholder="Escribí el nombre del producto" Style="width: 100%; font-size: 1.1rem; height: 40px;" />
                     </div>
 
                     <div class="col-md-6 col-12 mb-3 border rounded shadow-sm">
                         <h4 class="mb-1" style="font-size: 1.1rem;">Genero</h4>
-                        <RadzenTextArea @bind-Value="Product.Gender"
-                                        Placeholder="genero"
-                                        Style="width: 100%; font-size: 1.1rem; height: 40px;" />
+                        <RadzenTextArea @bind-Value="Product.Gender" Placeholder="genero" Style="width: 100%; font-size: 1.1rem; height: 40px;" />
                     </div>
-            </div>
+             </div>
              <div class="row">
                     <div class="col-md-6 col-12 mb-3 border rounded shadow-sm">
                         <h4 class="mb-1" style="font-size: 1.1rem;">Precio</h4>
-                        <RadzenNumeric @bind-Value="Product.Price"
-                                       Placeholder="Ingresá el precio"
-                                       Format="$#,##0"
-                                       Min="0"
-                                       Step="1"
-                                       Style="width: 100%; height: 40px;"
-                                       Class="numero-grande"/>
+                        <RadzenNumeric @bind-Value="Product.Price" Placeholder="Ingresá el precio" Format="$#,##0" Min="0" Step="1" Style="width: 100%; height: 40px;" Class="numero-grande"/>
                     </div>
 
                     <div class="col-md-6 col-12 mb-3 border rounded shadow-sm">
                         <h4 class="mb-1" style="font-size: 1.1rem;">Stock Actual</h4>
-                        <RadzenNumeric @bind-Value="Product.Stock"
-                                       Placeholder="Ingresá el stock Actual"
-                                       Min="0"
-                                       Step="1"
-                                       Style="width: 100%; height: 40px;"
-                                       Class="numero-grande"/>
+                        <RadzenNumeric @bind-Value="Product.Stock" Placeholder="Ingresá el stock Actual" Min="0" Step="1" Style="width: 100%; height: 40px;" Class="numero-grande"/>
                     </div>
              </div>
 
-                <div class="mb-3 border rounded shadow-sm">
+             <div class="mb-3 border rounded shadow-sm">
                     <h4 class="mb-1" style="font-size: 1.1rem;">Descripcion Corta</h4>
-                    <RadzenTextArea @bind-Value="Product.DescriptionMin"
-                                    Placeholder="descripcion corta"
-                                    Style="width: 100%; font-size: 1.1rem; height: 40px;" />
-                </div>
-
+                    <RadzenTextArea @bind-Value="Product.DescriptionMin" Placeholder="descripcion corta" Style="width: 100%; font-size: 1.1rem; height: 40px;" />
+             </div>
 
 
 
