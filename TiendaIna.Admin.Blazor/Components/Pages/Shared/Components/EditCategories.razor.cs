@@ -9,6 +9,7 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
 
         #region fields
         private readonly IProductsService _productsService;
+        private readonly ICategoriesService _categoriesService;
         private readonly NavigationManager _navigationManager;
         #endregion
 
@@ -20,15 +21,16 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
 
         #endregion
 
-        public EditCategories(IProductsService productsService, NavigationManager navigationManager) {
+        public EditCategories(IProductsService productsService, NavigationManager navigationManager, ICategoriesService categoriesService) {
             this._productsService = productsService ?? throw new ArgumentNullException(nameof(productsService));
+            this._categoriesService = categoriesService ?? throw new ArgumentNullException(nameof(categoriesService));
             this._navigationManager = navigationManager ?? throw new ArgumentNullException(nameof(navigationManager));
         }
 
 
         #region overriden methods
         protected override async Task OnInitializedAsync() {
-            Categories = Product.Categories;
+            Categories = await _categoriesService.GetCategories();
         }
         #endregion
 

@@ -43,6 +43,19 @@
                     <RadzenTextArea @bind-Value="Product.DescriptionMin" Placeholder="descripcion corta" Style="width: 100%; font-size: 1.1rem; height: 40px;" />
              </div>
 
+                <div class="mb-3 border rounded shadow-sm">
+                    <h4 class="mb-1" style="font-size: 1.1rem;">Categorias del Producto</h4>
+                    <EditCategories Product="Product" />
+                </div>
+
+                <div class="mb-3 border rounded shadow-sm">
+                    <h4 class="mb-1" style="font-size: 1.1rem;">Descripcion del Producto</h4>
+                    <RadzenTextArea @bind-Value="Product.Description" Placeholder="descripcion" Style="width: 100%; font-size: 1.1rem; height: 40px;" />
+                </div>
+
+                <RadzenButton Text="Guardar cambios"
+                              Style="margin: 10px;"
+                              Click="@(() => NavegarA("/products"))" />
 
 
         </div>
@@ -50,18 +63,12 @@
                 <!-- Columna derecha mia -->
                 <EditImages Product="Product" />
 
-                <RadzenNumeric TValue="decimal?" @bind-Value="Product.Price" Format="$0.00" Min="0m" />
-
-                <EditFields Product="Product"
-                            ShowDescription="true" ShowCategories="true" />
         </div>
     </div>
 
     <!-- Fila inferior con márgenes -->
         <div class="row mt-4 mb-5">
         <div class="col-12">
-
-                <RadzenNumeric TValue="decimal?" @bind-Value="Product.Price" Format="$0.00" Min="0m" />
 
         </div>
     </div>

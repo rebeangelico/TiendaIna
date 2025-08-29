@@ -6,6 +6,7 @@ namespace TiendaIna.Admin.Blazor.Components.Pages;
 public partial class ProductEdit : ComponentBase {
     #region fields
     private readonly IProductsService _productsService;
+    private readonly NavigationManager _navigationManager;
     #endregion
 
     #region properties
@@ -14,8 +15,9 @@ public partial class ProductEdit : ComponentBase {
     #endregion
 
     #region constructors
-    public ProductEdit(IProductsService productsService) : base() {
+    public ProductEdit(IProductsService productsService, NavigationManager navigationManager) : base() {
         _productsService = productsService ?? throw new ArgumentNullException(nameof(productsService));
+        _navigationManager = navigationManager ?? throw new ArgumentNullException(nameof(navigationManager));
     }
     #endregion
 
@@ -23,5 +25,11 @@ public partial class ProductEdit : ComponentBase {
     protected override async Task OnInitializedAsync() {
         Product = await ProductsService.GetProduct(productId);
     }
+
+
     #endregion
+    void NavegarA(string url) {
+        _navigationManager.NavigateTo(url);
+    }
+
 }
