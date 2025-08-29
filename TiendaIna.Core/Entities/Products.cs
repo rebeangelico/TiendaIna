@@ -11,6 +11,7 @@ namespace TiendaIna.Core.Entities {
         public int Id { get; set; }
         public string? Name { get; set; }
         public decimal? Price { get; set; }
+        public decimal? Stock { get; set; }
         public int idBrand { get; set; }
         public virtual Brand Brand { get; set; }
         public string? DescriptionMin { get; set; }
@@ -29,6 +30,7 @@ namespace TiendaIna.Core.Entities {
             Name = product.Name;
             Brand = new Brand(product.Brand);
             Price = product.Price;
+            Stock = product.Stock;
             DescriptionMin = product.DescriptionMin;
             Description = product.Description;
             Categories = Category.FromCollection(product.Categories);

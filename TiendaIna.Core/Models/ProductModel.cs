@@ -5,6 +5,7 @@ namespace TiendaIna.Core.Models {
         public int Id { get; set; }
         public string? Name { get; set; }
         public decimal? Price { get; set; }
+        public decimal? Stock { get; set; }
         public int idBrand { get; set; }
         public virtual BrandModel Brand { get; set; }
         public string? DescriptionMin { get; set; }
@@ -23,6 +24,7 @@ namespace TiendaIna.Core.Models {
             Name = product.Name;
             Brand = new BrandModel(product.Brand);
             Price = product.Price;
+            Stock = product.Stock;
             DescriptionMin = product.DescriptionMin;
             Description = product.Description;
             Categories = CategoryModel.FromCollection(product.Categories);
