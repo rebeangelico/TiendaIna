@@ -1,0 +1,145 @@
+@page "/edit-imagesRadzen"
+@rendermode InteractiveServer
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
+@using TiendaIna.Core.Entities
+@using TiendaIna.Core.Models
+@using TiendaIna.Core.Services
+@using Microsoft.AspNetCore.Components;
+@using Microsoft.AspNetCore.Components.Forms; 
+@using System.Collections.Generic;
+@using System.Threading.Tasks;
+@using Radzen;
+
+
+@inject IProductsService ProductsService
+
+<h2>Editor de Imágenes</h2>
+
+<div class="container-fluid">
+    <RadzenCard>
+        <RadzenStack Gap="1rem">
+            <!-- Visor principal de imagen -->
+            <div class="main-image-container" style="text-align: center; margin-bottom: 1rem;">
+                @if (!string.IsNullOrEmpty(selectedImageUrl)) {
+                    <RadzenImage Path="@selectedImageUrl"
+                                 Style="max-width: 100%; max-height: 400px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"
+                                 AlternateText="Imagen principal" />
+                } else {
+                    <div style="width: 100%; height: 300px; background-color: #f5f5f5; border: 2px dashed #ccc; display: flex; align-items: center; justify-content: center; border-radius: 8px;">
+                        <RadzenText TextStyle="TextStyle.H6" style="color: #999;">No hay imágenes seleccionadas</RadzenText>
+                    </div>
+                }
+            </div>
+
+            <!-- Botón para agregar imágenes -->
+            <div style="margin-bottom: 1rem;">
+                <RadzenFileInput Multiple="true"
+                                 Accept="image/*"
+                                 Change="@((IEnumerable<IBrowserFile> files) => OnFileSelected(files))"
+                                 Style="margin-right: 1rem;"
+                                 Disabled="@isLoading" />
+
+
+                <RadzenButton Text="Guardar Cambios"
+                              ButtonStyle="ButtonStyle.Primary"
+                              Icon="save"
+                              Click="@SaveChanges"
+                              Disabled="@isLoading"
+                              Style="margin-left: 1rem;" />
+            </div>
+
+            <!-- Miniaturas de imágenes -->
+            @if (Product?.Images?.Any() == true) {
+                <RadzenText TextStyle="TextStyle.H6" style="margin-bottom: 0.5rem;">Imágenes del producto (@Product.Images.Count)</RadzenText>
+
+                <div class="thumbnails-container" style="display: flex; flex-wrap: wrap; gap: 1rem; padding: 1rem; background-color: #f9f9f9; border-radius: 8px;">
+                    @for (int i = 0; i < Product.Images.Count; i++) {
+                        var imageUrl = Product.Images[i];
+                        var index = i;
+                        var isSelected = imageUrl == selectedImageUrl;
+
+                        <div class="thumbnail-item" style="position: relative; border: @(isSelected ? "3px solid #007bff" : "2px solid #ddd"); border-radius: 8px; overflow: hidden; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <!-- Imagen miniatura -->
+                            <RadzenImage Path="@imageUrl"
+                                         Style="width: 120px; height: 120px; object-fit: cover; cursor: pointer; display: block;"
+                                         Click="@(() => SelectImage(imageUrl))"
+                                         AlternateText="@($"Imagen {index + 1}")" />
+
+                            <!-- Controles de la miniatura -->
+                            <div style="position: absolute; top: 4px; right: 4px; display: flex; gap: 2px;">
+                                <!-- Botón eliminar -->
+                                <RadzenButton ButtonStyle="ButtonStyle.Danger"
+                                              Icon="close"
+                                              Size="ButtonSize.ExtraSmall"
+                                              Click="@(() => RemoveImage(imageUrl))"
+                                              title="Eliminar imagen"
+                                              Style="width: 24px; height: 24px;" />
+                            </div>
+
+                            <!-- Controles de reordenamiento -->
+                            <div style="position: absolute; bottom: 4px; right: 4px; display: flex; gap: 2px;">
+                                @if (index > 0) {
+                                    <RadzenButton ButtonStyle="ButtonStyle.Secondary"
+                                                  Icon="keyboard_arrow_left"
+                                                  Size="ButtonSize.ExtraSmall"
+                                                  Click="@(() => MoveImageUp(imageUrl))"
+                                                  title="Mover hacia la izquierda"
+                                                  Style="width: 24px; height: 24px;" />
+                                }
+
+                                @if (index < Product.Images.Count - 1) {
+                                    <RadzenButton ButtonStyle="ButtonStyle.Secondary"
+                                                  Icon="keyboard_arrow_right"
+                                                  Size="ButtonSize.ExtraSmall"
+                                                  Click="@(() => MoveImageDown(imageUrl))"
+                                                  title="Mover hacia la derecha"
+                                                  Style="width: 24px; height: 24px;" />
+                                }
+                            </div>
+
+                            <!-- Indicador de posición -->
+                            <div style="position: absolute; bottom: 4px; left: 4px; background-color: rgba(0,0,0,0.7); color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px;">
+                                @(index + 1)
+                            </div>
+                        </div>
+                    }
+                </div>
+            } else {
+                <div style="text-align: center; padding: 2rem; background-color: #f9f9f9; border-radius: 8px;">
+                    <RadzenIcon Icon="image" style="font-size: 3rem; color: #ccc; margin-bottom: 1rem;" />
+                    <RadzenText TextStyle="TextStyle.H6" style="color: #999;">No hay imágenes cargadas</RadzenText>
+                    <RadzenText style="color: #999;">Selecciona archivos para comenzar</RadzenText>
+                </div>
+            }
+
+            <!-- Indicador de carga -->
+            @if (isLoading) {
+                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 9999; display: flex; align-items: center; justify-content: center;">
+                    <RadzenProgressBarCircular ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+                </div>
+            }
+        </RadzenStack>
+    </RadzenCard>
+</div>
+
+<style>
+    .thumbnail-item:hover {
+        transform: translateY(-2px);
+        transition: transform 0.2s ease;
+    }
+
+    .thumbnails-container {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    .main-image-container img {
+        transition: transform 0.3s ease;
+    }
+
+        .main-image-container img:hover {
+            transform: scale(1.02);
+        }
+</style>
+

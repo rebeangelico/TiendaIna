@@ -13,7 +13,7 @@ namespace TiendaIna.Core.Models {
         public List<int>? IdsCategories { get; set; }
         public virtual ICollection<CategoryModel> Categories { get; set; } = new List<CategoryModel>();
         public string? Image { get; set; }
-        public ICollection<string> Images { get; set; }
+        public List<string> Images { get; set; }
         public string? Gender { get; set; }
         public bool? IsOutstanding { get; set; }
 
