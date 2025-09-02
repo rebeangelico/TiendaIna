@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using Radzen;
 using TiendaIna.Core.Models;
 using TiendaIna.Core.Services;
+using TiendaIna.Infrastructure.Services;
 
 namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
     public partial class EditImagesRadzen : ComponentBase {
@@ -69,6 +70,9 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
                         }
                     }
                 }
+
+                // Actualizar el producto en el backend
+                await _productsService.UpdateProduct(Product);
             } catch (Exception ex) {
                 _notificationService.Notify(new NotificationMessage {
                     Severity = NotificationSeverity.Error,
@@ -82,18 +86,17 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
         }
 
         private async Task<string> UploadImage(IBrowserFile file) {
-            // Implementa aquí tu lógica de subida de imágenes
-            // Esto es solo un ejemplo, deberás adaptarlo a tu servicio
             try {
                 var buffer = new byte[file.Size];
                 await file.OpenReadStream().ReadAsync(buffer);
 
-                // Llamar a tu servicio para subir la imagen
-                // return await ProductsService.UploadImageAsync(buffer, file.Name, file.ContentType);
+                // Simulación de URL base64 para mostrar la imagen directamente
+                var base64 = Convert.ToBase64String(buffer);
+                var imageUrl = $"data:{file.ContentType};base64,{base64}";
 
-                // Por ahora retornamos una URL de ejemplo
-                return $"https://via.placeholder.com/300x200?text={file.Name}";
-            } catch (Exception) {
+                return imageUrl;
+            } catch (Exception ex) {
+                Console.WriteLine($"Error al convertir imagen: {ex.Message}");
                 return string.Empty;
             }
         }

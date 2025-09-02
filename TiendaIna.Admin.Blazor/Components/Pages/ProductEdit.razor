@@ -11,53 +11,54 @@
 
 <div class="container-fluid">
 @if (Product != null) {
-    <!-- Fila superior dividida en 2 columnas -->
         <div class="row">
             <!-- Columna izquierda mia-->
         <div class="col-md-7 col-12">
+
              <div class="row">
-                    <div class="col-md-6 col-12 mb-3 border rounded shadow-sm">
-                        <h4 class="mb-1" style="font-size: 1.1rem;">Nombre</h4>
+                    <div class="col-md-6 col-12 campo-formulario">
+                        <h4 class="titulo-campo">Nombre</h4>
                         <RadzenTextArea @bind-Value="Product.Name" Placeholder="Escribí el nombre del producto" Style="width: 100%; font-size: 1.1rem; height: 40px;" />
                     </div>
 
-                    <div class="col-md-6 col-12 mb-3 border rounded shadow-sm">
-                        <h4 class="mb-1" style="font-size: 1.1rem;">Genero</h4>
+                    <div class="col-md-6 col-12 campo-formulario">
+                        <h4 class="titulo-campo" ">Genero</h4>
                         <RadzenTextArea @bind-Value="Product.Gender" Placeholder="genero" Style="width: 100%; font-size: 1.1rem; height: 40px;" />
                     </div>
              </div>
+
              <div class="row">
-                    <div class="col-md-6 col-12 mb-3 border rounded shadow-sm">
-                        <h4 class="mb-1" style="font-size: 1.1rem;">Precio</h4>
+                    <div class="col-md-6 col-12 campo-formulario">
+                        <h4 class="titulo-campo">Precio</h4>
                         <RadzenNumeric @bind-Value="Product.Price" Placeholder="Ingresá el precio" Format="$#,##0" Min="0" Step="1" Style="width: 100%; height: 40px;" Class="numero-grande"/>
                     </div>
 
-                    <div class="col-md-6 col-12 mb-3 border rounded shadow-sm">
-                        <h4 class="mb-1" style="font-size: 1.1rem;">Stock Actual</h4>
+                    <div class="col-md-6 col-12 campo-formulario">
+                        <h4 class="titulo-campo">Stock Actual</h4>
                         <RadzenNumeric @bind-Value="Product.Stock" Placeholder="Ingresá el stock Actual" Min="0" Step="1" Style="width: 100%; height: 40px;" Class="numero-grande"/>
                     </div>
              </div>
+             <div class="row">
 
-             <div class="mb-3 border rounded shadow-sm">
-                    <h4 class="mb-1" style="font-size: 1.1rem;">Descripcion Corta</h4>
-                    <RadzenTextArea @bind-Value="Product.DescriptionMin" Placeholder="descripcion corta" Style="width: 100%; font-size: 1.1rem; height: 40px;" />
-             </div>
+                <div class="col-md-12 col-12 campo-formulario">
+                    <h4 class="titulo-campo">Descripcion Corta</h4>
+                    <RadzenTextArea @bind-Value="Product.DescriptionMin" Placeholder="descripcion corta" Style="width: 100%; font-size: 1.1rem; height: 80px;" />
+                </div>
 
-                <div class="mb-3 border rounded shadow-sm">
-                    <h4 class="mb-1" style="font-size: 1.1rem;">Categorias del Producto</h4>
+                <div class="mb-3 campo-formulario">
+                        <h4 class="titulo-campo">Categorias del Producto</h4>
                     <EditCategories Product="Product" />
                 </div>
 
-                <div class="mb-3 border rounded shadow-sm">
-                    <h4 class="mb-1" style="font-size: 1.1rem;">Descripcion del Producto</h4>
-                    <RadzenTextArea @bind-Value="Product.Description" Placeholder="descripcion" Style="width: 100%; font-size: 1.1rem; height: 40px;" />
+                <div class="mb-3 campo-formulario">
+                        <h4 class="titulo-campo">Descripcion del Producto</h4>
+                    <RadzenTextArea @bind-Value="Product.Description" Placeholder="descripcion" Style="width: 100%; font-size: 1.1rem; height: 240px;" />
                 </div>
 
+             </div>
                 <RadzenButton Text="Guardar cambios"
                               Style="margin: 10px;"
                               Click="@(() => NavegarA("/products"))" />
-
-
         </div>
         <div class="col-md-5 col-12">
                 <!-- Columna derecha mia -->
@@ -95,5 +96,19 @@
 <style>
     .numero-grande input {
         font-size: 1.1rem;
+    }
+
+    .campo-formulario {
+        border: 1px solid #ccc; /* Color del borde */
+        border-radius: 0.25rem; /* Bordes redondeados */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
+        margin-bottom: 1rem; /* Espacio entre campos */
+        padding: 0.75rem; /* Espacio interno */
+        background-color: #fff; /* Fondo blanco para destacar */
+    }
+
+    .titulo-campo {
+        font-size: 1.1rem;
+        margin-bottom: 0.25rem;
     }
 </style>
