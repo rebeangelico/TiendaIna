@@ -18,6 +18,8 @@ namespace TiendaIna.Admin.Blazor {
             builder.Services.AddRadzenComponents();
 
             builder.Services.AddHttpClient();
+            builder.Services.AddScoped<DialogService>();
+            builder.Services.AddScoped<NotificationService>();
 
             builder.Services.AddCascadingAuthenticationState();
             builder.Services.AddScoped<IdentityUserAccessor>();

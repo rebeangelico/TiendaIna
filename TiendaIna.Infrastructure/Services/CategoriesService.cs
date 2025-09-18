@@ -17,13 +17,16 @@ namespace TiendaIna.Infrastructure.Services {
         public async Task<CategoryModel> GetCategory(int categoryId) {
             throw new NotImplementedException();
         }
-        public void AddCategory(CategoryModel category) {
+
+        Task ICategoriesService.AddCategory(CategoryModel category) {
             throw new NotImplementedException();
         }
-        public void UpdateCategory(int categoryId) {
+
+        Task ICategoriesService.UpdateCategory(CategoryModel category) {
             throw new NotImplementedException();
         }
-        public void DeleteCategory(int categoryId) {
+
+        Task ICategoriesService.DeleteCategory(int categoryId) {
             throw new NotImplementedException();
         }
     }

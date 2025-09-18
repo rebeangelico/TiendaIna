@@ -1,0 +1,95 @@
+@page "/Categories"
+@rendermode InteractiveServer
+
+<div class="page-container">
+    <div class="component-wrapper component-top">
+        <EditCategories />
+    </div>
+    
+    <div class="component-wrapper component-bottom">
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+    .page-container {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .component-wrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .component-top {
+        flex: 1;
+        min-height: 50vh;
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .component-bottom {
+        flex: 1;
+        min-height: 50vh;
+        background-color: #ffffff;
+    }
+
+    /* Responsive Design */
+    @@media (max-width: 768px) {
+        .component-top,
+        .component-bottom {
+            min-height: 40vh;
+            padding: 1rem;
+        }
+    }
+
+    @@media (max-width: 480px) {
+        .component-top,
+        .component-bottom {
+            min-height: 35vh;
+            padding: 0.5rem;
+        }
+    }
+
+    @@media (min-width: 1200px) {
+        .component-top,
+        .component-bottom {
+            min-height: 45vh;
+        }
+    }
+
+    /* Asegurar que los componentes internos ocupen todo el espacio */
+    .component-wrapper ::deep > * {
+        width: 100%;
+        height: 100%;
+    }
+
+    /* Eliminar márgenes por defecto del body si es necesario */
+    ::deep body {
+        margin: 0;
+        padding: 0;
+    }
+</style>
+
+@code {
+    // Aquí puedes agregar lógica adicional si la necesitas
+}
