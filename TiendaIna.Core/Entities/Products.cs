@@ -17,7 +17,7 @@ namespace TiendaIna.Core.Entities {
         public string? DescriptionMin { get; set; }
         public string? Description { get; set; }
         public virtual ICollection<Category> Categories { get; set; } = new List<Category>();
-        public List<int> IdsCategories { get; set; }
+        public IEnumerable<int> IdsCategories { get; set; }
         public string? Image { get; set; }
         public List<string> Images { get; set; } = new List<string>();
 

@@ -10,7 +10,7 @@ namespace TiendaIna.Core.Models {
         public virtual BrandModel Brand { get; set; }
         public string? DescriptionMin { get; set; }
         public string? Description { get; set; }
-        public List<int>? IdsCategories { get; set; }
+        public IEnumerable<int>? IdsCategories { get; set; }
         public virtual ICollection<CategoryModel> Categories { get; set; } = new List<CategoryModel>();
         public string? Image { get; set; }
         public List<string> Images { get; set; }

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Components.Forms;
 using Radzen;
 using TiendaIna.Core.Models;
 using TiendaIna.Core.Services;
-using TiendaIna.Infrastructure.Services;
 
 namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
     public partial class EditImagesRadzen : ComponentBase {

@@ -37,5 +37,11 @@ namespace TiendaIna.Infrastructure.Services {
             await _productsRepo.AddProduct(product);
         }
 
+        public Task<IEnumerable<int>> GetCategoriesIds(int productId) {
+            var product = _productsRepo.GetProduct(productId).Result;
+            var ids = product.IdsCategories;
+            return Task.FromResult(ids);
+        }
+
     }
 }
