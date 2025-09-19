@@ -1,10 +1,10 @@
 ﻿using TiendaIna.Core.Entities;
 
 namespace TiendaIna.Infrastructure {
-    public interface IInMemoryCategories : IList<Category> { }
+    public interface IInMemoryCategoriesStore : IList<Category> { }
 
-    public class InMemoryCategories : List<Category>, IInMemoryCategories {
-        public InMemoryCategories() {
+    public class InMemoryCategoriesStore : List<Category>, IInMemoryCategoriesStore {
+        public InMemoryCategoriesStore() {
             this.Clear();
             this.AddRange([
               new Category {

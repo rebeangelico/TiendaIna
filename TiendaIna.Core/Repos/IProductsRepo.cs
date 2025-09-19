@@ -2,10 +2,10 @@
 
 namespace TiendaIna.Core.Repos {
     public interface IProductsRepo {
-        Task<List<Product>> GetProductsAsync();
-        Task<Product> GetProduct(int productId);
-        Task AddProduct(Product product);
-        Task UpdateProduct(Product product);
-        Task DeleteProduct(int productId);
+        Task<List<Product>> GetAsync();
+        Task<Product> Get(int id);
+        Task Add(Product product);
+        Task Update(Product product);
+        Task Delete(int id);
     }
 }

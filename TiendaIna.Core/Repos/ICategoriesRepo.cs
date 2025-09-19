@@ -2,11 +2,11 @@
 
 namespace TiendaIna.Core.Repos {
     public interface ICategoriesRepo {
-        Task<List<Category>> GetCategoriesAsync();
-        Task<Category> GetCategory(int categoryId);
-        void AddCategory(Category category);
-        void UpdateCategory(int categoryId);
-        void DeleteCategory(int categoryId);
+        Task<List<Category>> GetAsync();
+        Task<Category> Get(int id);
+        Task Add(Category category);
+        Task Update(Category category);
+        Task Delete(int id);
 
     }
 }

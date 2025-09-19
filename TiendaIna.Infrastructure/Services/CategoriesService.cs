@@ -10,7 +10,7 @@ namespace TiendaIna.Infrastructure.Services {
         }
 
         public async Task<List<CategoryModel>> GetCategories() {
-            var categories = await _categoriesRepo.GetCategoriesAsync();
+            var categories = await _categoriesRepo.GetAsync();
             var models = categories.Select(c => new CategoryModel(c)).ToList();
             return models;
         }

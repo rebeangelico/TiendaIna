@@ -3,7 +3,7 @@
 using TiendaIna.Core.Models;
 
 namespace TiendaIna.Core.Entities {
-    public class Category {
+    public class Category : IEntity<int> {
         public int Id { get; set; }
         public string? Name { get; set; }
 

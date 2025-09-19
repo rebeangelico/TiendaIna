@@ -4,8 +4,8 @@ namespace TiendaIna.Infrastructure {
     public interface IInMemoryProductsStore : IList<Product> { }
 
     public class InMemoryProductsStore : List<Product>, IInMemoryProductsStore {
-        private readonly IInMemoryCategories _categories;
-        public InMemoryProductsStore(IInMemoryCategories categories) {
+        private readonly IInMemoryCategoriesStore _categories;
+        public InMemoryProductsStore(IInMemoryCategoriesStore categories) {
             _categories = categories;
 
             this.Clear();

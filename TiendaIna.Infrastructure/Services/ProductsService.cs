@@ -12,33 +12,33 @@ namespace TiendaIna.Infrastructure.Services {
             }
 
         public async Task<List<ProductModel>> GetProducts() {
-            var products = await _productsRepo.GetProductsAsync();
+            var products = await _productsRepo.GetAsync();
             var models = products.Select(p => new ProductModel(p)).ToList();
             return models;
         }
 
         public Task<ProductModel> GetProduct(int productId) {
-            var product = _productsRepo.GetProduct(productId).Result;
+            var product = _productsRepo.Get(productId).Result;
             var model = new ProductModel(product);
             return Task.FromResult(model);
         }
 
 
         public async Task DeleteProduct(int productId) {
-            await _productsRepo.DeleteProduct(productId);
+            await _productsRepo.Delete(productId);
         }
 
         public async Task UpdateProduct(ProductModel productModel) {
             var product = new Product(productModel);
-            await _productsRepo.UpdateProduct(product);
+            await _productsRepo.Update(product);
         }
         public async Task AddProduct(ProductModel productModel) {
             var product = new Product(productModel);
-            await _productsRepo.AddProduct(product);
+            await _productsRepo.Add(product);
         }
 
         public Task<IEnumerable<int>> GetCategoriesIds(int productId) {
-            var product = _productsRepo.GetProduct(productId).Result;
+            var product = _productsRepo.Get(productId).Result;
             var ids = product.IdsCategories;
             return Task.FromResult(ids);
         }
