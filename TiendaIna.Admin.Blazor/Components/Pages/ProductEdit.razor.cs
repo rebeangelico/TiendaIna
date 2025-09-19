@@ -23,9 +23,8 @@ public partial class ProductEdit : ComponentBase {
 
     #region overriden methods
     protected override async Task OnInitializedAsync() {
-        Product = await ProductsService.GetProduct(productId);
+        Product = await _productsService.GetProduct(productId);
     }
-
 
     #endregion
     void NavegarA(string url) {
