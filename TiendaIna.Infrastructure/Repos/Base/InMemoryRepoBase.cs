@@ -27,9 +27,9 @@ namespace TiendaIna.Infrastructure.Repos {
         }
 
 
-        public async Task<TEntity> Get(int id) => (await GetAsync()).Single(p => p.Id.Equals(id));
+        public async Task<TEntity> GetAsync(int id) => (await GetAllAsync()).Single(p => p.Id.Equals(id));
 
-        public Task<List<TEntity>> GetAsync() => Task.FromResult((List<TEntity>)_entities);
+        public Task<List<TEntity>> GetAllAsync() => Task.FromResult((List<TEntity>)_entities);
 
         public Task Update(TEntity entity) {
             if (entity == null)

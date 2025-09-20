@@ -5,5 +5,6 @@ namespace TiendaIna.Infrastructure.Repos {
     public class CategoriesInMemoryRepo : InMemoryRepoBase<Category, int>, ICategoriesRepo {
 
         public CategoriesInMemoryRepo(IInMemoryCategoriesStore categoriesStore) : base(categoriesStore) { }
+
     }
 }

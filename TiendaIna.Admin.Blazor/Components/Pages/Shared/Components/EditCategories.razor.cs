@@ -31,7 +31,7 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
             try {
                 isLoading = true;
                 categories = await _categoriesService.GetCategories();
-                parentCategories = categories.Where(c => c.ParentId == null);
+                parentCategories = categories.Where(c => c.ParentCategoryId == null);
                 StateHasChanged();
             } catch (Exception ex) {
                 _notificationService.Notify(NotificationSeverity.Error, "Error", $"Error al cargar categorías: {ex.Message}");

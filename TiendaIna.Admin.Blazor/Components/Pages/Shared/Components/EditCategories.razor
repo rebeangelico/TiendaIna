@@ -66,10 +66,10 @@
 
                                 <RadzenDataGridColumn TItem="CategoryModel" Property="ParentId" Title="Categoría Padre">
                                     <Template Context="category">
-                                        @GetParentCategoryName(category.ParentId)
+                                        @GetParentCategoryName(category.ParentCategoryId)
                                     </Template>
                                     <EditTemplate Context="category">
-                                        <RadzenDropDown @bind-Value="category.ParentId"
+                                        <RadzenDropDown @bind-Value="category.ParentCategoryId"
                                                         Data="@parentCategories"
                                                         TextProperty="Name"
                                                         ValueProperty="Id"

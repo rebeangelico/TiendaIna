@@ -18,7 +18,7 @@ namespace TiendaIna.Web.Razor
 
             //registro de vservios a falta de inyeccion de dependencias - AGREGAR LUEGO
 
-            DependencyInjections.Configure(builder.Services);
+            DependencyInjection.Configure(builder.Services, builder.Configuration);
 
             builder.Services.AddDbContext<TiendaInaWebRazorContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("TiendaInaWebRazorContext") ?? throw new InvalidOperationException("Connection string 'TiendaInaWebRazorContext' not found.")));

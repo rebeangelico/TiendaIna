@@ -12,13 +12,13 @@ namespace TiendaIna.Infrastructure.Services {
             }
 
         public async Task<List<ProductModel>> GetProducts() {
-            var products = await _productsRepo.GetAsync();
+            var products = await _productsRepo.GetAllAsync();
             var models = products.Select(p => new ProductModel(p)).ToList();
             return models;
         }
 
         public Task<ProductModel> GetProduct(int productId) {
-            var product = _productsRepo.Get(productId).Result;
+            var product = _productsRepo.GetAsync(productId).Result;
             var model = new ProductModel(product);
             return Task.FromResult(model);
         }
@@ -38,7 +38,7 @@ namespace TiendaIna.Infrastructure.Services {
         }
 
         public Task<IEnumerable<int>> GetCategoriesIds(int productId) {
-            var product = _productsRepo.Get(productId).Result;
+            var product = _productsRepo.GetAsync(productId).Result;
             var ids = product.IdsCategories;
             return Task.FromResult(ids);
         }

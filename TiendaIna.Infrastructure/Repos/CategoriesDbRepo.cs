@@ -3,10 +3,8 @@ using TiendaIna.Core.Repos;
 
 namespace TiendaIna.Infrastructure.Repos {
     public class CategoriesDbRepo : DbRepoBase<Category, int>, ICategoriesRepo {
-        private readonly string _connectionString;
 
         public CategoriesDbRepo(string connectionString) : base(connectionString) {
-            _connectionString = connectionString ?? "Server=(localdb)\\mssqllocaldb;Database=TiendaIna;TrustServerCertificate=true";
         }
 
         public Task Add(Category category) {

@@ -22,36 +22,9 @@ namespace TiendaIna.Admin.Blazor {
             builder.Services.AddScoped<DialogService>();
             builder.Services.AddScoped<NotificationService>();
 
-            builder.Services.AddCascadingAuthenticationState();
-            builder.Services.AddScoped<IdentityUserAccessor>();
-            builder.Services.AddScoped<IdentityRedirectManager>();
-            builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
-
             //configuracion RepoDb
-            //string connectionString = builder.Configuration.GetConnectionString("SqlServerConnectionString");
+            DependencyInjection.Configure(builder.Services, builder.Configuration);
             GlobalConfiguration.Setup().UseSqlServer();
-
-            DependencyInjections.Configure(builder.Services);
-
-            builder.Services.AddAuthentication(options => {
-                options.DefaultScheme = IdentityConstants.ApplicationScheme;
-                options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-            })
-                .AddIdentityCookies();
-
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(connectionString));
-            builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
-            builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddSignInManager()
-                .AddDefaultTokenProviders();
-
-            builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
-
-
 
             var app = builder.Build();
 
@@ -67,9 +40,6 @@ namespace TiendaIna.Admin.Blazor {
             app.MapStaticAssets();
             app.MapRazorComponents<App>()
                 .AddInteractiveServerRenderMode();
-
-            // Add additional endpoints required by the Identity /Account Razor components.
-            app.MapAdditionalIdentityEndpoints();
 
             app.Run();
         }

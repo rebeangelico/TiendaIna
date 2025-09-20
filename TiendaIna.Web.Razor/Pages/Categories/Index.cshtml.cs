@@ -18,7 +18,7 @@ namespace TiendaIna.Web.Razor.Pages.Categories
         public async Task OnGetAsync()
         {
             Category = await _context.Categories
-                .Include(c => c.ParentCategory).ToListAsync();
+                .Include(c => c.ParentCategoryId).ToListAsync();
         }
     }
 }

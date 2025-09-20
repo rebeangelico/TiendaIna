@@ -12,13 +12,14 @@ namespace TiendaIna.Infrastructure.Repos {                                 //IEn
         public TEntity GetById(TKey id) {
             return Query(id).FirstOrDefault()!;
         }
+
         public object Create(TEntity entity) {
             return Insert(entity);
         }
+
         public TKey CreateReturnID(TEntity entity) {
             return (TKey)Insert(entity);
         }
-
 
         public void UpdateEntity(TEntity entity) {
             Update(entity);

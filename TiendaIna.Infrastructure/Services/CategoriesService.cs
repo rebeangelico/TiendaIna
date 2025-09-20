@@ -1,4 +1,5 @@
-﻿using TiendaIna.Core.Models;
+﻿using TiendaIna.Core.Entities;
+using TiendaIna.Core.Models;
 using TiendaIna.Core.Repos;
 using TiendaIna.Core.Services;
 
@@ -10,24 +11,28 @@ namespace TiendaIna.Infrastructure.Services {
         }
 
         public async Task<List<CategoryModel>> GetCategories() {
-            var categories = await _categoriesRepo.GetAsync();
+            var categories = await _categoriesRepo.GetAllAsync();
             var models = categories.Select(c => new CategoryModel(c)).ToList();
             return models;
         }
         public async Task<CategoryModel> GetCategory(int categoryId) {
-            throw new NotImplementedException();
+            var category = await _categoriesRepo.GetAsync(categoryId);
+            var model = new CategoryModel(category);
+            return model;
         }
 
-        Task ICategoriesService.AddCategory(CategoryModel category) {
-            throw new NotImplementedException();
+        public async Task AddCategory(CategoryModel category) {
+            var Entity = new Category(category);
+            await _categoriesRepo.Add(Entity);
         }
 
-        Task ICategoriesService.UpdateCategory(CategoryModel category) {
-            throw new NotImplementedException();
+        public async Task UpdateCategory(CategoryModel category) {
+            var Entity = new Category(category);
+            await _categoriesRepo.Update(Entity);
         }
 
-        Task ICategoriesService.DeleteCategory(int categoryId) {
-            throw new NotImplementedException();
+        public async Task DeleteCategory(int Id) {
+             _categoriesRepo.Delete(Id);
         }
     }
 }

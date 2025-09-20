@@ -11,6 +11,7 @@ namespace TiendaIna.Core.Entities {
         public Category(CategoryModel model) {
             Id = model.Id;
             Name = model.Name;
+            ParentCategoryId = model.ParentCategoryId;
         }
         public Category() {
             
