@@ -3,36 +3,35 @@ using TiendaIna.Core.Models;
 using TiendaIna.Core.Repos;
 using TiendaIna.Core.Services;
 
-namespace TiendaIna.Infrastructure.Services {
-    public class CategoriesService : ICategoriesService {
-        private readonly ICategoriesRepo _categoriesRepo;
-        public CategoriesService(ICategoriesRepo categoriesRepo) {
-            this._categoriesRepo = categoriesRepo ?? throw new ArgumentNullException(nameof(categoriesRepo));
-        }
+namespace TiendaIna.Infrastructure.Services;
 
-        public async Task<List<CategoryModel>> GetCategories() {
-            var categories = await _categoriesRepo.GetAllAsync();
-            var models = categories.Select(c => new CategoryModel(c)).ToList();
-            return models;
-        }
-        public async Task<CategoryModel> GetCategory(int categoryId) {
-            var category = await _categoriesRepo.GetAsync(categoryId);
-            var model = new CategoryModel(category);
-            return model;
-        }
-
-        public async Task AddCategory(CategoryModel category) {
-            var Entity = new Category(category);
-            await _categoriesRepo.Add(Entity);
-        }
-
-        public async Task UpdateCategory(CategoryModel category) {
-            var Entity = new Category(category);
-            await _categoriesRepo.Update(Entity);
-        }
-
-        public async Task DeleteCategory(int Id) {
-             _categoriesRepo.Delete(Id);
-        }
+public class CategoriesService : ICategoriesService {
+    private readonly ICategoriesRepo _categoriesRepo;
+    public CategoriesService(ICategoriesRepo categoriesRepo) {
+        this._categoriesRepo = categoriesRepo ?? throw new ArgumentNullException(nameof(categoriesRepo));
     }
+
+    public async Task<List<CategoryModel>> GetCategories() {
+        var categories = await _categoriesRepo.GetAllAsync();
+        var models = categories.Select(c => new CategoryModel(c)).ToList();
+        return models;
+    }
+    public async Task<CategoryModel> GetCategory(int categoryId) {
+        var category = await _categoriesRepo.GetAsync(categoryId);
+        var model = new CategoryModel(category);
+        return model;
+    }
+
+    public Task AddCategory(CategoryModel category) {
+        var Entity = new Category(category);
+        return _categoriesRepo.CreateAsync(Entity);
+    }
+
+    public Task UpdateCategory(CategoryModel category) {
+        var Entity = new Category(category);
+        return _categoriesRepo.UpdateAsync(Entity);
+    }
+
+    public Task DeleteCategory(int Id) => _categoriesRepo.DeleteAsync(Id);
 }
+
