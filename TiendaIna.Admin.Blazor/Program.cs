@@ -1,12 +1,9 @@
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Radzen;
 using RepoDb;
 using TiendaIna.Admin.Blazor.Components;
-using TiendaIna.Admin.Blazor.Components.Account;
-using TiendaIna.Admin.Blazor.Data;
 using TiendaIna.Core;
+using TiendaIna.Core.Models;
 
 namespace TiendaIna.Admin.Blazor {
     public class Program {
@@ -23,6 +20,7 @@ namespace TiendaIna.Admin.Blazor {
             builder.Services.AddScoped<NotificationService>();
 
             //configuracion RepoDb
+            builder.Services.Configure<AppSettings>(builder.Configuration);
             DependencyInjection.Configure(builder.Services, builder.Configuration);
             GlobalConfiguration.Setup().UseSqlServer();
 

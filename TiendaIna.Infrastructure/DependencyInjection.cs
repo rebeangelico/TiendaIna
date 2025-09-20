@@ -10,13 +10,10 @@ namespace TiendaIna.Core {
     public static class DependencyInjection {
 
         public static void Configure(IServiceCollection services, IConfiguration configuration) {
-            var connectionString = configuration.GetConnectionString("SqlServer");
-
-
             services.AddScoped<ICategoriesService, CategoriesService>();
             services.AddScoped<IProductsService, ProductsService>();
             services.AddScoped<IProductsRepo, ProductsInMemoryRepo>();
-            services.AddScoped<ICategoriesRepo>(provider => new CategoriesDbRepo(connectionString));
+            services.AddScoped<ICategoriesRepo, CategoriesDbRepo>();
 
 
             //in-memory stores (only for local testing)

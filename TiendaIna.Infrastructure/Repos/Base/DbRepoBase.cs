@@ -1,9 +1,12 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Options;
 using RepoDb;
+using TiendaIna.Core.Entities;
+using TiendaIna.Core.Models;
 
-namespace TiendaIna.Infrastructure.Repos {                                 //IEntity<TKey> where TKey : notnull
-    public abstract class DbRepoBase<TEntity, TKey> : BaseRepository<TEntity, SqlConnection> where TEntity : class {
-        protected DbRepoBase(string connectionString) : base(connectionString) { }
+namespace TiendaIna.Infrastructure.Repos {
+    public abstract class DbRepoBase<TEntity, TKey> : BaseRepository<TEntity, SqlConnection> where TEntity : class, IEntity<TKey> where TKey : notnull {
+        protected DbRepoBase(IOptions<AppSettings> appSettings) : base(appSettings?.Value?.ConnectionStrings?.SqlServer, RepoDb.Enumerations.ConnectionPersistency.Instance) { }
 
         public IEnumerable<TEntity> GetAllAsync() {
             return QueryAll();
