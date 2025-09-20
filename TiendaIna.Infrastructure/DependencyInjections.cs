@@ -13,6 +13,7 @@ namespace TiendaIna.Core {
             services.AddScoped<IProductsService, ProductsService>();
             services.AddScoped<IProductsRepo, ProductsInMemoryRepo>();
             services.AddScoped<ICategoriesRepo, CategoriesInMemoryRepo>();
+            services.AddScoped<CategoriesRepoDbService, CategoriesRepoDbService>();
 
             //in-memory stores (only for local testing)
             services.AddSingleton<IInMemoryProductsStore, InMemoryProductsStore>();

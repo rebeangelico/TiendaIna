@@ -10,7 +10,7 @@ namespace TiendaIna.Infrastructure.Services {
         private readonly string _connectionString;
 
         public CategoriesRepoDbService(IConfiguration configuration) {
-            _connectionString = "Server=localhost,1433;Database=TiendaIna;User Id=sa;Password=Rebe2025;TrustServerCertificate=true";
+            _connectionString = "Server=(localdb)\\mssqllocaldb;Database=TiendaIna;TrustServerCertificate=true";
         }
 
         public int InsertCategory(string name, int? parentId = null) {

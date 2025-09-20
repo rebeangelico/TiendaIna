@@ -1,0 +1,37 @@
+﻿using TiendaIna.Core.Entities;
+using TiendaIna.Core.Repos;
+
+namespace TiendaIna.Infrastructure.Repos {
+    public class CategoriesDbRepo : DbRepoBase<Category, int>, ICategoriesRepo {
+        private readonly string _connectionString;
+
+        public CategoriesDbRepo(string connectionString) : base(connectionString) {
+            _connectionString = connectionString ?? "Server=(localdb)\\mssqllocaldb;Database=TiendaIna;TrustServerCertificate=true";
+        }
+
+        public Task Add(Category category) {
+            Create(category);
+            return Task.CompletedTask;
+        }
+
+        public Task Delete(int id) {
+            DeleteEntity(id); 
+            return Task.CompletedTask;
+        }
+
+        public Task<Category> GetAsync(int id) {
+            var result = GetById(id); 
+            return Task.FromResult(result);
+        }
+
+        public Task Update(Category category) {
+            UpdateEntity(category); 
+            return Task.CompletedTask;
+        }
+
+        Task<List<Category>> ICategoriesRepo.GetAllAsync() {
+            var result = GetAllAsync().ToList(); 
+            return Task.FromResult(result);
+        }
+    }
+}
