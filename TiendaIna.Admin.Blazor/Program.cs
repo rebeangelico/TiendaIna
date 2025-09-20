@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Radzen;
+using RepoDb;
 using TiendaIna.Admin.Blazor.Components;
 using TiendaIna.Admin.Blazor.Components.Account;
 using TiendaIna.Admin.Blazor.Data;
@@ -26,6 +27,10 @@ namespace TiendaIna.Admin.Blazor {
             builder.Services.AddScoped<IdentityRedirectManager>();
             builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
 
+            //configuracion RepoDb
+            //string connectionString = builder.Configuration.GetConnectionString("SqlServerConnectionString");
+            GlobalConfiguration.Setup().UseSqlServer();
+
             DependencyInjections.Configure(builder.Services);
 
             builder.Services.AddAuthentication(options => {
@@ -46,7 +51,7 @@ namespace TiendaIna.Admin.Blazor {
 
             builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
-            
+
 
             var app = builder.Build();
 
