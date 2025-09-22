@@ -8,7 +8,7 @@ namespace TiendaIna.Core.Models {
 
         public CategoryModel() { }
 
-        public 
+        public
             CategoryModel(Category category) {
             Id = category.Id;
             Name = category.Name;
@@ -19,6 +19,10 @@ namespace TiendaIna.Core.Models {
 
         public static ICollection<CategoryModel> FromCollection(ICollection<Category> categories) {
             return categories?.Select(c => new CategoryModel(c)).ToList() ?? new List<CategoryModel>();
+        }
+
+        public CategoryModel Clone() {
+            return (CategoryModel)this.MemberwiseClone();
         }
     }
 

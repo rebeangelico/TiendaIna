@@ -1,5 +1,4 @@
-﻿using TiendaIna.Core.Entities;
-using TiendaIna.Core.Models;
+﻿using TiendaIna.Core.Models;
 
 namespace TiendaIna.Core.Services {
     public interface ICategoriesService {

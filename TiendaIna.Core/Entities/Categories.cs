@@ -1,6 +1,4 @@
-﻿
-
-using TiendaIna.Core.Models;
+﻿using TiendaIna.Core.Models;
 
 namespace TiendaIna.Core.Entities {
     public class Category : IEntity<int> {
