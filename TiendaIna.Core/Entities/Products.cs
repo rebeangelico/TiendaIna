@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper.Configuration.Annotations;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -13,14 +14,21 @@ namespace TiendaIna.Core.Entities {
         public decimal? Price { get; set; }
         public decimal? Stock { get; set; }
         public int idBrand { get; set; }
+
+        [Ignore]
         public virtual Brand Brand { get; set; }
         public string? DescriptionMin { get; set; }
         public string? Description { get; set; }
+
+        [Ignore]
         public virtual ICollection<Category> Categories { get; set; } = new List<Category>();
+
+        [Ignore]
         public IEnumerable<int> IdsCategories { get; set; }
         public string? Image { get; set; }
-        public List<string> Images { get; set; } = new List<string>();
 
+        [Ignore]
+        public List<string> Images { get; set; } = new List<string>();
         public string? Gender { get; set; }
         public bool? IsOutstanding { get; set; }
 
