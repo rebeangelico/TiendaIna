@@ -49,12 +49,34 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
             await grid.InsertRow(categoryToInsert);
             
         }
+        private async Task DeleteRow(CategoryModel category) {
+            try {
+                var result = await _dialogService.Confirm("¿Deseas eliminar esta categoría?", "¿Estás seguro?",
+                    new ConfirmOptions() { OkButtonText = "Sí", CancelButtonText = "No" });
 
+                if (result == true) {
+                    await _categoriesService.DeleteCategory(category.Id);
+                    RemoveCategoryFromList(category);
+                    await grid.Reload();
+                    _notificationService.Notify(NotificationSeverity.Success, "Éxito", "Categoría eliminada exitosamente");
+                }
+            } catch (Exception ex) {
+                _notificationService.Notify(NotificationSeverity.Error, "Error", $"Error al eliminar categoría: {ex.Message}");
+            }
+        }
+        
         private async Task EditRow(CategoryModel category) {
             categoryToUpdate = category;
             await grid.EditRow(categoryToUpdate);
         }
+        private void CancelEdit(CategoryModel category) {
+            RestoreCategoryInList(category);
+            grid.CancelEditRow(category);
+            grid.Reload();
+            categoryToInsert = null;
+            categoryToUpdate = null;
 
+        }
 
         private async Task SaveRow(CategoryModel category) {
             try {
@@ -76,35 +98,6 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
             }
         }
 
-        private void CancelEdit(CategoryModel category) {
-            RestoreCategoryInList(category);
-            grid.CancelEditRow(category);
-            grid.Reload();
-            categoryToInsert = null;
-            categoryToUpdate = null;
-
-        }
-
-        private async Task DeleteRow(CategoryModel category) {
-            try {
-                var result = await _dialogService.Confirm("¿Deseas eliminar esta categoría?", "¿Estás seguro?",
-                    new ConfirmOptions() { OkButtonText = "Sí", CancelButtonText = "No" });
-
-                if (result == true) {
-                    await _categoriesService.DeleteCategory(category.Id);
-                    RemoveCategoryFromList(category);
-                    await grid.Reload();
-                    _notificationService.Notify(NotificationSeverity.Success, "Éxito", "Categoría eliminada exitosamente");
-                }
-            } catch (Exception ex) {
-                _notificationService.Notify(NotificationSeverity.Error, "Error", $"Error al eliminar categoría: {ex.Message}");
-            }
-        }
-
-        private string? GetParentCategoryName(int? parentId) {
-            if (parentId == null) return "Sin categoría padre";
-            return categories?.FirstOrDefault(c => c.Id == parentId)?.Name;
-        }
 
         #region helpers
         private void RestoreCategoryInList(CategoryModel category) {
@@ -121,6 +114,11 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
             if (ix < 0) return -1;
             categories.RemoveAt(ix);
             return ix;
+        }
+
+        private string? GetParentCategoryName(int? parentId) {
+            if (parentId == null) return "Sin categoría padre";
+            return categories?.FirstOrDefault(c => c.Id == parentId)?.Name;
         }
         #endregion
     }
