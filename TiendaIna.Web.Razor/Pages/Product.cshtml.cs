@@ -33,13 +33,13 @@ namespace TiendaIna.Web.Razor.Pages
         public async Task<IActionResult> OnGetAsync(int? id = null) {
             if (id.HasValue) {
                 // Cargar producto específico
-                Product = await _productsService.GetProduct(id.Value);
+                Product = await _productsService.Get(id.Value);
                 if (Product == null) {
                     return NotFound();
                 }
             } else {
                 // Cargar lista de productos
-                Products = await _productsService.GetProducts();
+                Products = await _productsService.GetAll();
             }
 
             return Page();

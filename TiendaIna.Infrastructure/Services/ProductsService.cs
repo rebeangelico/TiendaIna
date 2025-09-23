@@ -11,25 +11,25 @@ public class ProductsService : IProductsService {
         this._productsRepo = productsRepo ?? throw new ArgumentNullException(nameof(productsRepo));
     }
 
-    public async Task<List<ProductModel>> GetProducts() {
+    public async Task<List<ProductModel>> GetAll() {
         var products = await _productsRepo.GetAllAsync();
         var models = products.Select(p => new ProductModel(p)).ToList();
         return models;
     }
 
-    public Task<ProductModel> GetProduct(int productId) {
+    public Task<ProductModel> Get(int productId) {
         var product = _productsRepo.GetAsync(productId).Result;
         var model = new ProductModel(product);
         return Task.FromResult(model);
     }
 
-    public Task DeleteProduct(int productId) => _productsRepo.DeleteAsync(productId);
+    public Task Delete(int productId) => _productsRepo.DeleteAsync(productId);
 
-    public Task UpdateProduct(ProductModel productModel) {
+    public Task Update(ProductModel productModel) {
         var product = new Product(productModel);
         return _productsRepo.UpdateAsync(product);
     }
-    public Task AddProduct(ProductModel productModel) {
+    public Task Add(ProductModel productModel) {
         var product = new Product(productModel);
         return _productsRepo.CreateAsync(product);
     }

@@ -11,27 +11,27 @@ public class CategoriesService : ICategoriesService {
         this._categoriesRepo = categoriesRepo ?? throw new ArgumentNullException(nameof(categoriesRepo));
     }
 
-    public async Task<List<CategoryModel>> GetCategories() {
+    public async Task<List<CategoryModel>> GetAll() {
         var categories = await _categoriesRepo.GetAllAsync();
         var models = categories.Select(c => new CategoryModel(c)).ToList();
         return models;
     }
-    public async Task<CategoryModel> GetCategory(int categoryId) {
+    public async Task<CategoryModel> Get(int categoryId) {
         var category = await _categoriesRepo.GetAsync(categoryId);
         var model = new CategoryModel(category);
         return model;
     }
 
-    public Task<int> AddCategory(CategoryModel category) {
+    public Task<int> Add(CategoryModel category) {
         var Entity = new Category(category);
         return _categoriesRepo.CreateAsync(Entity);
     }
 
-    public Task UpdateCategory(CategoryModel category) {
+    public Task Update(CategoryModel category) {
         var Entity = new Category(category);
         return _categoriesRepo.UpdateAsync(Entity);
     }
 
-    public Task DeleteCategory(int Id) => _categoriesRepo.DeleteAsync(Id);
+    public Task Delete(int Id) => _categoriesRepo.DeleteAsync(Id);
 }
 

@@ -20,7 +20,7 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
         public IEnumerable<int> selectedCategoriesIds;
 
         protected override async Task OnInitializedAsync() {
-            categories = await _categoriesService.GetCategories(); 
+            categories = await _categoriesService.GetAll(); 
             selectedCategoriesIds = await _productsService.GetCategoriesIds(productId); 
         }
 
@@ -28,16 +28,16 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
         async Task OnCategoriesChanged(IEnumerable<int> value) {
             selectedCategoriesIds = value;
 
-            var product = await ProductsService.GetProduct(productId);
+            var product = await ProductsService.Get(productId);
             product.IdsCategories = selectedCategoriesIds;
 
-            await ProductsService.UpdateProduct(product);
+            await ProductsService.Update(product);
         }
 
         async Task GuardarCategorias() {
-            var product = await _productsService.GetProduct(productId);
+            var product = await _productsService.Get(productId);
             product.IdsCategories = selectedCategoriesIds;
-            await _productsService.UpdateProduct(product);
+            await _productsService.Update(product);
         }
 
 

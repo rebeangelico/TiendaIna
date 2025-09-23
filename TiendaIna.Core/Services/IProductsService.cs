@@ -2,11 +2,11 @@
 
 namespace TiendaIna.Core.Services {
     public interface IProductsService {
-        Task<List<ProductModel>> GetProducts();
-        Task<ProductModel> GetProduct(int productId);
-        Task AddProduct(ProductModel product);
-        Task UpdateProduct(ProductModel product);
-        Task DeleteProduct(int productId);
+        Task<List<ProductModel>> GetAll();
+        Task<ProductModel> Get(int productId);
+        Task Add(ProductModel product);
+        Task Update(ProductModel product);
+        Task Delete(int productId);
         public Task<IEnumerable<int>> GetCategoriesIds(int productId);
     }
 }

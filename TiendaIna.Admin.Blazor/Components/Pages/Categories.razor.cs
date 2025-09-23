@@ -21,7 +21,7 @@ public partial class CategoriesList : ComponentBase {
 
     #region overriden methods
     protected override async Task OnInitializedAsync() {
-        Categories = await _categoriesService.GetCategories();
+        Categories = await _categoriesService.GetAll();
     }
     #endregion
 }

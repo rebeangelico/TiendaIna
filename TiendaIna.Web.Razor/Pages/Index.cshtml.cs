@@ -24,7 +24,7 @@ namespace TiendaIna.Web.Razor.Pages
 
         public async Task OnGetAsync()
         {
-            Products = await _productsService.GetProducts();
+            Products = await _productsService.GetAll();
 
         }
 

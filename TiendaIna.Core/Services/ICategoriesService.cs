@@ -2,10 +2,10 @@
 
 namespace TiendaIna.Core.Services {
     public interface ICategoriesService {
-        Task<List<CategoryModel>> GetCategories();
-        Task<CategoryModel> GetCategory(int categoryId);
-        Task<int> AddCategory(CategoryModel category);
-        Task UpdateCategory(CategoryModel category);
-        Task DeleteCategory(int categoryId);
+        Task<List<CategoryModel>> GetAll();
+        Task<CategoryModel> Get(int categoryId);
+        Task<int> Add(CategoryModel category);
+        Task Update(CategoryModel category);
+        Task Delete(int categoryId);
     }
 }

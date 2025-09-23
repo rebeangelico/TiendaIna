@@ -71,7 +71,7 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
                 }
 
                 // Actualizar el producto en el backend
-                await _productsService.UpdateProduct(Product);
+                await _productsService.Update(Product);
             } catch (Exception ex) {
                 _notificationService.Notify(new NotificationMessage {
                     Severity = NotificationSeverity.Error,
@@ -137,7 +137,7 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
         private async Task SaveChanges() {
             isLoading = true;
             try {
-                await _productsService.UpdateProduct(Product);
+                await _productsService.Update(Product);
                 _notificationService.Notify(new NotificationMessage {
                     Severity = NotificationSeverity.Success,
                     Summary = "Éxito",

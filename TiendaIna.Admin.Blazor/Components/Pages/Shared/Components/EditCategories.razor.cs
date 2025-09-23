@@ -31,7 +31,7 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
         private async Task LoadData() {
             try {
                 isLoading = true;
-                originalCategories = await _categoriesService.GetCategories();
+                originalCategories = await _categoriesService.GetAll();
                 foreach (var originalCategory in originalCategories) {
                     categories.Add(originalCategory.Clone());
                 }
@@ -55,7 +55,7 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
                     new ConfirmOptions() { OkButtonText = "Sí", CancelButtonText = "No" });
 
                 if (result == true) {
-                    await _categoriesService.DeleteCategory(category.Id);
+                    await _categoriesService.Delete(category.Id);
                     RemoveCategoryFromList(category);
                     await grid.Reload();
                     _notificationService.Notify(NotificationSeverity.Success, "Éxito", "Categoría eliminada exitosamente");
@@ -81,10 +81,10 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
         private async Task SaveRow(CategoryModel category) {
             try {
                 if (category.Id > 0) {
-                    await _categoriesService.UpdateCategory(category);
+                    await _categoriesService.Update(category);
                     _notificationService.Notify(NotificationSeverity.Success, "Éxito", "Categoría actualizada exitosamente");
                 } else {
-                    var id = await _categoriesService.AddCategory(category);
+                    var id = await _categoriesService.Add(category);
                     category.Id = id;
                     originalCategories.Add(category.Clone());
                     categories.Add(category);
