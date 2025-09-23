@@ -8,10 +8,10 @@ namespace TiendaIna.Core.Models {
 
         public CategoryModel() { }
 
-        public
-            CategoryModel(Category category) {
+        public CategoryModel(Category category) {
             Id = category.Id;
             Name = category.Name;
+            ParentCategoryId = category.ParentCategoryId;
         }
         public CategoryModel(ICollection<Category> categories) {
             throw new InvalidOperationException("Use CategoryModel.FromCollection instead.");

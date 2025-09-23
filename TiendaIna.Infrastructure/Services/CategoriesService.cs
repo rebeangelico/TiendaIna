@@ -22,7 +22,7 @@ public class CategoriesService : ICategoriesService {
         return model;
     }
 
-    public Task AddCategory(CategoryModel category) {
+    public Task<int> AddCategory(CategoryModel category) {
         var Entity = new Category(category);
         return _categoriesRepo.CreateAsync(Entity);
     }

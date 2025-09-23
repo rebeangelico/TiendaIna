@@ -20,8 +20,8 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
         private List<CategoryModel> categories = new List<CategoryModel>();
         private List<CategoryModel> originalCategories = new List<CategoryModel>();
         private IEnumerable<CategoryModel> parentCategories = new List<CategoryModel>();
-        private CategoryModel categoryToInsert = new();
-        private CategoryModel categoryToUpdate = new();
+        private CategoryModel? categoryToInsert = null;
+        private CategoryModel? categoryToUpdate = null;
         private bool isLoading = false;
 
         protected override async Task OnInitializedAsync() {
@@ -46,18 +46,8 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
 
         private async Task InsertRow() {
             categoryToInsert = new CategoryModel();
-            await _categoriesService.AddCategory(categoryToInsert);
-        }
-
-        private async Task OnCreateRow(CategoryModel category) {
-            try {
-                await _categoriesService.AddCategory(category);
-                categoryToInsert = new();
-                await LoadData();
-                _notificationService.Notify(NotificationSeverity.Success, "Éxito", "Categoría creada exitosamente");
-            } catch (Exception ex) {
-                _notificationService.Notify(NotificationSeverity.Error, "Error", $"Error al crear categoría: {ex.Message}");
-            }
+            await grid.InsertRow(categoryToInsert);
+            
         }
 
         private async Task EditRow(CategoryModel category) {
@@ -68,10 +58,19 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
 
         private async Task SaveRow(CategoryModel category) {
             try {
-                await _categoriesService.UpdateCategory(category);
+                if (category.Id > 0) {
+                    await _categoriesService.UpdateCategory(category);
+                    _notificationService.Notify(NotificationSeverity.Success, "Éxito", "Categoría actualizada exitosamente");
+                } else {
+                    var id = await _categoriesService.AddCategory(category);
+                    category.Id = id;
+                    originalCategories.Add(category.Clone());
+                    categories.Add(category);
+                    _notificationService.Notify(NotificationSeverity.Success, "Éxito", "Categoría insertada exitosamente");
+                }
                 await grid.UpdateRow(category);
                 await grid.Reload();
-                _notificationService.Notify(NotificationSeverity.Success, "Éxito", "Categoría actualizada exitosamente");
+                Reset();
             } catch (Exception ex) {
                 _notificationService.Notify(NotificationSeverity.Error, "Error", $"Error al actualizar categoría: {ex.Message}");
             }
@@ -81,11 +80,9 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
             RestoreCategoryInList(category);
             grid.CancelEditRow(category);
             grid.Reload();
-            if (category == categoryToInsert) {
-                categoryToInsert = new();
-            }
-            categoryToUpdate = new();
-            
+            categoryToInsert = null;
+            categoryToUpdate = null;
+
         }
 
         private async Task DeleteRow(CategoryModel category) {
@@ -104,10 +101,9 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
             }
         }
 
-        private string GetParentCategoryName(int? parentId) {
+        private string? GetParentCategoryName(int? parentId) {
             if (parentId == null) return "Sin categoría padre";
-            var parent = categories.FirstOrDefault(c => c.Id == parentId);
-            return parent?.Name ?? "Categoría no encontrada";
+            return categories?.FirstOrDefault(c => c.Id == parentId)?.Name;
         }
 
         #region helpers
@@ -116,7 +112,7 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
             var originalCategory = originalCategories.Find(c => c.Id == category.Id);
             if (originalCategory is null) return;
             var ix = RemoveCategoryFromList(category);
-            categories.Insert(ix, originalCategory);
+            categories.Insert(ix, originalCategory.Clone());
         }
 
         private int RemoveCategoryFromList(CategoryModel category) {
