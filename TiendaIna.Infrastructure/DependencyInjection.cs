@@ -12,9 +12,11 @@ namespace TiendaIna.Core {
         public static void Configure(IServiceCollection services, IConfiguration configuration) {
             services.AddScoped<ICategoriesService, CategoriesService>();
             services.AddScoped<IProductsService, ProductsService>();
+            services.AddScoped<IBrandsService, BrandsService>();
+
             services.AddScoped<IProductsRepo, ProductsInMemoryRepo>();
             services.AddScoped<ICategoriesRepo, CategoriesDbRepo>();
-
+            services.AddScoped<IBrandsRepo, BrandsDbRepo>();
 
             //in-memory stores (only for local testing)
             services.AddSingleton<IInMemoryProductsStore, InMemoryProductsStore>();

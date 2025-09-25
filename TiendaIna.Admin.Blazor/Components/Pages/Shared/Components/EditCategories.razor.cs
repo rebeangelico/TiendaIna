@@ -47,7 +47,6 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
         private async Task InsertRow() {
             categoryToInsert = new CategoryModel();
             await grid.InsertRow(categoryToInsert);
-            
         }
         private async Task DeleteRow(CategoryModel category) {
             try {

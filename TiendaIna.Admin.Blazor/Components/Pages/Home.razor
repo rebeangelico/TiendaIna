@@ -1,5 +1,24 @@
 ﻿@page "/"
+@using TiendaIna.Core.Entities
+@using TiendaIna.Core.Repos
+@using TiendaIna.Infrastructure.Repos
+@inject IBrandsRepo brandsRepo
 <PageTitle>Home</PageTitle>
 
 <h1>Hello, world!</h1>
 
+
+
+@if (brand != null) {
+    <h2>@brand.Id - @brand.Name</h2>
+} else {
+    <p>Cargando marca...</p>
+}
+
+@code {
+    private Brand? brand;
+
+    protected override async Task OnInitializedAsync() {
+        brand = await brandsRepo.GetAsync(1);
+    }
+}

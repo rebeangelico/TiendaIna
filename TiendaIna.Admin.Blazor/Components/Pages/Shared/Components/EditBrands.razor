@@ -1,0 +1,87 @@
+@rendermode InteractiveServer
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
+@using TiendaIna.Core.Entities
+@using TiendaIna.Core.Models
+@using TiendaIna.Core.Services
+@using Microsoft.AspNetCore.Components.Forms
+@using System.Collections.Generic
+@using System.Threading.Tasks
+@using Radzen
+
+
+<PageTitle>Gestión de Marcas</PageTitle>
+
+       <RadzenDataGrid @ref="grid"
+                        AllowPaging="true"
+                        PageSize="10"
+                        AllowSorting="true"
+                        EditMode="DataGridEditMode.Single"
+                        Data="@brands"
+                        TItem="BrandModel"
+                        RowUpdate="@OnUpdateRow"
+                        RowCreate="@OnCreateRow">
+            <HeaderTemplate>
+                <RadzenButton ButtonStyle="ButtonStyle.Success"
+                              Icon="add_circle"
+                              Text="Agregar"
+                              Click="@InsertRow" />
+            </HeaderTemplate>
+            <Columns>
+                <RadzenDataGridColumn Property="@nameof(Brand.Id)"
+                                      Title="ID"
+                                      Width="80px"
+                                      Frozen="true">
+                    <Template Context="item">
+                        @item.Id
+                    </Template>
+                </RadzenDataGridColumn>
+
+                <RadzenDataGridColumn Property="@nameof(Brand.Name)"
+                                      Title="Nombre"
+                                      Width="200px">
+                    <EditTemplate Context="item">
+                        <RadzenTextBox @bind-Value="item.Name"
+                                       Style="width:100%"
+                                       Name="Name"
+                                       aria-label="Ingrese nombre" />
+                        <RadzenRequiredValidator Text="El nombre es requerido"
+                                                 Component="Name"
+                                                 Popup="true" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+
+                <RadzenDataGridColumn Context="item"
+                                      Filterable="false"
+                                      Sortable="false"
+                                      TextAlign="TextAlign.Right"
+                                      Width="150px">
+                    <Template Context="item">
+                        <RadzenButton Icon="edit"
+                                      ButtonStyle="ButtonStyle.Light"
+                                      Size="ButtonSize.Medium"
+                                      Click="@(args => EditRow(item))"
+                                      title="Editar" />
+                        <RadzenButton Icon="delete"
+                                      ButtonStyle="ButtonStyle.Danger"
+                                      Size="ButtonSize.Medium"
+                                      class="rz-ms-1"
+                                      Click="@(args => DeleteRow(item))"
+                                      title="Eliminar" />
+                    </Template>
+                    <EditTemplate Context="item">
+                        <RadzenButton Icon="check"
+                                      ButtonStyle="ButtonStyle.Success"
+                                      Size="ButtonSize.Medium"
+                                      Click="@((args) => SaveRow(item))"
+                                      title="Guardar" />
+                        <RadzenButton Icon="close"
+                                      ButtonStyle="ButtonStyle.Light"
+                                      Size="ButtonSize.Medium"
+                                      class="rz-ms-1"
+                                      Click="@((args) => CancelEdit(item))"
+                                      title="Cancelar" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
