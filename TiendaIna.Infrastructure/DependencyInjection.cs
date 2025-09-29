@@ -5,6 +5,7 @@ using TiendaIna.Core.Services;
 using TiendaIna.Infrastructure;
 using TiendaIna.Infrastructure.Repos;
 using TiendaIna.Infrastructure.Services;
+using TiendaIna.Admin.Blazor.Components.Pages.Shared.Components.Helpers;
 
 namespace TiendaIna.Core {
     public static class DependencyInjection {
@@ -17,6 +18,9 @@ namespace TiendaIna.Core {
             services.AddScoped<IProductsRepo, ProductsInMemoryRepo>();
             services.AddScoped<ICategoriesRepo, CategoriesDbRepo>();
             services.AddScoped<IBrandsRepo, BrandsDbRepo>();
+
+            //Helpers con inyeccion necesaria
+            services.AddSingleton<HelpersComponents>();
 
             //in-memory stores (only for local testing)
             services.AddSingleton<IInMemoryProductsStore, InMemoryProductsStore>();

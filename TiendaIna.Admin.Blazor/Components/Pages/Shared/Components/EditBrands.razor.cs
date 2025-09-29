@@ -52,6 +52,7 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
         async Task OnCreateRow(BrandModel item) {
             //await grid.RowCreate(item);
             //await _brandsService.Add(item);
+
             Console.WriteLine($"Nuevo item creado: {item.Name}");
         }
 

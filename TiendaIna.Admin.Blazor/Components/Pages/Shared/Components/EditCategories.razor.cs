@@ -6,24 +6,31 @@ using TiendaIna.Core.Services;
 
 namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
     public partial class EditCategories : ComponentBase {
+        #region Fields
         private readonly ICategoriesService _categoriesService;
         private readonly NotificationService _notificationService;
         private readonly DialogService _dialogService;
+        #endregion
 
+        #region Constructor
         public EditCategories(ICategoriesService categoriesService, NotificationService notificationService, DialogService dialogService) {
             _categoriesService = categoriesService ?? throw new ArgumentNullException(nameof(categoriesService));
             _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
             _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
         }
+        #endregion
 
+        #region Properties
         private RadzenDataGrid<CategoryModel> grid = new();
-        private List<CategoryModel> categories = new List<CategoryModel>();
-        private List<CategoryModel> originalCategories = new List<CategoryModel>();
-        private IEnumerable<CategoryModel> parentCategories = new List<CategoryModel>();
+        private List<CategoryModel> categories = [];
+        private List<CategoryModel> originalCategories = [];
+        private IEnumerable<CategoryModel> parentCategories = [];
         private CategoryModel? categoryToInsert = null;
         private CategoryModel? categoryToUpdate = null;
         private bool isLoading = false;
+        #endregion
 
+        #region Methods
         protected override async Task OnInitializedAsync() {
             await LoadData();
         }
@@ -38,7 +45,7 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
                 parentCategories = categories.Where(c => c.ParentCategoryId == null);
                 StateHasChanged();
             } catch (Exception ex) {
-                _notificationService.Notify(NotificationSeverity.Error, "Error", $"Error al cargar categorías: {ex.Message}");
+                NotifyError("Error al cargar categorías", ex);
             } finally {
                 isLoading = false;
             }
@@ -57,10 +64,10 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
                     await _categoriesService.Delete(category.Id);
                     RemoveCategoryFromList(category);
                     await grid.Reload();
-                    _notificationService.Notify(NotificationSeverity.Success, "Éxito", "Categoría eliminada exitosamente");
+                    NotifySuccess("Categoría eliminada exitosamente");
                 }
             } catch (Exception ex) {
-                _notificationService.Notify(NotificationSeverity.Error, "Error", $"Error al eliminar categoría: {ex.Message}");
+                NotifyError("Error al Eliminar categoría", ex);
             }
         }
         
@@ -81,22 +88,24 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
             try {
                 if (category.Id > 0) {
                     await _categoriesService.Update(category);
-                    _notificationService.Notify(NotificationSeverity.Success, "Éxito", "Categoría actualizada exitosamente");
+                    NotifySuccess("Categoría actualizada exitosamente");
                 } else {
                     var id = await _categoriesService.Add(category);
                     category.Id = id;
                     originalCategories.Add(category.Clone());
                     categories.Add(category);
-                    _notificationService.Notify(NotificationSeverity.Success, "Éxito", "Categoría insertada exitosamente");
+                    NotifySuccess("Categoría insertada exitosamente");
+
                 }
                 await grid.UpdateRow(category);
                 await grid.Reload();
                 Reset();
             } catch (Exception ex) {
-                _notificationService.Notify(NotificationSeverity.Error, "Error", $"Error al actualizar categoría: {ex.Message}");
+                NotifyError("Error al actualizar categoría", ex);
+                ;
             }
         }
-
+        #endregion
 
         #region helpers
         private void RestoreCategoryInList(CategoryModel category) {
@@ -114,6 +123,12 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
             categories.RemoveAt(ix);
             return ix;
         }
+        private void NotifySuccess(string message) =>
+            _notificationService.Notify(NotificationSeverity.Success, "Éxito", message);
+
+        private void NotifyError(string context, Exception ex) =>
+            _notificationService.Notify(NotificationSeverity.Error, "Error", $"{context}: {ex.Message}");
+
 
         private string? GetParentCategoryName(int? parentId) {
             if (parentId == null) return "Sin categoría padre";
