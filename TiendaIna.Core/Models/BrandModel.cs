@@ -16,7 +16,9 @@ namespace TiendaIna.Core.Models {
             Id = brand.Id;
             Name = brand.Name;
         }
-
+        public BrandModel Clone() {
+            return (BrandModel)this.MemberwiseClone();
+        }
     }
 
 }

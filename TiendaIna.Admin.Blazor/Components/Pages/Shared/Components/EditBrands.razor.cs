@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Components;
-using Radzen;
 using Radzen.Blazor;
 using TiendaIna.Core.Models;
 using TiendaIna.Core.Services;
@@ -50,10 +49,9 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
             await grid.InsertRow(brandToInsert);
         }
 
-        void OnCreateRow(BrandModel item) {
-            // Aquí puedes agregar lógica para guardar en base de datos
-            // Por ejemplo: dbContext.Add(item); dbContext.SaveChanges();
-
+        async Task OnCreateRow(BrandModel item) {
+            //await grid.RowCreate(item);
+            //await _brandsService.Add(item);
             Console.WriteLine($"Nuevo item creado: {item.Name}");
         }
 

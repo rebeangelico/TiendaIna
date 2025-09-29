@@ -13,9 +13,6 @@ namespace TiendaIna.Core.Models {
             Name = category.Name;
             ParentCategoryId = category.ParentCategoryId;
         }
-        public CategoryModel(ICollection<Category> categories) {
-            throw new InvalidOperationException("Use CategoryModel.FromCollection instead.");
-        }
 
         public static ICollection<CategoryModel> FromCollection(ICollection<Category> categories) {
             return categories?.Select(c => new CategoryModel(c)).ToList() ?? new List<CategoryModel>();
