@@ -12,87 +12,104 @@
 
 <PageTitle>Gestión de Marcas</PageTitle>
 
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <RadzenDataGrid @ref="grid"
-                                AllowPaging="true"
-                                PageSize="10"
-                                AllowSorting="true"
-                                EditMode="DataGridEditMode.Single"
-                                Data="@brands"
-                                TItem="BrandModel"
-                                RowUpdate="@OnUpdateRow"
-                                RowCreate="@OnCreateRow">
-
-                    <HeaderTemplate>
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h3 class="card-title mb-0">Gestión de Marcas</h3>
-                            <RadzenButton ButtonStyle="ButtonStyle.Success"
-                                          Icon="add_circle"
-                                          Text="Agregar"
-                                          Click="@InsertRow" />
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3 class="card-title mb-0">Gestión de Categorías</h3>
+                    <RadzenButton ButtonStyle="ButtonStyle.Success"
+                                  Icon="add_circle_outline"
+                                  class="me-2"
+                                  Text="Nueva Marca"
+                                  Click="@InsertRow"
+                                  Disabled="@(brandToInsert != null || brandToUpdate != null)" />
+                </div>
+                <div class="card-body">
+                    @if (isLoading) {
+                        <div class="text-center p-4">
+                            <RadzenProgressBarCircular ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+                            <p class="mt-2">Cargando marcas...</p>
                         </div>
-                    </HeaderTemplate>
-                    <Columns>
-                        <RadzenDataGridColumn Property="@nameof(Brand.Id)"
-                                              Title="ID"
-                                              Width="80px"
-                                              Frozen="true">
-                            <Template Context="item">
-                                @item.Id
-                            </Template>
-                        </RadzenDataGridColumn>
+                    } else {
+                        <RadzenDataGrid @ref="grid"
+                                        Data="@brands"
+                                        TItem="BrandModel"
+                                        AllowFiltering="true"
+                                        AllowColumnResize="true"
+                                        AllowAlternatingRows="false"
+                                        FilterMode="FilterMode.Advanced"
+                                        AllowSorting="true"
+                                        PageSize="20"
+                                        AllowPaging="true"
+                                        PagerHorizontalAlign="HorizontalAlign.Left"
+                                        ShowPagingSummary="true"
+                                        Sort="@Reset"
+                                        Page="@Reset"
+                                        Filter="@Reset"
+                                        ColumnWidth="300px"
+                                        EditMode="DataGridEditMode.Single">
+                            <Columns>
+                                <RadzenDataGridColumn TItem="BrandModel" Property="Id" Title="ID" Width="80px" />
 
-                        <RadzenDataGridColumn Property="@nameof(Brand.Name)"
-                                              Title="Nombre"
-                                              Width="200px">
-                            <EditTemplate Context="item">
-                                <RadzenTextBox @bind-Value="item.Name"
-                                               Style="width:100%"
-                                               Name="Name"
-                                               aria-label="Ingrese nombre" />
-                                <RadzenRequiredValidator Text="El nombre es requerido"
-                                                         Component="Name"
-                                                         Popup="true" />
-                            </EditTemplate>
-                        </RadzenDataGridColumn>
+                                <RadzenDataGridColumn TItem="BrandModel" Property="Name" Title="Nombre">
+                                    <Template Context="brand">
+                                        @brand.Name
+                                    </Template>
+                                    <EditTemplate Context="brand">
+                                        <RadzenTextBox @bind-Value="brand.Name" Style="width:100%; display: block" Name="Name" />
+                                        <RadzenRequiredValidator Text="El nombre es requerido" Component="Name" Popup="true" />
+                                    </EditTemplate>
+                                </RadzenDataGridColumn>
 
-                        <RadzenDataGridColumn Context="item"
-                                              Filterable="false"
-                                              Sortable="false"
-                                              TextAlign="TextAlign.Right"
-                                              Width="150px">
-                            <Template Context="item">
-                                <RadzenButton Icon="edit"
-                                              ButtonStyle="ButtonStyle.Light"
-                                              Size="ButtonSize.Medium"
-                                              Click="@(args => EditRow(item))"
-                                              title="Editar" />
-                                <RadzenButton Icon="delete"
-                                              ButtonStyle="ButtonStyle.Danger"
-                                              Size="ButtonSize.Medium"
-                                              class="rz-ms-1"
-                                              Click="@(args => DeleteRow(item))"
-                                              title="Eliminar" />
-                            </Template>
-                            <EditTemplate Context="item">
-                                <RadzenButton Icon="check"
-                                              ButtonStyle="ButtonStyle.Success"
-                                              Size="ButtonSize.Medium"
-                                              Click="@((args) => SaveRow(item))"
-                                              title="Guardar" />
-                                <RadzenButton Icon="close"
-                                              ButtonStyle="ButtonStyle.Light"
-                                              Size="ButtonSize.Medium"
-                                              class="rz-ms-1"
-                                              Click="@((args) => CancelEdit(item))"
-                                              title="Cancelar" />
-                            </EditTemplate>
-                        </RadzenDataGridColumn>
-                    </Columns>
-                </RadzenDataGrid>
+                                <RadzenDataGridColumn TItem="BrandModel" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Width="156px">
+                                    <Template Context="brand">
+                                        <RadzenButton Icon="edit"
+                                                      ButtonStyle="ButtonStyle.Light"
+                                                      Variant="Variant.Flat"
+                                                      Size="ButtonSize.Medium"
+                                                      Click="@(args => EditRow(brand))"
+                                                      @onclick:stopPropagation="true">
+                                        </RadzenButton>
+                                        <RadzenButton ButtonStyle="ButtonStyle.Danger"
+                                                      Icon="delete"
+                                                      Variant="Variant.Flat"
+                                                      Shade="Shade.Lighter"
+                                                      Size="ButtonSize.Medium"
+                                                      class="my-1 ms-1"
+                                                      Click="@(args => DeleteRow(brand))"
+                                                      @onclick:stopPropagation="true">
+                                        </RadzenButton>
+                                    </Template>
+                                    <EditTemplate Context="brand">
+                                        <RadzenButton Icon="check"
+                                                      ButtonStyle="ButtonStyle.Success"
+                                                      Variant="Variant.Flat"
+                                                      Size="ButtonSize.Medium"
+                                                      Click="@((args) => SaveRow(brand))">
+                                        </RadzenButton>
+                                        <RadzenButton Icon="close"
+                                                      ButtonStyle="ButtonStyle.Light"
+                                                      Variant="Variant.Flat"
+                                                      Size="ButtonSize.Medium"
+                                                      class="my-1 ms-1"
+                                                      Click="@((args) => CancelEdit(brand))">
+                                        </RadzenButton>
+                                        <RadzenButton ButtonStyle="ButtonStyle.Danger"
+                                                      Icon="delete"
+                                                      Variant="Variant.Flat"
+                                                      Shade="Shade.Lighter"
+                                                      Size="ButtonSize.Medium"
+                                                      class="my-1 ms-1"
+                                                      Click="@(args => DeleteRow(brand))">
+                                        </RadzenButton>
+                                    </EditTemplate>
+                                </RadzenDataGridColumn>
+                            </Columns>
+                        </RadzenDataGrid>
+                    }
+                </div>
             </div>
         </div>
     </div>
