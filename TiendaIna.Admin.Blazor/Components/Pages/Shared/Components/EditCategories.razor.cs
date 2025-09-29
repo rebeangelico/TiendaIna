@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Radzen;
 using Radzen.Blazor;
+using TiendaIna.Admin.Blazor.Helpers;
 using TiendaIna.Core.Models;
 using TiendaIna.Core.Services;
 
@@ -62,7 +63,7 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
 
                 if (result == true) {
                     await _categoriesService.Delete(category.Id);
-                    RemoveCategoryFromList(category);
+                    categories.Remove(c => c.Id == category.Id);
                     await grid.Reload();
                     NotifySuccess("Categoría eliminada exitosamente");
                 }
@@ -76,7 +77,7 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
             await grid.EditRow(categoryToUpdate);
         }
         private void CancelEdit(CategoryModel category) {
-            RestoreCategoryInList(category);
+            categories.RestoreFromList(c => c.Id == category.Id, originalCategories);
             grid.CancelEditRow(category);
             grid.Reload();
             categoryToInsert = null;
@@ -108,27 +109,11 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
         #endregion
 
         #region helpers
-        private void RestoreCategoryInList(CategoryModel category) {
-            if (category is null) throw new ArgumentNullException(nameof(category));
-            var originalCategory = originalCategories.Find(c => c.Id == category.Id);
-            if (originalCategory is null) return;
-            var ix = RemoveCategoryFromList(category);
-            categories.Insert(ix, originalCategory.Clone());
-        }
-
-        private int RemoveCategoryFromList(CategoryModel category) {
-            if (category is null) throw new ArgumentNullException(nameof(category));
-            var ix = categories.FindIndex(c => c.Id == category.Id);
-            if (ix < 0) return -1;
-            categories.RemoveAt(ix);
-            return ix;
-        }
         private void NotifySuccess(string message) =>
             _notificationService.Notify(NotificationSeverity.Success, "Éxito", message);
 
         private void NotifyError(string context, Exception ex) =>
             _notificationService.Notify(NotificationSeverity.Error, "Error", $"{context}: {ex.Message}");
-
 
         private string? GetParentCategoryName(int? parentId) {
             if (parentId == null) return "Sin categoría padre";
