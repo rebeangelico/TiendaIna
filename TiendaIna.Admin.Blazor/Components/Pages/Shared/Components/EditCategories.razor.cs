@@ -13,7 +13,7 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
         private readonly DialogService _dialogService;
         #endregion
 
-        #region Constructor
+        #region Constructors
         public EditCategories(ICategoriesService categoriesService, NotificationService notificationService, DialogService dialogService) {
             _categoriesService = categoriesService ?? throw new ArgumentNullException(nameof(categoriesService));
             _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
@@ -31,18 +31,19 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
         private bool isLoading = false;
         #endregion
 
-        #region Methods
+        #region Overriden Methods
         protected override async Task OnInitializedAsync() {
             await LoadData();
         }
+        #endregion
 
+        #region Private Methods
         private async Task LoadData() {
             try {
                 isLoading = true;
                 originalCategories = await _categoriesService.GetAll();
-                foreach (var originalCategory in originalCategories) {
+                foreach (var originalCategory in originalCategories)
                     categories.Add(originalCategory.Clone());
-                }
                 parentCategories = categories.Where(c => c.ParentCategoryId == null);
                 StateHasChanged();
             } catch (Exception ex) {
@@ -56,6 +57,7 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
             categoryToInsert = new CategoryModel();
             await grid.InsertRow(categoryToInsert);
         }
+
         private async Task DeleteRow(CategoryModel category) {
             try {
                 var result = await _dialogService.Confirm("¿Deseas eliminar esta categoría?", "¿Estás seguro?",
@@ -71,18 +73,17 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
                 NotifyError("Error al Eliminar categoría", ex);
             }
         }
-        
+
         private async Task EditRow(CategoryModel category) {
             categoryToUpdate = category;
             await grid.EditRow(categoryToUpdate);
         }
+
         private void CancelEdit(CategoryModel category) {
             categories.RestoreFromList(c => c.Id == category.Id, originalCategories);
             grid.CancelEditRow(category);
             grid.Reload();
-            categoryToInsert = null;
-            categoryToUpdate = null;
-
+            Reset();
         }
 
         private async Task SaveRow(CategoryModel category) {
@@ -96,19 +97,22 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
                     originalCategories.Add(category.Clone());
                     categories.Add(category);
                     NotifySuccess("Categoría insertada exitosamente");
-
                 }
                 await grid.UpdateRow(category);
                 await grid.Reload();
                 Reset();
             } catch (Exception ex) {
                 NotifyError("Error al actualizar categoría", ex);
-                ;
             }
+        }
+
+        void Reset() {
+            categoryToInsert = new();
+            categoryToUpdate = new();
         }
         #endregion
 
-        #region helpers
+        #region Helpers
         private void NotifySuccess(string message) =>
             _notificationService.Notify(NotificationSeverity.Success, "Éxito", message);
 
@@ -116,7 +120,7 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
             _notificationService.Notify(NotificationSeverity.Error, "Error", $"{context}: {ex.Message}");
 
         private string? GetParentCategoryName(int? parentId) {
-            if (parentId == null) return "Sin categoría padre";
+            if (parentId == null) return null;
             return categories?.FirstOrDefault(c => c.Id == parentId)?.Name;
         }
         #endregion
