@@ -23,6 +23,8 @@ namespace TiendaIna.Core {
             //in-memory stores (only for local testing)
             services.AddSingleton<IInMemoryProductsStore, InMemoryProductsStore>();
             services.AddSingleton<IInMemoryCategoriesStore, InMemoryCategoriesStore>();
+            services.AddSingleton<IInMemoryImagesStore, InMemoryImagesStore>();
+            services.AddSingleton<IInMemoryBrandsStore, InMemoryBrandsStore>();
         }
     }
 }
