@@ -1,5 +1,6 @@
 ﻿using TiendaIna.Core.Entities;
 using TiendaIna.Core.Repos;
+using TiendaIna.Infrastructure.DataStore;
 
 namespace TiendaIna.Infrastructure.Repos;
 

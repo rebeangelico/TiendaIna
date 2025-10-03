@@ -7,5 +7,6 @@ namespace TiendaIna.Core.Services {
         Task<int> Add(ImageModel entity);
         Task Update(ImageModel entity);
         Task Delete(int Id);
+        Task<List<ImageModel>> GetListProduct(List<int> ids);
     }
 }

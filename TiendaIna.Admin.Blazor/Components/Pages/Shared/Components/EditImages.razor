@@ -12,14 +12,14 @@
             }
 
             <div class="d-flex flex-wrap gap-2">
-                @if (Product?.Images != null) {
-                    @foreach (var img in Product.Images) {
+                @if (images != null) {
+                    @foreach (var img in images) {
                         <div class="position-relative">
                             <img src="@img" class="img-thumbnail"
                                  style="width: 100px; height: 100px; cursor: pointer;"
-                                 @onclick="@(() => OnShowImageModal(img))" />
+                                 @onclick="@(() => OnShowImageModal(img.Url))" />
                             <button class="btn btn-sm btn-danger position-absolute bottom-0 start-50 translate-middle-x"
-                                    @onclick="@(() => OnDeleteImage(img))">
+                                    @onclick="@(() => OnDeleteImage(img.Id))">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </div>

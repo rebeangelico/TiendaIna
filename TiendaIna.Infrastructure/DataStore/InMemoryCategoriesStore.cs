@@ -1,12 +1,12 @@
 ﻿using TiendaIna.Core.Entities;
 
-namespace TiendaIna.Infrastructure {
+namespace TiendaIna.Infrastructure.DataStore {
     public interface IInMemoryCategoriesStore : IList<Category> { }
 
     public class InMemoryCategoriesStore : List<Category>, IInMemoryCategoriesStore {
         public InMemoryCategoriesStore() {
-            this.Clear();
-            this.AddRange([
+            Clear();
+            AddRange([
               new Category {
                 Id = 1,
                Name = "Perfumes Arabes",

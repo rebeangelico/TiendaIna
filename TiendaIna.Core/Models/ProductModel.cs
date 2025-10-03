@@ -12,8 +12,11 @@ namespace TiendaIna.Core.Models {
         public string? Description { get; set; }
         public IEnumerable<int>? IdsCategories { get; set; }
         public virtual ICollection<CategoryModel> Categories { get; set; } = new List<CategoryModel>();
-        public string? Image { get; set; }
-        public List<string> Images { get; set; }
+        public int? Image { get; set; }
+
+
+        //para no perder la relacion momentaneamente
+        public List<int> Images { get; set; }
         public string? Gender { get; set; }
         public bool? IsOutstanding { get; set; }
 

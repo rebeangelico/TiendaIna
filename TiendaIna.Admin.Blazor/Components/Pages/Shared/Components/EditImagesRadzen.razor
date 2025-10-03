@@ -48,12 +48,13 @@
             </div>
 
             <!-- Miniaturas de imágenes -->
-            @if (Product?.Images?.Any() == true) {
-                <RadzenText TextStyle="TextStyle.H6" style="margin-bottom: 0.5rem;">Imágenes del producto (@Product.Images.Count)</RadzenText>
-
+            <!-- Miniaturas de imágenes -->
+            @if (Images?.Any() == true) {
+                <RadzenText TextStyle="TextStyle.H6" style="margin-bottom: 0.5rem;">Imágenes del producto (@Images.Count)</RadzenText>
                 <div class="thumbnails-container" style="display: flex; flex-wrap: wrap; gap: 1rem; padding: 1rem; background-color: #f9f9f9; border-radius: 8px;">
-                    @for (int i = 0; i < Product.Images.Count; i++) {
-                        var imageUrl = Product.Images[i];
+                    @for (int i = 0; i < Images.Count; i++) {
+                        var imageModel = Images[i];
+                        var imageUrl = imageModel.Url;
                         var index = i;
                         var isSelected = imageUrl == selectedImageUrl;
 
@@ -85,8 +86,7 @@
                                                   title="Mover hacia la izquierda"
                                                   Style="width: 24px; height: 24px;" />
                                 }
-
-                                @if (index < Product.Images.Count - 1) {
+                                @if (index < Images.Count - 1) {
                                     <RadzenButton ButtonStyle="ButtonStyle.Secondary"
                                                   Icon="keyboard_arrow_right"
                                                   Size="ButtonSize.ExtraSmall"
@@ -95,19 +95,8 @@
                                                   Style="width: 24px; height: 24px;" />
                                 }
                             </div>
-
-                            <!-- Indicador de posición -->
-                            <div style="position: absolute; bottom: 4px; left: 4px; background-color: rgba(0,0,0,0.7); color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px;">
-                                @(index + 1)
-                            </div>
                         </div>
                     }
-                </div>
-            } else {
-                <div style="text-align: center; padding: 2rem; background-color: #f9f9f9; border-radius: 8px;">
-                    <RadzenIcon Icon="image" style="font-size: 3rem; color: #ccc; margin-bottom: 1rem;" />
-                    <RadzenText TextStyle="TextStyle.H6" style="color: #999;">No hay imágenes cargadas</RadzenText>
-                    <RadzenText style="color: #999;">Selecciona archivos para comenzar</RadzenText>
                 </div>
             }
 

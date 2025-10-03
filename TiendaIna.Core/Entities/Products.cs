@@ -25,10 +25,13 @@ namespace TiendaIna.Core.Entities {
 
         [Ignore]
         public IEnumerable<int> IdsCategories { get; set; }
-        public string? Image { get; set; }
+        public int? Image { get; set; }
 
         [Ignore]
-        public List<string> Images { get; set; } = new List<string>();
+
+
+
+        public List<int> Images { get; set; } = new List<int>();
         public string? Gender { get; set; }
         public bool? IsOutstanding { get; set; }
 
