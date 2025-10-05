@@ -104,54 +104,39 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
             }
         }
 
-        private async Task OnFileSelected(UploadChangeEventArgs args) {
-            var files = args.Files;
-            if (files == null || !files.Any()) return;
-
+        private async Task OnFileSelected(IEnumerable<IBrowserFile> files) {
             isLoading = true;
 
             try {
                 foreach (var file in files.Take(10)) {
-                    // Validación de tamaño
                     if (file.Size > 5 * 1024 * 1024) {
                         ShowNotification(NotificationSeverity.Warning, "Archivo muy grande", $"El archivo {file.Name} excede los 5MB");
                         continue;
                     }
 
-                    // Validación de tipo
                     if (!file.ContentType.StartsWith("image/")) {
                         ShowNotification(NotificationSeverity.Warning, "Archivo no válido", $"El archivo {file.Name} no es una imagen");
                         continue;
                     }
 
-                    // Convertir archivo a base64
                     var imageUrl = await UploadImage(file);
 
                     if (!string.IsNullOrEmpty(imageUrl)) {
-                        // Crear modelo de imagen
                         var imageModel = new ImageModel { Url = imageUrl };
-
-                        // Guardar en el backend y obtener el ID
                         var imageId = await _imagesService.Add(imageModel);
                         imageModel.Id = imageId;
 
-                        // Agregar a la lista de modelos
                         Images.Add(imageModel);
-
-                        // Agregar el ID al producto
                         Product.Images ??= new List<int>();
                         Product.Images.Add(imageId);
 
-                        // Establecer imagen seleccionada si es la primera
                         if (Images.Count == 1) {
                             selectedImageUrl = imageUrl;
                         }
                     }
                 }
 
-                // Actualizar el producto en el backend inmediatamente
                 await _productsService.Update(Product);
-
                 ShowNotification(NotificationSeverity.Success, "Éxito", $"{files.Count()} imagen(es) agregada(s) correctamente");
             } catch (Exception ex) {
                 ShowNotification(NotificationSeverity.Error, "Error", $"Error al cargar imágenes: {ex.Message}");

@@ -36,7 +36,7 @@
                         <RadzenText TextStyle="TextStyle.Subtitle2" style="margin-bottom: 0.5rem;">Subir desde archivo</RadzenText>
                         <RadzenFileInput Multiple="true"
                                          Accept="image/*"
-                                         Change="@OnFileSelected"
+                                         Change="@((IEnumerable<IBrowserFile> files) => OnFileSelected(files))"
                                          Disabled="@isLoading" />
                     </div>
 
