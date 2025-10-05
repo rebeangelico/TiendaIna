@@ -8,10 +8,10 @@ namespace TiendaIna.Core.Models {
 
         public ImageModel() { }
 
-        public ImageModel(Image brand) {
-            Id = brand.Id;
-            Url = brand.Url;
-            CdnUrl = brand.CdnUrl;
+        public ImageModel(Image image) {
+            Id = image.Id;
+            Url = image.Url;
+            CdnUrl = image.CdnUrl;
         }
 
     }
