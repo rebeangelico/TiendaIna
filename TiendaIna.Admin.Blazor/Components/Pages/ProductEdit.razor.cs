@@ -9,8 +9,11 @@ public partial class ProductEdit : ComponentBase {
     private readonly NavigationManager _navigationManager;
     #endregion
 
-    #region properties
+    #region parameters
     [Parameter] public int productId { get; set; }
+    #endregion
+
+    #region properties
     public ProductModel? Product { get; set; }
     #endregion
 
@@ -27,6 +30,7 @@ public partial class ProductEdit : ComponentBase {
     }
 
     #endregion
+    
     void NavegarA(string url) {
         _navigationManager.NavigateTo(url);
     }

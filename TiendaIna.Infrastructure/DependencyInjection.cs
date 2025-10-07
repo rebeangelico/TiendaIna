@@ -16,15 +16,18 @@ namespace TiendaIna.Core {
             services.AddScoped<IImagesService, ImagesService>();
 
             services.AddScoped<IProductsRepo, ProductsInMemoryRepo>();
-            services.AddScoped<ICategoriesRepo, CategoriesDbRepo>();
+            services.AddScoped<IProductImagesRepo, ProductImagesInMemoryRepo>();
+            services.AddScoped<ICategoriesRepo, CategoriesInMemoryRepo>();
             services.AddScoped<IBrandsRepo, BrandsInMemoryRepo>();
             services.AddScoped<IImagesRepo, ImagesInMemoryRepo>();
 
             //in-memory stores (only for local testing)
             services.AddSingleton<IInMemoryProductsStore, InMemoryProductsStore>();
+            services.AddSingleton<IInMemoryProductsCategoriesStore, InMemoryProductsCategoriesStore>();
+            services.AddSingleton<IInMemoryProductImagesStore, InMemoryProductImagesStore>();
             services.AddSingleton<IInMemoryCategoriesStore, InMemoryCategoriesStore>();
-            services.AddSingleton<IInMemoryImagesStore, InMemoryImagesStore>();
             services.AddSingleton<IInMemoryBrandsStore, InMemoryBrandsStore>();
+            services.AddSingleton<IInMemoryImagesStore, InMemoryImagesStore>();
         }
     }
 }

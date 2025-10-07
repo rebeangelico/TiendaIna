@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using TiendaIna.Core.Entities;
+﻿using TiendaIna.Core;
 using TiendaIna.Core.Models;
 using TiendaIna.Core.Repos;
 using TiendaIna.Core.Services;
@@ -12,39 +11,45 @@ public class ImagesService : IImagesService {
         this._imagesRepo = imagesRepo ?? throw new ArgumentNullException(nameof(imagesRepo));
     }
 
+    public async Task<ImageModel> Add(byte[] imageBytes, string mimeType) {
+        var image = new Core.Entities.Image() { Data = imageBytes, SmallData = imageBytes, MimeType = mimeType };
+        await _imagesRepo.CreateAsync(image);
+        return new ImageModel() {
+            Id = image.Id,
+            Url = !string.IsNullOrWhiteSpace(image.CdnUrl) ? image.CdnUrl : $"images/{image.Id}",
+            SmallUrl = !string.IsNullOrWhiteSpace(image.SmallCdnUrl) ? image.SmallCdnUrl : $"images/{image.Id}?size=s",
+        };
+    }
+
+    public async Task<ImageModel> Add(string url) {
+        var image = new Core.Entities.Image() { CdnUrl = url, SmallCdnUrl = url };
+        await _imagesRepo.CreateAsync(image);
+        return new ImageModel() {
+             Id = image.Id,
+             Url = image.CdnUrl,
+             SmallUrl = image.SmallCdnUrl,
+        };
+    }
+
+    public Task<ImageModel> GetAsync(int id, ImageSize size = ImageSize.Default) {
+        throw new NotImplementedException();
+    }
+
+    public async Task<(byte[], string)?> GetBytesAsync(int id, ImageSize size = ImageSize.Default) {
+        var img = await _imagesRepo.GetAsync(id);
+        if(img is null)
+            return null;
+        return (size == ImageSize.Small ? (img.SmallData, img.MimeType) : (img.Data, img.MimeType))!;
+    }
+
+    public Task<ImageModel> Update(int id, Stream stream, string mimeType) {
+        throw new NotImplementedException();
+    }
+
+    public Task<ImageModel> Update(int id, string url) {
+        throw new NotImplementedException();
+    }
+
     public Task Delete(int Id) => _imagesRepo.DeleteAsync(Id);
-
-    public async Task<List<ImageModel>> GetAll() {
-        var images = await _imagesRepo.GetAllAsync();
-        var models = images.Select(i => new ImageModel(i)).ToList();
-        return models;
-    }
-
-    public async Task<ImageModel> Get(int Id) {
-        var image = await _imagesRepo.GetAsync(Id);
-        var model = new ImageModel(image);
-        return model;
-    }
-
-    public Task<int> Add(ImageModel image) {
-        var Entity = new Image(image);
-        return _imagesRepo.CreateAsync(Entity);
-    }
-
-    public Task Update(ImageModel image) {
-        var Entity = new Image(image);
-        return _imagesRepo.UpdateAsync(Entity);
-    }
-
-    public async Task<List<ImageModel>> GetListProduct(List<int> ids) {
-        var result = new List<ImageModel>();
-        foreach (var id in ids) {
-            var image = await _imagesRepo.GetAsync(id);
-            if (image != null) {
-                result.Add(new ImageModel(image));
-            }
-        }
-        return result;
-    }
 }
 

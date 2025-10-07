@@ -2,4 +2,6 @@
 
 namespace TiendaIna.Core.Repos;
 
-public interface IProductsRepo : IRepo<Product, int> { }
+public interface IProductsRepo : ICrudRepo<Product, int> {
+    Task SetCategoriesAsync(int productId, IEnumerable<int> categoryIds);
+}

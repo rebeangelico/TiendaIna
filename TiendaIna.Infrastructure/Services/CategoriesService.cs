@@ -12,23 +12,23 @@ public class CategoriesService : ICategoriesService {
     }
 
     public async Task<List<CategoryModel>> GetAll() {
-        var categories = await _categoriesRepo.GetAllAsync();
-        var models = categories.Select(c => new CategoryModel(c)).ToList();
+        var categories = await _categoriesRepo.GetAsync();
+        var models = categories.Select(c => CategoryModel.FromEntity(c)).ToList();
         return models;
     }
     public async Task<CategoryModel> Get(int categoryId) {
         var category = await _categoriesRepo.GetAsync(categoryId);
-        var model = new CategoryModel(category);
+        var model = CategoryModel.FromEntity(category);
         return model;
     }
 
     public Task<int> Add(CategoryModel category) {
-        var Entity = new Category(category);
+        var Entity = Category.FromModel(category);
         return _categoriesRepo.CreateAsync(Entity);
     }
 
     public Task Update(CategoryModel category) {
-        var Entity = new Category(category);
+        var Entity = Category.FromModel(category);
         return _categoriesRepo.UpdateAsync(Entity);
     }
 

@@ -9,6 +9,7 @@ namespace TiendaIna.Admin.Blazor {
     public class Program {
         public static void Main(string[] args) {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddControllers();
 
             // Add services to the container.
             builder.Services.AddRazorComponents()
@@ -25,6 +26,7 @@ namespace TiendaIna.Admin.Blazor {
             GlobalConfiguration.Setup().UseSqlServer();
 
             var app = builder.Build();
+            app.MapControllers();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment()) {

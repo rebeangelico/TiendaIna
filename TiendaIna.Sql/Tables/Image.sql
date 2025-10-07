@@ -1,0 +1,9 @@
+﻿CREATE TABLE [dbo].[Images]
+(
+	[Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY, 
+    [Data] VARBINARY(MAX) NULL, 
+    [CdnUrl] NVARCHAR(1000) NULL, 
+    [SmallData] VARBINARY(MAX) NULL, 
+    [SmallCdnUrl] NVARCHAR(1000) NULL, 
+    [MimeType] VARCHAR(100) NULL
+)

@@ -2,11 +2,12 @@
 
 namespace TiendaIna.Core.Services {
     public interface IImagesService {
-        Task<List<ImageModel>> GetAll();
-        Task<ImageModel> Get(int Id);
-        Task<int> Add(ImageModel entity);
-        Task Update(ImageModel entity);
-        Task Delete(int Id);
-        Task<List<ImageModel>> GetListProduct(List<int> ids);
+        Task<ImageModel> GetAsync(int id, ImageSize size = ImageSize.Default);
+        Task<(byte[], string)?> GetBytesAsync(int id, ImageSize size = ImageSize.Default);
+        Task<ImageModel> Add(byte[] imageBytes, string mimeType);
+        Task<ImageModel> Add(string url);
+        Task<ImageModel> Update(int id, Stream stream, string mimeType);
+        Task<ImageModel> Update(int id, string url);
+        Task Delete(int id);
     }
 }

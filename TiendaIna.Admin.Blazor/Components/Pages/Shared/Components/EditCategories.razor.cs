@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Radzen;
 using Radzen.Blazor;
-using TiendaIna.Admin.Blazor.Helpers;
+using TiendaIna.Core;
 using TiendaIna.Core.Models;
 using TiendaIna.Core.Services;
 

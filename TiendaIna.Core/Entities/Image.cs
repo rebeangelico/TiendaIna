@@ -1,19 +1,13 @@
-﻿
-using TiendaIna.Core.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TiendaIna.Core.Entities {
-    public class Image : IEntity<int> {
-        public int Id { get; set; } 
-        public string Url { get; set; }
-        public string CdnUrl { get; set; }
+namespace TiendaIna.Core.Entities;
+[Table("Images")]
+public class Image : IEntity<int> {
 
-        public Image(ImageModel model) {
-            Id = model.Id;
-            Url = model.Url;
-            CdnUrl = model.CdnUrl;
-        }
-        public Image() {
-            
-        }
-    }
+    public int Id { get; set; }
+    public byte[]? Data { get; set; }
+    public string? CdnUrl { get; set; }
+    public byte[]? SmallData { get; set; }
+    public string? SmallCdnUrl { get; set; }
+    public string? MimeType { get; set; }
 }

@@ -12,133 +12,96 @@ namespace TiendaIna.Infrastructure.DataStore {
             AddRange([
               new Product {
                 Id = 1,
-                Categories = GetCategoriesByIds([1, 2, 3]) ,
-                Brand = new Brand { Id = 1, Name = "Lattafa" },
+                BrandId = 1,
                 Name = "Oud for Glory",
-                DescriptionMin = "es una fragancia unisex profunda y misteriosa, con un equilibrio entre notas amaderadas, especiadas y dulces. Perfecta para quienes desean un aroma intenso, seductor y envolvente.",
+                DescriptionShort = "es una fragancia unisex profunda y misteriosa, con un equilibrio entre notas amaderadas, especiadas y dulces. Perfecta para quienes desean un aroma intenso, seductor y envolvente.",
                 Description ="Es una fragancia unisex que pertenece a la familia olfativa ámbar amaderada, destacándose por su combinación de notas especiadas, florales y dulces que crean una esencia sofisticada y envolvente.\r\n\r\nNotas olfativas y su impacto en el aroma\r\n\r\nNotas de salida: Rosa y pimienta rosa.\r\nLa fragancia se abre con una combinación vibrante y especiada, donde la rosa aporta un matiz floral elegante y aterciopelado, mientras que la pimienta rosa añade un toque chispeante y ligeramente picante.\r\n\r\nNotas de corazón: Oud y ámbar.\r\nEn el corazón, el oud se manifiesta con su profundidad amaderada y ahumada, creando una sensación mística e intensa. El ámbar complementa con su calidez resinosa, aportando un carácter envolvente y sensual.\r\n\r\nNotas de fondo: Vainilla y madera.\r\nLa base es rica y reconfortante, con la dulzura cremosa de la vainilla que suaviza la composición, mientras que las notas amaderadas refuerzan la longevidad y la sofisticación del perfume.\r\n\r\n¿Cómo huele Badee Al Oud Amethyst?\r\n\r\nEl aroma de Badee Al Oud Amethyst es profundo, especiado y ligeramente dulce, con una salida floral y vibrante que se transforma en un corazón intenso y amaderado. A medida que evoluciona, la fragancia adquiere una calidez envolvente gracias al ámbar y la vainilla, dejando una impresión lujosa y seductora.",
-                Image = 1,
-                Images= {2,3,4},
                 Price = 42000,
-                Gender = "Unisex",
                 IsOutstanding = true
               },
 
               new Product {
                 Id = 2,
-                Categories = new List<Category> { new Category { Id = 1, Name = "Lattafa" } },
-                Brand = new Brand { Id = 1, Name = "Lattafa" },
+                BrandId = 2,
                 Name = "Asad",
-                DescriptionMin = "Amaderado con vainilla.",
-                Image = 5,
+                DescriptionShort = "Amaderado con vainilla.",
                 Price = 45000,
-                Gender = "Masculino"
               },
 
               new Product {
                 Id = 3,
-                Categories = new List<Category> { new Category { Id = 1, Name = "Lattafa" } },
-                Brand = new Brand { Id = 1, Name = "Lattafa" },
+                BrandId = 3,
                 Name = "Ajwad",
-                DescriptionMin = "Dulce, afrutado y romántico.",
-                Image = 6,
+                DescriptionShort = "Dulce, afrutado y romántico.",
                 Price = 39000,
-                Gender = "Femenino",
                 IsOutstanding = true
               },
 
               new Product {
                 Id = 4,
-                Categories = new List<Category> { new Category { Id = 1, Name = "Lattafa" } },
-                Brand = new Brand { Id = 1, Name = "Lattafa" },
+                BrandId = 1,
                 Name = "Raghba Wood Intense",
-                DescriptionMin = "Intenso, ahumado y elegante.",
-                Image = 7,
+                DescriptionShort = "Intenso, ahumado y elegante.",
                 Price = 47000,
-                Gender = "Masculino",
                 IsOutstanding = true
               },
 
               new Product {
                 Id = 5,
-                Categories = new List<Category> { new Category { Id = 1, Name = "Lattafa" } },
-                Brand = new Brand { Id = 1, Name = "Lattafa" },
+                BrandId = 2,
                 Name = "Yara",
-                DescriptionMin = "Suave, floral y moderno.",
-                Image = 8,
+                DescriptionShort = "Suave, floral y moderno.",
                 Price = 41000,
-                Gender = "Femenino"
               },
               new Product {
                 Id = 6,
-                Categories = new List<Category> { new Category { Id = 2, Name = "Maison Alhambra" } },
-                Brand = new Brand { Id = 2, Name = "Maison Alhambra" },
+                BrandId = 3,
                 Name = "Kismet Angel",
-                DescriptionMin = "Gourmand, dulce y sensual.",
-                Image = 9,
+                DescriptionShort = "Gourmand, dulce y sensual.",
                 Price = 55000,
-                Gender = "Femenino"
               },
               new Product {
                 Id = 7,
-                Categories = new List<Category> { new Category { Id = 2, Name = "Maison Alhambra" } },
-                Brand = new Brand { Id = 2, Name = "Maison Alhambra" },
+                BrandId = 4,
                 Name = "Barakkat Rouge 540",
-                DescriptionMin = "Misterioso, almizclado y chic.",
-                Image = 10,
+                DescriptionShort = "Misterioso, almizclado y chic.",
                 Price = 58000,
-                Gender = "Unisex",
                 IsOutstanding = true
               },
               new Product {
                 Id = 8,
-                Categories = new List<Category> { new Category { Id = 2, Name = "Maison Alhambra" } },
-                Brand = new Brand { Id = 2, Name = "Maison Alhambra" },
+                BrandId = 5,
                 Name = "Tobacco Touch",
-                DescriptionMin = "Tábaco cálido y especiado.",
-                Image = 11,
+                DescriptionShort = "Tábaco cálido y especiado.",
                 Price = 52000,
-                Gender = "Masculino"
               },
               new Product {
                 Id = 9,
-                Categories = new List<Category> { new Category { Id = 2, Name = "Maison Alhambra" } },
-                Brand = new Brand { Id = 2, Name = "Maison Alhambra" },
+                BrandId = 4,
                 Name = "Infini Oud",
-                DescriptionMin = "Profundo y sofisticado.",
-                Image = 12,
+                DescriptionShort = "Profundo y sofisticado.",
                 Price = 60000,
-                Gender = "Unisex"
               },
               new Product {
                 Id = 10,
-                Categories = new List<Category> { new Category { Id = 2, Name = "Maison Alhambra" } },
-                Brand = new Brand { Id = 2, Name = "Maison Alhambra" },
+                BrandId = 6,
                 Name = "Porto Neroli",
-                DescriptionMin = "Fresco, cítrico y luminoso.",
-                Image = 13,
+                DescriptionShort = "Fresco, cítrico y luminoso.",
                 Price = 49000,
-                Gender = "Femenino",
                 IsOutstanding = true },
               new Product {
                 Id = 11,
-                Categories = new List<Category> { new Category { Id = 1, Name = "Perfumes Arabes" }, new Category {Id= 2, Name= "Perfumes Masculinos"} },
-                Brand = new Brand() { Id = 1, Name = "Armaf" },
+                BrandId = 7,
                 Name = "The Lions",
-                DescriptionMin = "exquisito bla bla bla",
-                Image = 14,
+                DescriptionShort = "exquisito bla bla bla",
                 Price = 50000,
-                Gender = "Masculino"
                 },
               new Product {
                 Id = 12,
-                Categories = new List<Category> { new Category { Id = 1, Name = "Lattafa" } },
-                Brand = new Brand { Id = 1, Name = "Lattafa" },
+                BrandId = 7,
                 Name = "Oud for Glory",
-                DescriptionMin = "Oriental, intenso y envolvente.",
-                Image = 15,
+                DescriptionShort = "Oriental, intenso y envolvente.",
                 Price = 42000,
-                Gender = "Unisex",
                 IsOutstanding = true
               }
             ]);

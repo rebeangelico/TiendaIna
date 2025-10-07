@@ -2,15 +2,15 @@
 using TiendaIna.Core.Repos;
 
 namespace TiendaIna.Infrastructure.Repos {
-    public abstract class InMemoryRepoBase<TEntity, TKey> : IRepo<TEntity, TKey> where TEntity : class, IEntity<TKey> where TKey : notnull {
+    public abstract class InMemoryRepoBase<TEntity, TKey> : ICrudRepo<TEntity, TKey> where TEntity : class, IEntity<TKey> where TKey : notnull {
 
-        private readonly IList<TEntity> _entities;
+        protected readonly IList<TEntity> _entities;
 
         protected InMemoryRepoBase(IList<TEntity> entities) {
             _entities = entities ?? throw new ArgumentNullException(nameof(entities));
         }
 
-        Task<IEnumerable<TEntity>> IRepo<TEntity, TKey>.GetAllAsync() => Task.FromResult(_entities.AsEnumerable());
+        public Task<IEnumerable<TEntity>> GetAsync() => Task.FromResult(_entities.AsEnumerable());
 
         public Task<TEntity> GetAsync(TKey id) => Task.FromResult(_entities.Single(e => e.Id.Equals(id)));
 

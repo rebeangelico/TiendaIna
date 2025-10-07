@@ -9,6 +9,7 @@
 @using System.Collections.Generic;
 @using System.Threading.Tasks;
 @using Radzen;
+@using TiendaIna.Core.Models;
 
 @inject IProductsService ProductsService
 
@@ -31,7 +32,7 @@
                                 Data="@categories"
                                 TextProperty="Name"
                                 ValueProperty="Id"
-                                @bind-Value="@selectedCategoriesIds"
+                                @bind-Value="@selectedCategories"
                                 Change="@(args => OnCategoriesChanged(args))" />
 
         </div>

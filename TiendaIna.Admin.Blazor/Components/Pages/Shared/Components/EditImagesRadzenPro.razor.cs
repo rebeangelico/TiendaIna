@@ -1,46 +1,52 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Radzen;
+using TiendaIna.Core;
 using TiendaIna.Core.Models;
 using TiendaIna.Core.Services;
-using TiendaIna.Infrastructure.Services;
 
 namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
     public partial class EditImagesRadzenPro : ComponentBase {
+        #region fields
         private readonly IProductsService _productsService;
         private readonly IImagesService _imagesService;
         private readonly NotificationService _notificationService;
+        #endregion
 
+        #region Propierties
+        private List<ImageModel> Images { get; set; } = [];
+        private ImageModel? selectedImage = null;
+        private string? newImageUrl = null;
+        private bool isLoading = false;
+        #endregion
+
+        #region Parameters
+        [Parameter] public ProductModel Product { get; set; } = new ProductModel();
+        #endregion
+
+        #region Constructors
         public EditImagesRadzenPro(IProductsService productsService, IImagesService imagesService, NotificationService notificationService) {
             _productsService = productsService ?? throw new ArgumentNullException(nameof(productsService));
             _imagesService = imagesService ?? throw new ArgumentNullException(nameof(imagesService));
             _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
         }
+        #endregion
 
-        [Parameter] public ProductModel Product { get; set; } = new ProductModel();
-
-        private List<ImageModel> Images { get; set; } = new List<ImageModel>();
-        private string selectedImageUrl = "";
-        private string newImageUrl = "";
-        private bool isLoading = false;
-
+        #region overriden methods
         protected override async Task OnInitializedAsync() {
             await LoadImages();
         }
+        #endregion
 
+        #region private methdos
         private async Task LoadImages() {
             isLoading = true;
 
             try {
-                if (Product?.Images?.Any() == true) {
-                    Images = await _imagesService.GetListProduct(Product.Images);
-
-                    // Seleccionar la primera imagen si hay alguna
-                    if (Images.Any() && string.IsNullOrEmpty(selectedImageUrl)) {
-                        selectedImageUrl = Images.First().Url;
-                    }
-                } else {
-                    Images = new List<ImageModel>();
+                Images = (await _productsService.GetImages(Product.Id)).ToList();
+                // Seleccionar la primera imagen si hay alguna
+                if (Images.Any() && selectedImage is null) {
+                    selectedImage = Images.First();
                 }
             } catch (Exception ex) {
                 ShowNotification(NotificationSeverity.Error, "Error", $"Error al cargar imágenes: {ex.Message}");
@@ -49,18 +55,17 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
             }
         }
 
-        private void SelectImage(string imageUrl) {
-            selectedImageUrl = imageUrl;
+        private void SelectImage(ImageModel image) {
+            selectedImage = image;
         }
 
-        // Nueva funcionalidad: Agregar imagen desde URL
+        // Agregar imagen desde URL
         private async Task AddImageFromUrl() {
             if (string.IsNullOrWhiteSpace(newImageUrl)) {
                 ShowNotification(NotificationSeverity.Warning, "URL vacía", "Por favor ingrese una URL válida");
                 return;
             }
 
-            // Validar que sea una URL válida
             if (!Uri.TryCreate(newImageUrl, UriKind.Absolute, out var uriResult) ||
                 (uriResult.Scheme != Uri.UriSchemeHttp && uriResult.Scheme != Uri.UriSchemeHttps)) {
                 ShowNotification(NotificationSeverity.Warning, "URL inválida", "Por favor ingrese una URL válida (http o https)");
@@ -70,30 +75,20 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
             isLoading = true;
 
             try {
-                // Crear modelo de imagen
-                var imageModel = new ImageModel { Url = newImageUrl.Trim() };
-
                 // Guardar en el backend y obtener el ID
-                var imageId = await _imagesService.Add(imageModel);
-                imageModel.Id = imageId;
+                var image = await _imagesService.Add(newImageUrl);
+                await _productsService.AddImage(Product.Id, image.Id);
 
                 // Agregar a la lista de modelos
-                Images.Add(imageModel);
-
-                // Agregar el ID al producto
-                Product.Images ??= new List<int>();
-                Product.Images.Add(imageId);
-
-                // Actualizar el producto en el backend inmediatamente
-                await _productsService.Update(Product);
+                Images.Add(image);
 
                 // Establecer como imagen seleccionada si es la primera
                 if (Images.Count == 1) {
-                    selectedImageUrl = newImageUrl;
+                    selectedImage = image;
                 }
 
                 // Limpiar el campo de texto
-                newImageUrl = "";
+                newImageUrl = null;
 
                 ShowNotification(NotificationSeverity.Success, "Éxito", "Imagen agregada correctamente");
             } catch (Exception ex) {
@@ -108,6 +103,7 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
             isLoading = true;
 
             try {
+                /*
                 foreach (var file in files.Take(10)) {
                     if (file.Size > 5 * 1024 * 1024) {
                         ShowNotification(NotificationSeverity.Warning, "Archivo muy grande", $"El archivo {file.Name} excede los 5MB");
@@ -119,24 +115,15 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
                         continue;
                     }
 
-                    var imageUrl = await UploadImage(file);
+                    
+                    var image = await _imagesService.Add(stream, file.ContentType);
 
-                    if (!string.IsNullOrEmpty(imageUrl)) {
-                        var imageModel = new ImageModel { Url = imageUrl };
-                        var imageId = await _imagesService.Add(imageModel);
-                        imageModel.Id = imageId;
-
-                        Images.Add(imageModel);
-                        Product.Images ??= new List<int>();
-                        Product.Images.Add(imageId);
-
-                        if (Images.Count == 1) {
-                            selectedImageUrl = imageUrl;
-                        }
+                    if (Images.Count == 1) {
+                        selectedImage = image;
                     }
                 }
+                */
 
-                await _productsService.Update(Product);
                 ShowNotification(NotificationSeverity.Success, "Éxito", $"{files.Count()} imagen(es) agregada(s) correctamente");
             } catch (Exception ex) {
                 ShowNotification(NotificationSeverity.Error, "Error", $"Error al cargar imágenes: {ex.Message}");
@@ -146,42 +133,20 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
             }
         }
 
-        private async Task<string> UploadImage(IBrowserFile file) {
-            try {
-                var buffer = new byte[file.Size];
-                await file.OpenReadStream().ReadAsync(buffer);
-
-                var base64 = Convert.ToBase64String(buffer);
-                var imageUrl = $"data:{file.ContentType};base64,{base64}";
-
-                return imageUrl;
-            } catch (Exception ex) {
-                Console.WriteLine($"Error al convertir imagen: {ex.Message}");
-                return string.Empty;
-            }
-        }
-
-        private async Task RemoveImage(string imageUrl) {
-            var imageToRemove = Images?.FirstOrDefault(i => i.Url == imageUrl);
-            if (imageToRemove == null) return;
-
+        private async Task RemoveImage(int id) {
             isLoading = true;
 
             try {
                 // Eliminar del backend
-                await _imagesService.Delete(imageToRemove.Id);
+                await _productsService.RemoveImage(Product.Id, id);
+                await _imagesService.Delete(id);
 
                 // Eliminar de la lista local
-                Images.Remove(imageToRemove);
-                Product.Images?.Remove(imageToRemove.Id);
-
-                // Actualizar el producto
-                await _productsService.Update(Product);
+                Images.Remove(im => im.Id == id);
 
                 // Actualizar imagen seleccionada
-                if (selectedImageUrl == imageUrl) {
-                    selectedImageUrl = Images.FirstOrDefault()?.Url ?? "";
-                }
+                if (selectedImage?.Id == id)
+                    selectedImage = Images.FirstOrDefault();
 
                 ShowNotification(NotificationSeverity.Success, "Éxito", "Imagen eliminada correctamente");
             } catch (Exception ex) {
@@ -192,8 +157,8 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
             }
         }
 
-        private async Task MoveImageUp(string imageUrl) {
-            var index = Images?.FindIndex(i => i.Url == imageUrl) ?? -1;
+        private async Task MoveImageUp(int id) {
+            var index = Images?.FindIndex(i => i.Id == id) ?? -1;
             if (index <= 0) return;
 
             isLoading = true;
@@ -202,12 +167,6 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
                 var image = Images[index];
                 Images.RemoveAt(index);
                 Images.Insert(index - 1, image);
-
-                // Reordenar IDs en Product.Images
-                Product.Images = Images.Select(i => i.Id).ToList();
-
-                // Actualizar en el backend inmediatamente
-                await _productsService.Update(Product);
 
                 ShowNotification(NotificationSeverity.Info, "Orden actualizado", "Imagen movida hacia la izquierda");
             } catch (Exception ex) {
@@ -218,8 +177,8 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
             }
         }
 
-        private async Task MoveImageDown(string imageUrl) {
-            var index = Images?.FindIndex(i => i.Url == imageUrl) ?? -1;
+        private async Task MoveImageDown(int id) {
+            var index = Images?.FindIndex(i => i.Id == id) ?? -1;
             if (index < 0 || index >= Images.Count - 1) return;
 
             isLoading = true;
@@ -228,12 +187,6 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
                 var image = Images[index];
                 Images.RemoveAt(index);
                 Images.Insert(index + 1, image);
-
-                // Reordenar IDs en Product.Images
-                Product.Images = Images.Select(i => i.Id).ToList();
-
-                // Actualizar en el backend inmediatamente
-                await _productsService.Update(Product);
 
                 ShowNotification(NotificationSeverity.Info, "Orden actualizado", "Imagen movida hacia la derecha");
             } catch (Exception ex) {
@@ -252,5 +205,6 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
                 Duration = 4000
             });
         }
+        #endregion
     }
 }

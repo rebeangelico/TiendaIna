@@ -1,24 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TiendaIna.Core.Entities;
+﻿using TiendaIna.Core.Entities;
 
-namespace TiendaIna.Core.Models {
-    public class BrandModel {
-        public int Id { get; set; }
-        public string Name { get; set; }
+namespace TiendaIna.Core.Models;
 
-        public BrandModel() { }
+public class BrandModel {
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public int ImageId { get; set; }
 
-        public BrandModel(Brand brand) {
-            Id = brand.Id;
-            Name = brand.Name;
-        }
-        public BrandModel Clone() {
-            return (BrandModel)this.MemberwiseClone();
-        }
-    }
-
+    public static BrandModel FromEntity(Brand brand) => brand.Adapt<BrandModel>();
+    
+    public BrandModel Clone() => (BrandModel)this.MemberwiseClone();
 }

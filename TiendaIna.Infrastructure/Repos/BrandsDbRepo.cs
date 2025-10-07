@@ -5,7 +5,7 @@ using TiendaIna.Core.Repos;
 
 namespace TiendaIna.Infrastructure.Repos;
 
-public class BrandsDbRepo : DbRepoBase<Brand, int>, IBrandsRepo {
+public class BrandsDbRepo : CrudDbRepoBase<Brand, int>, IBrandsRepo {
     public BrandsDbRepo(IOptions<AppSettings> appSettings) : base(appSettings) { }
 }
 

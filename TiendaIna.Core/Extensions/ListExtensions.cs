@@ -1,4 +1,4 @@
-﻿namespace TiendaIna.Admin.Blazor.Helpers {
+﻿namespace TiendaIna.Core {
     public static class ListExtensions {
         public static void RestoreFromList<T>(this List<T> list, Func<T, bool> predicate, List<T> originalList) {
             if (list is null) throw new ArgumentNullException(nameof(list));

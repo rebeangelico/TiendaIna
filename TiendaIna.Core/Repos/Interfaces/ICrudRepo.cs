@@ -2,8 +2,8 @@
 
 namespace TiendaIna.Core.Repos;
 
-public interface IRepo<TEntity, TKey> where TEntity : class, IEntity<TKey> where TKey : notnull {
-    Task<IEnumerable<TEntity>> GetAllAsync();
+public interface ICrudRepo<TEntity, TKey> where TEntity : class, IEntity<TKey> where TKey : notnull {
+    Task<IEnumerable<TEntity>> GetAsync();
     Task<TEntity> GetAsync(TKey id);
     Task<TKey> CreateAsync(TEntity entity);
     Task<int> UpdateAsync(TEntity entity);

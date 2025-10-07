@@ -20,7 +20,7 @@ public partial class ProductsList : ComponentBase {
 
     #region overriden methods
     protected override async Task OnInitializedAsync() {
-        Products = await _productsService.GetAll();
+        Products = await _productsService.Get();
     }
     #endregion
 }
