@@ -1,0 +1,26 @@
+@typeparam TValue where TValue : notnull
+
+@code {
+    [Parameter] public Dictionary<TValue, string>? Data { get; set; }
+    [Parameter] public HashSet<TValue>? SelectedValues { get; set; }
+    [Parameter] public EventCallback<HashSet<TValue>?> SelectedValuesChanged { get; set; }
+
+    protected bool IsSelected(TValue key) => SelectedValues?.Contains(key) ?? false;
+    protected async Task OnChange(TValue key, bool isChecked) {
+        if (isChecked) {
+            SelectedValues?.Add(key);
+        } else {
+            if (IsSelected(key) is not true) return;
+            SelectedValues?.Remove(key);
+        }
+        await SelectedValuesChanged.InvokeAsync(SelectedValues);
+        //StateHasChanged();
+    }
+}
+
+@if (Data is not null) {
+    foreach (var d in Data) {
+        <RadzenLabel Text="@d.Value" class="rz-ms-4" />
+        <RadzenCheckBox TValue="bool" Value="@IsSelected(d.Key)" Change="(val) => OnChange(d.Key, val)"></RadzenCheckBox>
+    }
+}

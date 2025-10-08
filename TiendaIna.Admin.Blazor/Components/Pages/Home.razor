@@ -1,24 +1,36 @@
 ﻿@page "/"
-@using TiendaIna.Core.Entities
-@using TiendaIna.Core.Repos
-@using TiendaIna.Infrastructure.Repos
-@inject IBrandsRepo brandsRepo
+@rendermode InteractiveServer
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
-
-
-
-@if (brand != null) {
-    <h2>@brand.Id - @brand.Name</h2>
-} else {
-    <p>Cargando marca...</p>
-}
-
 @code {
-    private Brand? brand;
+    protected Dictionary<int, string>? Data { get; set; } = new() {
+        { 1, "Primero" },
+        { 2, "Segundo" },
+        { 3, "Tercero" },
+    };
 
-    protected override async Task OnInitializedAsync() {
-        brand = await brandsRepo.GetAsync(1);
+    protected HashSet<int>? SelectedValues { get; set; } = [ 1 ];
+
+    public void OnSelectValueChanged(HashSet<int> values) {
+        SelectedValues = values;
     }
 }
+
+<div class="container container-fluid">
+    <CheckboxGroup TValue="int" Data="Data" @bind-SelectedValues="SelectedValues" />
+</div>
+
+<div class="container container-fluid">
+    <CheckboxGroup TValue="int" Data="Data" SelectedValues="SelectedValues" SelectedValuesChanged="OnSelectValueChanged" />
+</div>
+
+<div class="container container-fluid">
+    <CheckboxGroup TValue="int" Data="Data" SelectedValues="SelectedValues" SelectedValuesChanged="(values) => OnSelectValueChanged(values)" />
+</div>
+
+<ul>
+@foreach (var sv in SelectedValues)
+{
+    <li>@sv</li>
+}
+</ul>

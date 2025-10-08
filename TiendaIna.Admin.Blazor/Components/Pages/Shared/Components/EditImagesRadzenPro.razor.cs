@@ -61,35 +61,23 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
 
         // Agregar imagen desde URL
         private async Task AddImageFromUrl() {
-            if (string.IsNullOrWhiteSpace(newImageUrl)) {
-                ShowNotification(NotificationSeverity.Warning, "URL vacía", "Por favor ingrese una URL válida");
-                return;
-            }
-
-            if (!Uri.TryCreate(newImageUrl, UriKind.Absolute, out var uriResult) ||
-                (uriResult.Scheme != Uri.UriSchemeHttp && uriResult.Scheme != Uri.UriSchemeHttps)) {
-                ShowNotification(NotificationSeverity.Warning, "URL inválida", "Por favor ingrese una URL válida (http o https)");
+            if (string.IsNullOrWhiteSpace(newImageUrl) ||
+                !Uri.TryCreate(newImageUrl, UriKind.Absolute, out var uri) ||
+                (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps)) {
+                ShowNotification(NotificationSeverity.Warning, "URL inválida", "Ingrese una URL válida (http o https)");
                 return;
             }
 
             isLoading = true;
 
             try {
-                // Guardar en el backend y obtener el ID
                 var image = await _imagesService.Add(newImageUrl);
                 await _productsService.AddImage(Product.Id, image.Id);
 
-                // Agregar a la lista de modelos
                 Images.Add(image);
+                selectedImage ??= image; // si es null, asigna
 
-                // Establecer como imagen seleccionada si es la primera
-                if (Images.Count == 1) {
-                    selectedImage = image;
-                }
-
-                // Limpiar el campo de texto
                 newImageUrl = null;
-
                 ShowNotification(NotificationSeverity.Success, "Éxito", "Imagen agregada correctamente");
             } catch (Exception ex) {
                 ShowNotification(NotificationSeverity.Error, "Error", $"Error al agregar imagen: {ex.Message}");
