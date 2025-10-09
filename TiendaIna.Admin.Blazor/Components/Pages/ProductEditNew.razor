@@ -1,4 +1,4 @@
-﻿@page "/products/edit/{productId:int}"
+﻿@page "/products/editNew/{productId:int}"
 @rendermode InteractiveServer
 @using Radzen
 @using Radzen.Blazor
@@ -38,7 +38,7 @@
 
                 <div class="col-md-12 col-12 campo-formulario">
                     <h4 class="titulo-campo">Descripcion Corta</h4>
-                    <RadzenTextArea @bind-Value="Product.DescriptionShort" Placeholder="descripcion corta" Style="width: 100%; font-size: 1.1rem; height: 80px;" />
+                        <RadzenTextArea @bind-Value="Product.DescriptionShort" Placeholder="descripcion corta" Style="width: 100%; font-size: 1.1rem; height: 80px; resize:none" />
                 </div>
 
                 <div class="mb-3 campo-formulario">
