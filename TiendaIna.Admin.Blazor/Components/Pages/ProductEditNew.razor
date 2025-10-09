@@ -38,12 +38,20 @@
 
                 <div class="col-md-12 col-12 campo-formulario">
                     <h4 class="titulo-campo">Descripcion Corta</h4>
-                        <RadzenTextArea @bind-Value="Product.DescriptionShort" Placeholder="descripcion corta" Style="width: 100%; font-size: 1.1rem; height: 80px; resize:none" />
+                    <RadzenTextArea @bind-Value="Product.DescriptionShort" Placeholder="descripcion corta" Style="width: 100%; font-size: 1.1rem; height: 80px; resize:none" />
                 </div>
 
                 <div class="mb-3 campo-formulario">
                     <h4 class="titulo-campo">Categorias del Producto</h4>
-                    <AssignCategories ProductId="Product.Id" />
+                        <RadzenCheckBoxList @bind-Value="@SelectedCategoriesIds" TValue="int">
+                            <Items>
+                                @if (CategoriesData is not null) {
+                                    foreach (var cd in CategoriesData) {
+                                        <RadzenCheckBoxListItem Text="@cd.Name" Value="@cd.Id" />
+                                    }
+                                }
+                            </Items>
+                        </RadzenCheckBoxList>
                 </div>
 
                 <div class="mb-3 campo-formulario">

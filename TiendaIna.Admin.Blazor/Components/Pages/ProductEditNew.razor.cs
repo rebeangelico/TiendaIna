@@ -22,9 +22,8 @@ public partial class ProductEditNew : ComponentBase {
 
     public ProductModel? Product { get; set; }
 
-    protected Dictionary<int, string> CategoriesData { get; set; }
-    protected HashSet<int> ProductCategoriesIds { get; set; }
-    protected HashSet<int>? SelectedValues { get; set; }
+    public List<CategoryModel> CategoriesData { get; set; }
+    public IEnumerable<int>? SelectedCategoriesIds { get; set; }
     #endregion
 
     #region constructors
@@ -40,22 +39,16 @@ public partial class ProductEditNew : ComponentBase {
     #region overriden methods
     protected override async Task OnInitializedAsync() {
         Product = await _productsService.Get(productId);
-        CategoriesData = (await _categoriesService.GetAll()).ToDictionary(c => c.Id, c => c.Name);
+        CategoriesData = (await _categoriesService.GetAll());
 
     }
 
     #endregion
 
     #region Categories
-    public void OnSelectValueChanged(HashSet<int> values) {
-        SelectedValues = values;
-    }
+
 
     #endregion
-
-
-
-
 
     void NavegarA(string url) {
         _navigationManager.NavigateTo(url);
