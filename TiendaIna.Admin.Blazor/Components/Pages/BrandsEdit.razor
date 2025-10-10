@@ -1,0 +1,162 @@
+@page "/brandsEdit"
+@rendermode InteractiveServer
+@using Radzen
+@using Radzen.Blazor
+@using TiendaIna.Admin.Blazor.Components.Pages.Shared.Components
+@using TiendaIna.Core.Models
+@using TiendaIna.Core.Services
+
+<h2>Editar Marcas</h2>
+
+<div class="page-container">
+    <div class="component-wrapper component-top">
+
+        <RadzenButton ButtonStyle="ButtonStyle.Success"
+                      Icon="add_circle_outline"
+                      class="me-2"
+                      Text="Nueva Marca"
+                      Click="@InsertRow"
+                      Disabled="@(brandToInsert != null || brandToUpdate != null)" />
+
+        @if (isLoading) {
+            <div class="text-center p-4">
+                <RadzenProgressBarCircular ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+                <p class="mt-2">Cargando marcas...</p>
+            </div>
+        } else {
+            <RadzenDataGrid @ref="grid"
+                            Data="@brands"
+                            TItem="BrandModel"
+                            EditMode="DataGridEditMode.Single"
+                            AllowPaging="false"
+                            AllowSorting="false"
+                            AllowFiltering="false">
+                <Columns>
+                    <RadzenDataGridColumn TItem="BrandModel" Property="Id" Title="ID" Width="80px" />
+
+                    <RadzenDataGridColumn TItem="BrandModel" Property="Name" Title="Nombre">
+                        <EditTemplate Context="brand">
+                            <RadzenTextBox @bind-Value="brand.Name" Style="width:100%" Name="Name" />
+                            <RadzenRequiredValidator Text="El nombre es requerido" Component="Name" Popup="true" />
+                        </EditTemplate>
+                    </RadzenDataGridColumn>
+
+                    <RadzenDataGridColumn TItem="BrandModel" TextAlign="TextAlign.Right" Width="150px">
+                        <Template Context="brand">
+                            <RadzenButton Icon="edit" Click="@(() => EditRow(brand))" />
+                            <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" class="ms-1" Click="@(() => DeleteRow(brand))" />
+                        </Template>
+                        <EditTemplate Context="brand">
+                            <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Success" Click="@(() => SaveRow(brand))" />
+                            <RadzenButton Icon="close" class="ms-1" Click="@(() => CancelEdit(brand))" />
+                        </EditTemplate>
+                    </RadzenDataGridColumn>
+                </Columns>
+            </RadzenDataGrid>
+        }
+       
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+    .page-container {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .component-wrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .component-top {
+        flex: 1;
+        min-height: 50vh;
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .component-bottom {
+        flex: 1;
+        min-height: 50vh;
+        background-color: #ffffff;
+    }
+
+    @@media (max-width: 768px) {
+        .component-top,
+        .component-bottom {
+            min-height: 40vh;
+            padding: 1rem;
+        }
+    }
+
+    @@media (max-width: 480px) {
+        .component-top,
+        .component-bottom {
+            min-height: 35vh;
+            padding: 0.5rem;
+        }
+    }
+
+    @@media (min-width: 1200px) {
+        .component-top,
+        .component-bottom {
+            min-height: 45vh;
+        }
+    }
+
+    .component-wrapper > * {
+        width: 100%;
+        height: 100%;
+    }
+
+    }
+</style>
+

@@ -59,7 +59,7 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
 
                 if (result == true) {
                     await _brandsService.Delete(brand.Id);
-                    brands.Remove(b => b.Id == brand.Id);
+                    brands.RemoveBy(b => b.Id == brand.Id);
                     await grid.Reload();
                     NotifySuccess("Marca eliminada exitosamente");
                 }

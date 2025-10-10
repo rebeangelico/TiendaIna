@@ -1,10 +1,7 @@
 using Microsoft.AspNetCore.Components;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Radzen;
-using System.Threading.Tasks;
 using TiendaIna.Core.Models;
 using TiendaIna.Core.Services;
-using TiendaIna.Infrastructure.Services;
 
 namespace TiendaIna.Admin.Blazor.Components.Pages;
 public partial class ProductEditNew : ComponentBase {

@@ -13,7 +13,7 @@ public class ProductsInMemoryRepo : InMemoryRepoBase<Product, int>, IProductsRep
     }
 
     public Task SetCategoriesAsync(int productId, IEnumerable<int> categoryIds) {
-        ((List<ProductCategory>)_productCategoriesStore).Remove(pc => pc.ProductId == productId);
+        ((List<ProductCategory>)_productCategoriesStore).RemoveBy(pc => pc.ProductId == productId);
         foreach(var catId in categoryIds)
             _productCategoriesStore.Add(new ProductCategory(productId, catId));
         return Task.CompletedTask;

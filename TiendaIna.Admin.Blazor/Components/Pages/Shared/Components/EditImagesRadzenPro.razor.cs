@@ -130,7 +130,7 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
                 await _imagesService.Delete(id);
 
                 // Eliminar de la lista local
-                Images.Remove(im => im.Id == id);
+                Images.RemoveBy(im => im.Id == id);
 
                 // Actualizar imagen seleccionada
                 if (selectedImage?.Id == id)

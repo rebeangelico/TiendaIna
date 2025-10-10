@@ -65,7 +65,7 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
 
                 if (result == true) {
                     await _categoriesService.Delete(category.Id);
-                    categories.Remove(c => c.Id == category.Id);
+                    categories.RemoveBy(c => c.Id == category.Id);
                     await grid.Reload();
                     NotifySuccess("Categoría eliminada exitosamente");
                 }
