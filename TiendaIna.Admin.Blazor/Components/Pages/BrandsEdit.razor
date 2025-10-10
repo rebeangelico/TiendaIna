@@ -16,16 +16,16 @@
                       class="me-2"
                       Text="Nueva Marca"
                       Click="@InsertRow"
-                      Disabled="@(brandToInsert != null || brandToUpdate != null)" />
+                      Disabled="@(BrandToInsert != null || BrandToUpdate != null)" />
 
-        @if (isLoading) {
+        @if (IsLoading) {
             <div class="text-center p-4">
                 <RadzenProgressBarCircular ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
                 <p class="mt-2">Cargando marcas...</p>
             </div>
         } else {
-            <RadzenDataGrid @ref="grid"
-                            Data="@brands"
+            <RadzenDataGrid @ref="Grid"
+                            Data="@Brands"
                             TItem="BrandModel"
                             EditMode="DataGridEditMode.Single"
                             AllowPaging="false"

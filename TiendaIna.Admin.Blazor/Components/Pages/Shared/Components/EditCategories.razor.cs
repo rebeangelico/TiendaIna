@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Components;
 using Radzen;
 using Radzen.Blazor;
+using System.Collections.Immutable;
 using TiendaIna.Core;
+using TiendaIna.Core.Extensions;
 using TiendaIna.Core.Models;
 using TiendaIna.Core.Services;
 
@@ -42,8 +44,7 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
             try {
                 isLoading = true;
                 originalCategories = await _categoriesService.GetAll();
-                foreach (var originalCategory in originalCategories)
-                    categories.Add(originalCategory.Clone());
+                categories = originalCategories.DeepClone();
                 parentCategories = categories.Where(c => c.ParentCategoryId == null);
                 StateHasChanged();
             } catch (Exception ex) {
@@ -94,7 +95,7 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
                 } else {
                     var id = await _categoriesService.Add(category);
                     category.Id = id;
-                    originalCategories.Add(category.Clone());
+                    originalCategories.Add(category.DeepClone());
                     categories.Add(category);
                     NotifySuccess("Categoría insertada exitosamente");
                 }

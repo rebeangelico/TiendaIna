@@ -8,6 +8,4 @@ public class BrandModel {
     public int ImageId { get; set; }
 
     public static BrandModel FromEntity(Brand brand) => brand.Adapt<BrandModel>();
-    
-    public BrandModel Clone() => (BrandModel)this.MemberwiseClone();
 }

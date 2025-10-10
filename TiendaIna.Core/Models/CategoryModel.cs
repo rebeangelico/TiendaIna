@@ -7,8 +7,6 @@ namespace TiendaIna.Core.Models {
         public string Name { get; set; }
 
         public static CategoryModel FromEntity(Category category) => category.Adapt<CategoryModel>();
-
-        public CategoryModel Clone() => (CategoryModel)this.MemberwiseClone();
     }
 
 }
