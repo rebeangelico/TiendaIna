@@ -175,7 +175,6 @@
         background-color: #ffffff;
     }
 
-    /* Responsive Design */
     @@media (max-width: 768px) {
         .component-top,
         .component-bottom {
@@ -199,19 +198,14 @@
         }
     }
 
-    /* Asegurar que los componentes internos ocupen todo el espacio */
     .component-wrapper ::deep > * {
         width: 100%;
         height: 100%;
     }
 
-    /* Eliminar márgenes por defecto del body si es necesario */
     ::deep body {
         margin: 0;
         padding: 0;
     }
 </style>
 
-@code {
-    // Aquí puedes agregar lógica adicional si la necesitas
-}
