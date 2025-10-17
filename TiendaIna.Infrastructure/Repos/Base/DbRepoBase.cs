@@ -7,7 +7,7 @@ using TiendaIna.Core.Repos;
 
 namespace TiendaIna.Infrastructure.Repos;
 
-public abstract class DbRepoBase<TEntity, TKey> : BaseRepository<TEntity, SqlConnection>, IRepo<TEntity, TKey> where TEntity : class, IEntity<TKey> where TKey : notnull {
+public abstract class DbRepoBase<TEntity, TKey> : DbRepository<SqlConnection>, IRepo<TEntity, TKey> where TEntity : class, IEntity<TKey> where TKey : notnull {
     protected DbRepoBase(IOptions<AppSettings> appSettings) : base(appSettings?.Value?.ConnectionStrings?.SqlServer, RepoDb.Enumerations.ConnectionPersistency.Instance) { }
 }
 

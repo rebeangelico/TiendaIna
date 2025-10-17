@@ -19,14 +19,18 @@ public class ImagesDbRepo : CrudDbRepoBase<Image, int>, IImagesRepo {
         return result.FirstOrDefault();
     }
 
-    public Task<IEnumerable<Image>> GetByProductAsync(int productId) {
+    public async Task<SortedList<int, Image>> GetByProductAsync(int productId) {
         var param = new Dictionary<string, object> {
             { nameof(productId), productId }
         };
-        return base.ExecuteQueryAsync("SELECT i.* " +
-                                      "FROM [dbo].[Images] i JOIN [dbo].[ProductImagesRel] pi " +
-                                      "ON i.Id = pi.Id " +
-                                      "WHERE pi.ProductId = @productId", param);
+        var orderedImages = await base.ExecuteQueryAsync<OrderedImage>("SELECT i.*, pi.OrderIndex " +
+                                                                       "FROM [dbo].[Images] i JOIN [dbo].[ProductImages] pi " +
+                                                                       "ON i.Id = pi.Id " +
+                                                                       "WHERE pi.ProductId = @productId", param);
+        var result = new SortedList<int, Image>();
+        foreach (var orderedImage in orderedImages)
+            result.Add(orderedImage.OrderIndex, orderedImage);
+        return result;
     }
 }
 

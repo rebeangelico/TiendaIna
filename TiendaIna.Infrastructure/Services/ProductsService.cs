@@ -53,16 +53,23 @@ public class ProductsService : IProductsService {
     #endregion
 
     #region image handling
-    public async Task<IEnumerable<ImageModel>> GetImages(int id) {
-        var productImages = await _imagesRepo.GetByProductAsync(id);
-        return productImages.Select(i => new ImageModel() {
-            Id = i.Id,
-            Url = !string.IsNullOrWhiteSpace(i.CdnUrl) ? i.CdnUrl : $"https://localhost/images/{i.Id}",
-            SmallUrl = !string.IsNullOrWhiteSpace(i.SmallCdnUrl) ? i.SmallCdnUrl : $"https://localhost/images/{i.Id}?size=s",
-        });
+    public async Task<SortedList<int, ImageModel>> GetImages(int productId) {
+        var productImages = await _imagesRepo.GetByProductAsync(productId);
+        var result = new SortedList<int, ImageModel>();
+        foreach (var pi in productImages) {
+            var imageModel = new ImageModel() {
+                Id = pi.Value.Id,
+                Url = !string.IsNullOrWhiteSpace(pi.Value.CdnUrl) ? pi.Value.CdnUrl : $"https://localhost/images/{pi.Value.Id}",
+                SmallUrl = !string.IsNullOrWhiteSpace(pi.Value.SmallCdnUrl) ? pi.Value.SmallCdnUrl : $"https://localhost/images/{pi.Value.Id}?size=s",
+            };
+            result.Add(pi.Key, imageModel);
+        }
+        return result;
     }
-    public async Task AddImage(int productId, int imageId) => await _productImagesRepo.InsertIfNotExists(productId, imageId);
-    public async Task RemoveImage(int productId, int imageId) => await _productImagesRepo.Remove(productId, imageId);
-    public async Task MoveImage(int productId, int imageId, int position) => await _productImagesRepo.Move(productId, imageId, position);
+    public async Task AddImage(int productId, int imageId) => await _productImagesRepo.CreateIfNotExists(productId, imageId);
+    public async Task RemoveImage(int productImageId) => await _productImagesRepo.DeleteAsync(productImageId);
+    public async Task MoveImage(int productImageId, int position) {
+        throw new NotImplementedException();
+    }
     #endregion
 }

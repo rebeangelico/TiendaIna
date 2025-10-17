@@ -12,11 +12,11 @@ public class CategoriesDbRepo : CrudDbRepoBase<Category, int>, ICategoriesRepo {
         var param = new Dictionary<string, object> {
             { nameof(productId), productId }
         };
-        return base.ExecuteQueryAsync("SELECT c.* " +
-                                      "FROM [Categories] c INNER JOIN [ProductsCategories] pc " +
-                                      "ON c.[Id] = pc.[CategoryId] " +
-                                      "WHERE ProductId = @productId " +
-                                      "ORDER BY c.Name", param);
+        return base.ExecuteQueryAsync<Category>("SELECT c.* " +
+                                                "FROM [Categories] c INNER JOIN [ProductsCategories] pc " +
+                                                "ON c.[Id] = pc.[CategoryId] " +
+                                                "WHERE ProductId = @productId " +
+                                                "ORDER BY c.Name", param);
     }
 }
 

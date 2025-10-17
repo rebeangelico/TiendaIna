@@ -11,3 +11,7 @@ public class Image : IEntity<int> {
     public string? SmallCdnUrl { get; set; }
     public string? MimeType { get; set; }
 }
+
+public class OrderedImage : Image {
+    public int OrderIndex { get; set; }
+}

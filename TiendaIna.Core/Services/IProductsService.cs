@@ -12,9 +12,9 @@ namespace TiendaIna.Core.Services {
         Task<IEnumerable<CategoryModel>> GetCategoriesAsync(int productId);
         Task SetCategoriesAsync(int productId, IEnumerable<int> categoryIds);
 
-        Task<IEnumerable<ImageModel>> GetImages(int id);
+        Task<SortedList<int, ImageModel>> GetImages(int id);
         Task AddImage(int productId, int imageId);
-        Task RemoveImage(int productId, int imageId);
-        Task MoveImage(int productId, int imageId, int position);
+        Task RemoveImage(int productImageId);
+        Task MoveImage(int productImageId, int position);
     }
 }

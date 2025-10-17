@@ -7,7 +7,7 @@ namespace TiendaIna.Infrastructure.Repos;
 public class ProductImagesInMemoryRepo : InMemoryRepoBase<ProductImage, int>, IProductImagesRepo {
     public ProductImagesInMemoryRepo(IInMemoryProductImagesStore brandsStore) : base(brandsStore) { }
 
-    public Task InsertIfNotExists(int productId, int imageId) {
+    public Task CreateIfNotExists(int productId, int imageId) {
         var productImages = _entities.Where(pi => pi.ProductId == productId);
         var productImage = productImages.SingleOrDefault(pi => pi.ImageId == imageId);
         if(productImage is not null)

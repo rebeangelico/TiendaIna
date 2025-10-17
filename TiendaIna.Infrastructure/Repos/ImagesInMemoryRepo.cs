@@ -18,8 +18,14 @@ public class ImagesInMemoryRepo : InMemoryRepoBase<Image, int>, IImagesRepo {
         return Task.FromResult(_entities.SingleOrDefault(i => i.Id == imageId));
     }
 
-    public Task<IEnumerable<Image>> GetByProductAsync(int productId) {
-        var imageIds = _productImagesStore.Where(pi => pi.ProductId == productId).OrderBy(pi => pi.OrderIndex).Select(pi => pi.ImageId);
-        return Task.FromResult(_entities.Where(i => imageIds.Contains(i.Id)));
+    public Task<SortedList<int, Image>> GetByProductAsync(int productId) {
+        var productImages = _productImagesStore.Where(pi => pi.ProductId == productId);
+        var result = new SortedList<int, Image>();
+        foreach (var productImage in productImages) {
+            var image = _entities.SingleOrDefault(i => i.Id == productImage.ImageId);
+            if (image is null) continue;
+            result.Add(productImage.OrderIndex, image);
+        }
+        return Task.FromResult(result);
     }
 }
