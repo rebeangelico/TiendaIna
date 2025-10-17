@@ -9,6 +9,7 @@
 <h2>Editar producto</h2>
 
 
+
 <div class="container-fluid">
 @if (Product != null) {
     <div class="row">
@@ -65,7 +66,19 @@
         
         <div class="col-md-5 col-12">
                 <!-- Columna derecha mia -->
-                <EditImagesRadzenPro  Product="Product" />
+                <EditImages Product="Product"
+                            Images="Images"
+                            SelectedImage="selectedImage"
+                            NewImageUrl="newImageUrl"
+                            OnRemoveImage="HandleRemoveImage"
+                            OnMoveImageUp="HandleMoveImageUp"
+                            OnMoveImageDown="HandleMoveImageDown"
+                            OnAddImageFromUrl="HandleAddImageFromUrl"
+                            OnFilesSelected="HandleFilesSelected"
+                            OnSelectImage="HandleSelectImage" />
+
+
+                
 
         </div>
     </div>

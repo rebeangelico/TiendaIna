@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Radzen;
+using TiendaIna.Core.Entities;
 using TiendaIna.Core.Models;
 using TiendaIna.Core.Services;
 
@@ -20,8 +22,17 @@ public partial class ProductEditNew : ComponentBase {
 
     #region properties
     public ProductModel? Product { get; set; }
+
     public List<CategoryModel> CategoriesData { get; set; }
     public IEnumerable<int>? SelectedCategoriesIds { get; set; }
+
+
+    public List<ImageModel> Images { get; set; } = [];
+
+    public ImageModel? selectedImage = null;
+    public string? newImageUrl = null;
+    public bool? isLoading = null;
+
     #endregion
 
     #region constructors
@@ -40,6 +51,8 @@ public partial class ProductEditNew : ComponentBase {
         Product = await _productsService.Get(productId);
         CategoriesData = (await _categoriesService.GetAll());
         SelectedCategoriesIds = (await _productsService.GetCategoriesAsync(productId)).Select(c => c.Id);
+
+        Images = (await _productsService.GetImages(Product.Id)).ToList();
 
     }
 
@@ -73,5 +86,120 @@ public partial class ProductEditNew : ComponentBase {
         }
     }
 
+    #endregion
+    #region Methods Images
+    private async Task HandleRemoveImage(int id) {
+        isLoading = true;
+        try {
+            await _productsService.RemoveImage(Product.Id, id);
+            await _imagesService.Delete(id);
+            Images.RemoveAll(img => img.Id == id);
+
+            if (selectedImage?.Id == id)
+                selectedImage = Images.FirstOrDefault();
+
+            ShowNotification(NotificationSeverity.Success, "Éxito", "Imagen eliminada correctamente");
+        } catch (Exception ex) {
+            ShowNotification(NotificationSeverity.Error, "Error", $"Error al eliminar imagen: {ex.Message}");
+        } finally {
+            isLoading = false;
+        }
+    }
+
+    private async Task HandleMoveImageUp(int id) {
+        var index = Images.FindIndex(i => i.Id == id);
+        if (index <= 0) return;
+
+        isLoading = true;
+        try {
+            var img = Images[index];
+            Images.RemoveAt(index);
+            Images.Insert(index - 1, img);
+
+            ShowNotification(NotificationSeverity.Info, "Orden actualizado", "Imagen movida hacia la izquierda");
+        } catch (Exception ex) {
+            ShowNotification(NotificationSeverity.Error, "Error", $"Error al reordenar: {ex.Message}");
+        } finally {
+            isLoading = false;
+        }
+    }
+
+    private async Task HandleMoveImageDown(int id) {
+        var index = Images.FindIndex(i => i.Id == id);
+        if (index < 0 || index >= Images.Count - 1) return;
+
+        isLoading = true;
+        try {
+            var img = Images[index];
+            Images.RemoveAt(index);
+            Images.Insert(index + 1, img);
+
+            ShowNotification(NotificationSeverity.Info, "Orden actualizado", "Imagen movida hacia la derecha");
+        } catch (Exception ex) {
+            ShowNotification(NotificationSeverity.Error, "Error", $"Error al reordenar: {ex.Message}");
+        } finally {
+            isLoading = false;
+        }
+    }
+
+    private async Task HandleAddImageFromUrl(string url) {
+        if (string.IsNullOrWhiteSpace(url)) return;
+
+        isLoading = true;
+        try {
+            // lógica para agregar imagen desde URL
+            newImageUrl = null;
+            ShowNotification(NotificationSeverity.Success, "Éxito", "Imagen agregada correctamente");
+        } catch (Exception ex) {
+            ShowNotification(NotificationSeverity.Error, "Error", $"Error al agregar imagen: {ex.Message}");
+        } finally {
+            isLoading = false;
+        }
+    }
+
+    private async Task HandleFilesSelected(IEnumerable<IBrowserFile> files) {
+        isLoading = true;
+        try {
+            // lógica para subir imágenes
+            ShowNotification(NotificationSeverity.Success, "Éxito", $"{files.Count()} imagen(es) agregada(s)");
+        } catch (Exception ex) {
+            ShowNotification(NotificationSeverity.Error, "Error", $"Error al subir imágenes: {ex.Message}");
+        } finally {
+            isLoading = false;
+        }
+    }
+
+    private Task HandleSelectImage(ImageModel image) {
+        selectedImage = image;
+        return Task.CompletedTask;
+    }
+
+
+    private async Task RemoveImageAsync(int id) {
+        try {
+            await _productsService.RemoveImage(Product.Id, id);
+            await _imagesService.Delete(id);
+
+            Images.RemoveAll(im => im.Id == id);
+
+            if (selectedImage?.Id == id)
+                selectedImage = Images.FirstOrDefault();
+
+            ShowNotification(NotificationSeverity.Success, "Éxito", "Imagen eliminada correctamente");
+        } catch (Exception ex) {
+            ShowNotification(NotificationSeverity.Error, "Error", $"Error al eliminar imagen: {ex.Message}");
+        } finally {
+            StateHasChanged();
+        }
+    }
+
+    private void ShowNotification(NotificationSeverity severity, string summary, string detail) {
+        _notificationService.Notify(new NotificationMessage {
+            Severity = severity,
+            Summary = summary,
+            Detail = detail,
+            Duration = 4000
+        });
+    }
     #endregion
 }
