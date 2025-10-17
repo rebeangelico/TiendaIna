@@ -1,10 +1,10 @@
 using Radzen;
 using RepoDb;
-using TiendaIna.Admin.Blazor.Components;
+using TiendaIna.Web.Blazor.Components;
 using TiendaIna.Core;
 using TiendaIna.Core.Models;
 
-namespace TiendaIna.Admin.Blazor {
+namespace TiendaIna.Web.Blazor {
     public static class Program {
         public static void Main(string[] args) {
             var builder = WebApplication.CreateBuilder(args);
