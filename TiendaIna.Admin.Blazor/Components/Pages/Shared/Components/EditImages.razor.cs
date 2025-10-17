@@ -1,33 +1,35 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using Radzen;
-using TiendaIna.Core;
 using TiendaIna.Core.Models;
-using TiendaIna.Core.Services;
 
 namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
     public partial class EditImages : ComponentBase {
         #region SubClasses
+        public class ImageData {
+            public int Id { get; set; }
+            public string? Url { get; set; }
+            public string? SmallUrl { get; set; }
+        }
+
         public class ImageMoveEventData {
-            public int ImageId { get; set; }
+            public int Id { get; set; }
             public int Position { get; set; }
 
-            public ImageMoveEventData(int imageId, int pos) {
-                ImageId = imageId;
+            public ImageMoveEventData(int id, int pos) {
+                Id = id;
                 Position = pos;
             }
         }
         #endregion
 
         #region Propierties
-        protected ImageModel? SelectedImage { get; set; } = new();
+        protected ImageData? SelectedImage { get; set; } = new();
         protected string? NewImageUrl { get; set; } = null;
         protected bool IsLoading { get; set; } = false;
         #endregion
 
         #region Parameters
-        [Parameter] public ProductModel Product { get; set; } = new ProductModel();
-        [Parameter] public List<ImageModel> Images { get; set; } = [];
+        [Parameter] public SortedList<int, ImageData> Images { get; set; } = [];
         [Parameter] public EventCallback<int> OnDelete { get; set; }
         [Parameter] public EventCallback<ImageMoveEventData> OnMove { get; set; }
         [Parameter] public EventCallback<string> OnAddFromUrl { get; set; }
@@ -49,7 +51,7 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
             IsLoading = true;
             try {
                 if (Images?.Any() is true && SelectedImage is null)
-                    SelectedImage = Images.First();
+                    SelectedImage = Images.First().Value;
             } finally {
                 IsLoading = false;
             }
@@ -57,7 +59,7 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
         #endregion
 
         #region Event handlers
-        public void OnSelectImage(ImageModel imageModel) => SelectedImage = imageModel;
+        public void OnSelectImage(ImageData imageModel) => SelectedImage = imageModel;
         #endregion
     }
 }

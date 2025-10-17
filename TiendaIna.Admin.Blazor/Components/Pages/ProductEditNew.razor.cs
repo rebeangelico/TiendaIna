@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Radzen;
-using TiendaIna.Core.Entities;
+using TiendaIna.Admin.Blazor.Components.Pages.Shared.Components;
 using TiendaIna.Core.Models;
 using TiendaIna.Core.Services;
 
@@ -23,11 +23,11 @@ public partial class ProductEditNew : ComponentBase {
     #region properties
     public ProductModel? Product { get; set; }
 
-    public List<CategoryModel> CategoriesData { get; set; }
-    public IEnumerable<int>? SelectedCategoriesIds { get; set; }
+    public List<CategoryModel>? CategoriesData { get; set; }
+    public IEnumerable<int> SelectedCategoriesIds { get; set; } = [];
 
 
-    public List<ImageModel> Images { get; set; } = [];
+    public SortedList<int, EditImages.ImageData> Images { get; set; } = [];
 
     public ImageModel? selectedImage = null;
     public string? newImageUrl = null;
@@ -51,154 +51,67 @@ public partial class ProductEditNew : ComponentBase {
         Product = await _productsService.Get(productId);
         CategoriesData = (await _categoriesService.GetAll());
         SelectedCategoriesIds = (await _productsService.GetCategoriesAsync(productId)).Select(c => c.Id);
-
-        Images = (await _productsService.GetImages(Product.Id)).ToList();
-
+        Images = GetImageData(await _productsService.GetImages(Product.Id));
     }
 
     #endregion
 
-    #region Methods
-
-    void NavegarA(string url) {
-        _navigationManager.NavigateTo(url);
-    }
+    #region page event handlers
     public async Task SaveChanges() {
         try {
+            if (Product is null) throw new InvalidOperationException();
+
             await _productsService.SetCategoriesAsync(productId, SelectedCategoriesIds);
             await _productsService.Update(Product);
 
-            _notificationService.Notify(new NotificationMessage {
-                Severity = NotificationSeverity.Success,
-                Summary = "Cambios guardados",
-                Detail = "El producto fue actualizado correctamente.",
-                Duration = 4000
-            });
-                NavegarA("/products");
+            ShowNotification(
+                severity: NotificationSeverity.Success,
+                summary: "Cambios guardados",
+                detail: "El producto fue actualizado correctamente.");
+
+            NavigateTo("/products");
 
         } catch (Exception ex) {
-            _notificationService.Notify(new NotificationMessage {
-                Severity = NotificationSeverity.Error,
-                Summary = "Error al guardar",
-                Detail = $"Ocurrió un problema: {ex.Message}",
-                Duration = 6000
-            });
+            ShowNotification(
+                severity: NotificationSeverity.Error,
+                summary: "Error al guardar",
+                detail: $"Ocurrió un problema: {ex.Message}");
         }
     }
-
     #endregion
-    #region Methods Images
-    private async Task HandleRemoveImage(int id) {
-        isLoading = true;
-        try {
-            await _productsService.RemoveImage(Product.Id, id);
-            await _imagesService.Delete(id);
-            Images.RemoveAll(img => img.Id == id);
+    
+    #region image event handlers
+    private void OnImageFilesSelected(IEnumerable<IBrowserFile> args)
+    {
+        throw new NotImplementedException();
+    }
+    private void OnImageAddFromUrl(string args)
+    {
+        throw new NotImplementedException();
+    }
+    private void OnImageMove(EditImages.ImageMoveEventData args)
+    {
+        throw new NotImplementedException();
+    }
+    private void OnImageDelete(int args)
+    {
+        throw new NotImplementedException();
+    }
+    #endregion
 
-            if (selectedImage?.Id == id)
-                selectedImage = Images.FirstOrDefault();
-
-            ShowNotification(NotificationSeverity.Success, "Éxito", "Imagen eliminada correctamente");
-        } catch (Exception ex) {
-            ShowNotification(NotificationSeverity.Error, "Error", $"Error al eliminar imagen: {ex.Message}");
-        } finally {
-            isLoading = false;
-        }
+    #region helpers
+    protected SortedList<int, EditImages.ImageData> GetImageData(SortedList<int, ImageModel> images) {
+        throw new NotImplementedException();
     }
 
-    private async Task HandleMoveImageUp(int id) {
-        var index = Images.FindIndex(i => i.Id == id);
-        if (index <= 0) return;
+    protected void NavigateTo(string url) => _navigationManager.NavigateTo(url);
 
-        isLoading = true;
-        try {
-            var img = Images[index];
-            Images.RemoveAt(index);
-            Images.Insert(index - 1, img);
-
-            ShowNotification(NotificationSeverity.Info, "Orden actualizado", "Imagen movida hacia la izquierda");
-        } catch (Exception ex) {
-            ShowNotification(NotificationSeverity.Error, "Error", $"Error al reordenar: {ex.Message}");
-        } finally {
-            isLoading = false;
-        }
-    }
-
-    private async Task HandleMoveImageDown(int id) {
-        var index = Images.FindIndex(i => i.Id == id);
-        if (index < 0 || index >= Images.Count - 1) return;
-
-        isLoading = true;
-        try {
-            var img = Images[index];
-            Images.RemoveAt(index);
-            Images.Insert(index + 1, img);
-
-            ShowNotification(NotificationSeverity.Info, "Orden actualizado", "Imagen movida hacia la derecha");
-        } catch (Exception ex) {
-            ShowNotification(NotificationSeverity.Error, "Error", $"Error al reordenar: {ex.Message}");
-        } finally {
-            isLoading = false;
-        }
-    }
-
-    private async Task HandleAddImageFromUrl(string url) {
-        if (string.IsNullOrWhiteSpace(url)) return;
-
-        isLoading = true;
-        try {
-            // lógica para agregar imagen desde URL
-            newImageUrl = null;
-            ShowNotification(NotificationSeverity.Success, "Éxito", "Imagen agregada correctamente");
-        } catch (Exception ex) {
-            ShowNotification(NotificationSeverity.Error, "Error", $"Error al agregar imagen: {ex.Message}");
-        } finally {
-            isLoading = false;
-        }
-    }
-
-    private async Task HandleFilesSelected(IEnumerable<IBrowserFile> files) {
-        isLoading = true;
-        try {
-            // lógica para subir imágenes
-            ShowNotification(NotificationSeverity.Success, "Éxito", $"{files.Count()} imagen(es) agregada(s)");
-        } catch (Exception ex) {
-            ShowNotification(NotificationSeverity.Error, "Error", $"Error al subir imágenes: {ex.Message}");
-        } finally {
-            isLoading = false;
-        }
-    }
-
-    private Task HandleSelectImage(ImageModel image) {
-        selectedImage = image;
-        return Task.CompletedTask;
-    }
-
-
-    private async Task RemoveImageAsync(int id) {
-        try {
-            await _productsService.RemoveImage(Product.Id, id);
-            await _imagesService.Delete(id);
-
-            Images.RemoveAll(im => im.Id == id);
-
-            if (selectedImage?.Id == id)
-                selectedImage = Images.FirstOrDefault();
-
-            ShowNotification(NotificationSeverity.Success, "Éxito", "Imagen eliminada correctamente");
-        } catch (Exception ex) {
-            ShowNotification(NotificationSeverity.Error, "Error", $"Error al eliminar imagen: {ex.Message}");
-        } finally {
-            StateHasChanged();
-        }
-    }
-
-    private void ShowNotification(NotificationSeverity severity, string summary, string detail) {
+    protected void ShowNotification(NotificationSeverity severity, string summary, string detail, int duration = 4000) {
         _notificationService.Notify(new NotificationMessage {
             Severity = severity,
             Summary = summary,
             Detail = detail,
-            Duration = 4000
+            Duration = duration
         });
     }
     #endregion

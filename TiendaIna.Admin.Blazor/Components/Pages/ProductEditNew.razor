@@ -66,19 +66,11 @@
         
         <div class="col-md-5 col-12">
                 <!-- Columna derecha mia -->
-                <EditImages Product="Product"
-                            Images="Images"
-                            SelectedImage="selectedImage"
-                            NewImageUrl="newImageUrl"
-                            OnRemoveImage="HandleRemoveImage"
-                            OnMoveImageUp="HandleMoveImageUp"
-                            OnMoveImageDown="HandleMoveImageDown"
-                            OnAddImageFromUrl="HandleAddImageFromUrl"
-                            OnFilesSelected="HandleFilesSelected"
-                            OnSelectImage="HandleSelectImage" />
-
-
-                
+                <EditImages Images="@Images"
+                            OnDelete="OnImageDelete" 
+                            OnMove="OnImageMove"
+                            OnAddFromUrl="OnImageAddFromUrl"
+                            OnFilesSelected="OnImageFilesSelected" />
 
         </div>
     </div>

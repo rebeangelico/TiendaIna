@@ -25,7 +25,7 @@
                         <RadzenText TextStyle="TextStyle.Subtitle2" style="margin-bottom: 0.5rem;">Subir desde archivo</RadzenText>
                         <RadzenFileInput Multiple="true"
                                          Accept="image/*"
-                                         Change="@((IEnumerable<IBrowserFile> files) => OnFilesSelected.InvokeAsync(files))"
+                                         Change="@(async (IEnumerable<IBrowserFile> files) => await OnFilesSelected.InvokeAsync(files))"
                                          Disabled="@IsLoading" />
                     </div>
 
@@ -33,14 +33,14 @@
                     <div>
                         <RadzenText TextStyle="TextStyle.Subtitle2" style="margin-bottom: 0.5rem;">O pegar URL de imagen</RadzenText>
                         <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.End">
-                            <RadzenTextBox @bind-Value="@NewImageUrl"
+                            <RadzenTextBox Value="@NewImageUrl"
                                            Placeholder="https://ejemplo.com/imagen.jpg"
                                            Style="width: 100%;"
                                            Disabled="@IsLoading" />
                             <RadzenButton Text="Agregar"
                                           ButtonStyle="ButtonStyle.Primary"
                                           Icon="add"
-                                          Click="@(() => OnAddFromUrl.InvokeAsync(NewImageUrl))"
+                                          Click="@(async () => await OnAddFromUrl.InvokeAsync(NewImageUrl))"
                                           Disabled="@(IsLoading || string.IsNullOrWhiteSpace(NewImageUrl))" />
                         </RadzenStack>
                     </div>
@@ -51,15 +51,14 @@
             @if (Images?.Any() == true) {
                 <RadzenText TextStyle="TextStyle.H6" style="margin-bottom: 0.5rem;">Imágenes del producto (@Images.Count)</RadzenText>
                 <div class="thumbnails-container" style="display: flex; flex-wrap: wrap; gap: 1rem; padding: 1rem; background-color: #f9f9f9; border-radius: 8px;">
-                    @for (int i = 0; i < Images.Count; i++) {
-                        var imageModel = Images[i];
-                        var imageUrl = imageModel.Url;
-                        var index = i;
-                        var isSelected = imageUrl == SelectedImage?.Url;
+                    @for (int index = 0; index < Images.Count; index++) {
+                        var imageModel = Images[index];
+                        var imageUrl = imageModel.SmallUrl;
+                        var isSelected = imageModel.Id == SelectedImage?.Id;
 
                         <div class="thumbnail-item" style="position: relative; border: @(isSelected ? "3px solid #007bff" : "2px solid #ddd"); border-radius: 8px; overflow: hidden; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                             <!-- Imagen miniatura -->
-                            <RadzenImage Path="@imageUrl"
+                            <RadzenImage Path="@imageModel.SmallUrl"
                                          Style="width: 120px; height: 120px; object-fit: cover; cursor: pointer; display: block;"
                                          Click="@(() => OnSelectImage(imageModel))" />
 
@@ -70,7 +69,7 @@
                                 <RadzenButton ButtonStyle="ButtonStyle.Danger"
                                               Icon="close"
                                               Size="ButtonSize.ExtraSmall"
-                                              Click="@(() => OnDelete.InvokeAsync(imageModel.Id))"
+                                              Click="@(async () => await OnDelete.InvokeAsync(imageModel.Id))"
                                               title="Eliminar imagen"
                                               Style="width: 24px; height: 24px;" />
 
@@ -82,14 +81,14 @@
                                     <RadzenButton ButtonStyle="ButtonStyle.Secondary"
                                                   Icon="keyboard_arrow_left"
                                                   Size="ButtonSize.ExtraSmall"
-                                                  Click="@(() => OnMove.InvokeAsync(new ImageMoveEventData(imageModel.Id, index - 1)))"
+                                                  Click="@(async () => await OnMove.InvokeAsync(new ImageMoveEventData(imageModel.Id, index - 1)))"
                                                   Style="width: 24px; height: 24px;" />
                                 }
                                 @if (index < Images.Count - 1) {
                                     <RadzenButton ButtonStyle="ButtonStyle.Secondary"
                                                   Icon="keyboard_arrow_right"
                                                   Size="ButtonSize.ExtraSmall"
-                                                  Click="@(() => OnMove.InvokeAsync(new ImageMoveEventData(imageModel.Id, index + 1)))"
+                                                  Click="@(async () => await OnMove.InvokeAsync(new ImageMoveEventData(imageModel.Id, index + 1)))"
                                                   Style="width: 24px; height: 24px;" />
                                 }
                             </div>
