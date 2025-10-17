@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36221.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TiendaIna.Web.Razor", "TiendaIna.Web.Razor\TiendaIna.Web.Razor.csproj", "{B711AC53-CE88-47D8-BA87-32EEDF1C3590}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TiendaIna.Core", "TiendaIna.Core\TiendaIna.Core.csproj", "{37E47A79-CEDD-4905-9495-3ED342E28362}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TiendaIna.Infrastructure", "TiendaIna.Infrastructure\TiendaIna.Infrastructure.csproj", "{4298ABD6-1CD4-4826-8C28-BF7678F4C132}"
@@ -13,16 +11,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TiendaIna.Admin.Blazor", "T
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "TiendaIna.Sql", "TiendaIna.Sql\TiendaIna.Sql.sqlproj", "{DB732212-004B-43B0-901D-E4275171E24B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TiendaIna.Web.Blazor", "TiendaIna.Web.Blazor\TiendaIna.Web.Blazor.csproj", "{E0207C65-6E12-DDA9-C36C-CF446114DCE3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B711AC53-CE88-47D8-BA87-32EEDF1C3590}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B711AC53-CE88-47D8-BA87-32EEDF1C3590}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B711AC53-CE88-47D8-BA87-32EEDF1C3590}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B711AC53-CE88-47D8-BA87-32EEDF1C3590}.Release|Any CPU.Build.0 = Release|Any CPU
 		{37E47A79-CEDD-4905-9495-3ED342E28362}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{37E47A79-CEDD-4905-9495-3ED342E28362}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37E47A79-CEDD-4905-9495-3ED342E28362}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -41,6 +37,10 @@ Global
 		{DB732212-004B-43B0-901D-E4275171E24B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB732212-004B-43B0-901D-E4275171E24B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DB732212-004B-43B0-901D-E4275171E24B}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{E0207C65-6E12-DDA9-C36C-CF446114DCE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0207C65-6E12-DDA9-C36C-CF446114DCE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0207C65-6E12-DDA9-C36C-CF446114DCE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0207C65-6E12-DDA9-C36C-CF446114DCE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
