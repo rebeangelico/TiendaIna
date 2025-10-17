@@ -64,6 +64,5 @@ public class ProductsService : IProductsService {
     public async Task AddImage(int productId, int imageId) => await _productImagesRepo.InsertIfNotExists(productId, imageId);
     public async Task RemoveImage(int productId, int imageId) => await _productImagesRepo.Remove(productId, imageId);
     public async Task MoveImage(int productId, int imageId, int position) => await _productImagesRepo.Move(productId, imageId, position);
-    public async Task SetImageAsCover(int productId, int imageId) => await _productImagesRepo.SetAsCover(productId, imageId);
     #endregion
 }

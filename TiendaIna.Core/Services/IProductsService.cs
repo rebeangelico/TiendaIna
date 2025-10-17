@@ -16,6 +16,5 @@ namespace TiendaIna.Core.Services {
         Task AddImage(int productId, int imageId);
         Task RemoveImage(int productId, int imageId);
         Task MoveImage(int productId, int imageId, int position);
-        Task SetImageAsCover(int productId, int imageId);
     }
 }

@@ -17,8 +17,7 @@ public class ProductImagesInMemoryRepo : InMemoryRepoBase<ProductImage, int>, IP
             Id = Random.Shared.Next(1, 100000),
             ProductId = productId,
             ImageId = imageId,
-            OrderIndex = orderix,
-            IsCover = _entities.Count(pi => pi.ProductId == productId && pi.ImageId == imageId) < 1
+            OrderIndex = orderix
         });
         return Task.CompletedTask;
     }
@@ -53,19 +52,6 @@ public class ProductImagesInMemoryRepo : InMemoryRepoBase<ProductImage, int>, IP
         for (int i=0; i < productImages.Count; i++)
             productImages[i].OrderIndex = i;
 
-        return Task.CompletedTask;
-    }
-
-    public Task SetAsCover(int productId, int imageId) {
-        var productImages = _entities.Where(pi => pi.ProductId == productId).OrderBy(pi => pi.OrderIndex).ToList();
-        if(productImages?.Any() is not true)
-            throw new InvalidOperationException();
-        var productImage = productImages.SingleOrDefault(pi => pi.ImageId == imageId);
-        if(productImage is null)
-            throw new InvalidOperationException();
-        foreach (var prodImage in productImages)
-            prodImage.IsCover = false;
-        productImage.IsCover = true;
         return Task.CompletedTask;
     }
 }

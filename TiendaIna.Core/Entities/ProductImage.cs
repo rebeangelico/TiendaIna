@@ -7,6 +7,5 @@ namespace TiendaIna.Core.Entities {
         public int ProductId { get; set; }
         public int ImageId { get; set; }
         public int OrderIndex { get; set; }
-        public bool IsCover { get; set; }
     }
 }

@@ -48,22 +48,6 @@ public class ProductImagesDbRepo : DbRepoBase<ProductImage, int>, IProductImages
             await base.UpdateAsync(image);
         }
     }
-    public async Task SetAsCover(int productId, int imageId) {
-        var param = new Dictionary<string, object> {
-            { nameof(productId), productId }
-        };
-        var imagesFromProduct = (await base.ExecuteQueryAsync("SELECT * FROM[ProductImages] WHERE ProductId = @productId", param));
-        var element = imagesFromProduct.FirstOrDefault(i => i.ImageId == imageId);
-        if (element == null) return;
-
-        foreach (var image in imagesFromProduct) { 
-            if (image.ImageId == imageId)
-                image.IsCover = true;
-            else
-                image.IsCover = false;
-            }
-        await base.UpdateAllAsync(imagesFromProduct);
-    }
 }
 
 
