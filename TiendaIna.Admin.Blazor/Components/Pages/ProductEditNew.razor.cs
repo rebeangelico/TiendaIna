@@ -22,17 +22,11 @@ public partial class ProductEditNew : ComponentBase {
 
     #region properties
     public ProductModel? Product { get; set; }
-
     public List<CategoryModel>? CategoriesData { get; set; }
     public IEnumerable<int> SelectedCategoriesIds { get; set; } = [];
 
 
     public SortedList<int, EditImages.ImageData> Images { get; set; } = [];
-
-    public ImageModel? selectedImage = null;
-    public string? newImageUrl = null;
-    public bool? isLoading = null;
-
     #endregion
 
     #region constructors
@@ -79,29 +73,81 @@ public partial class ProductEditNew : ComponentBase {
         }
     }
     #endregion
-    
+
     #region image event handlers
-    private void OnImageFilesSelected(IEnumerable<IBrowserFile> args)
-    {
-        throw new NotImplementedException();
+    private async Task OnImageFilesSelected(IEnumerable<IBrowserFile> files) {
+        try {
+            foreach (var file in files) {
+                var mimeType = file.ContentType;
+                using var stream = file.OpenReadStream(maxAllowedSize: 10 * 1024 * 1024);
+                using var memoryStream = new MemoryStream();
+                await stream.CopyToAsync(memoryStream);
+                var imageBytes = memoryStream.ToArray();
+                var newImage = await _imagesService.Add(imageBytes, mimeType);
+
+                await _productsService.AddImage(productId, newImage.Id);
+            }
+            ShowNotification(NotificationSeverity.Success, "Éxito", "Imágenes agregadas correctamente");
+        } catch (Exception ex) {
+            ShowNotification(NotificationSeverity.Error, "Error", $"Error al agregar imágenes: {ex.Message}");
+        }
     }
-    private void OnImageAddFromUrl(string args)
-    {
-        throw new NotImplementedException();
+
+    private async Task OnImageAddFromUrl(string url) {
+        if (string.IsNullOrWhiteSpace(url)) return;
+        try {
+            var newImage = await _imagesService.Add(url);
+            var imageProduct = await _productsService.AddImage(productId, newImage.Id);
+
+            Images.Add(imageProduct.Key, GetImageData(imageProduct.Value));
+
+            ShowNotification(NotificationSeverity.Success, "Éxito", "Imagen agregada correctamente");
+        } catch (Exception ex) {
+            ShowNotification(NotificationSeverity.Error, "Error", $"Error al agregar imagen: {ex.Message}");
+        }
     }
-    private void OnImageMove(EditImages.ImageMoveEventData args)
-    {
-        throw new NotImplementedException();
+    private async Task OnImageMove(EditImages.ImageMoveEventData imageMove){
+        try {
+            await _productsService.MoveImage(imageMove.Id, imageMove.OrderIndex);
+            Images = GetImageData(await _productsService.GetImages(Product!.Id));
+
+            ShowNotification(NotificationSeverity.Info, "Orden actualizado", "Imagen movida hacia la izquierda");
+        } catch (Exception ex) {
+            ShowNotification(NotificationSeverity.Error, "Error", $"Error al reordenar: {ex.Message}");
+        }
     }
-    private void OnImageDelete(int args)
+    private async Task OnImageDelete(int productImageId)
     {
-        throw new NotImplementedException();
+        try {
+            await _productsService.RemoveImage(productImageId);
+            ShowNotification(NotificationSeverity.Info, "Éxito", "Imagen eliminada correctamente");
+        } catch (Exception ex) {
+            ShowNotification(NotificationSeverity.Error, "Error", $"Error al reordenar: {ex.Message}");
+        }
     }
     #endregion
 
     #region helpers
-    protected SortedList<int, EditImages.ImageData> GetImageData(SortedList<int, ImageModel> images) {
-        throw new NotImplementedException();
+    protected EditImages.ImageData GetImageData(ProductImageModel productImageModel) {
+        return new EditImages.ImageData() {
+            Id = productImageModel.Id,
+            SmallUrl = productImageModel.SmallUrl,
+            Url = productImageModel.Url,
+            OrderIndex = productImageModel.OrderIndex
+        };
+    }
+
+    protected SortedList<int, EditImages.ImageData> GetImageData(SortedList<int, ProductImageModel> productImages) {
+        var productImageData = new SortedList<int, EditImages.ImageData>();
+        foreach (var productImage in productImages) {
+            productImageData.Add(productImage.Key, new EditImages.ImageData {
+                Id = productImage.Value.Id,
+                SmallUrl = productImage.Value.SmallUrl,
+                Url = productImage.Value.Url,
+                OrderIndex = productImage.Value.OrderIndex
+            });
+        }
+        return productImageData;
     }
 
     protected void NavigateTo(string url) => _navigationManager.NavigateTo(url);

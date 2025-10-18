@@ -14,7 +14,9 @@ namespace TiendaIna.Infrastructure.Repos {
 
         public Task<TEntity> GetAsync(TKey id) => Task.FromResult(_entities.Single(e => e.Id.Equals(id)));
 
-        public Task<TKey> CreateAsync(TEntity entity) {
+        public Task<IEnumerable<TEntity>> GetAsync(TKey[] ids) => Task.FromResult(_entities.Where(e => ids.Contains(e.Id)));
+
+        public virtual Task<TKey> CreateAsync(TEntity entity) {
             if (_entities.Any(e => e.Id.Equals(entity.Id)))
                 throw new InvalidOperationException($"Entity with id '{entity.Id}' already exists.");
 

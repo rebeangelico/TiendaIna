@@ -7,19 +7,20 @@ namespace TiendaIna.Infrastructure.Repos;
 public class ProductImagesInMemoryRepo : InMemoryRepoBase<ProductImage, int>, IProductImagesRepo {
     public ProductImagesInMemoryRepo(IInMemoryProductImagesStore brandsStore) : base(brandsStore) { }
 
-    public Task CreateIfNotExists(int productId, int imageId) {
+    public Task<(int id, int order)> CreateIfNotExists(int productId, int imageId) {
         var productImages = _entities.Where(pi => pi.ProductId == productId);
         var productImage = productImages.SingleOrDefault(pi => pi.ImageId == imageId);
         if(productImage is not null)
-             return Task.CompletedTask;
+             return Task.FromResult((id: productImage.Id, order: productImage.OrderIndex));
         var orderix = productImages.Max(pi => pi.OrderIndex) + 1;
-        _entities.Add(new() {
+        var newProductImage = new ProductImage() {
             Id = Random.Shared.Next(1, 100000),
             ProductId = productId,
             ImageId = imageId,
             OrderIndex = orderix
-        });
-        return Task.CompletedTask;
+        };
+        _entities.Add(newProductImage);
+        return Task.FromResult((id: newProductImage.Id, order: orderix));
     }
 
     public Task Remove(int productId, int imageId) {
@@ -54,4 +55,6 @@ public class ProductImagesInMemoryRepo : InMemoryRepoBase<ProductImage, int>, IP
 
         return Task.CompletedTask;
     }
+
+    public Task<IEnumerable<ProductImage>> GetByProductAsync(int productId) => Task.FromResult(_entities.Where(pi => pi.ProductId == productId));
 }

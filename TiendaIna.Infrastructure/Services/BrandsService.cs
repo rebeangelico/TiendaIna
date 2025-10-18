@@ -39,14 +39,5 @@ public class BrandsService : IBrandsService {
         await _brandsRepo.DeleteAsync(Id);
     }
 
-    public async Task<ImageModel?> GetImage(int id) {
-        var brandImage = await _imagesRepo.GetByBrandAsync(id);
-        if (brandImage is null) return null;
-        return new ImageModel() {
-            Id = brandImage.Id,
-            Url = !string.IsNullOrWhiteSpace(brandImage.CdnUrl) ? brandImage.CdnUrl : $"images/{brandImage.Id}",
-            SmallUrl = !string.IsNullOrWhiteSpace(brandImage.SmallCdnUrl) ? brandImage.SmallCdnUrl : $"images/{brandImage.Id}?size=s",
-        };
-    }
 }
 

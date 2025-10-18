@@ -7,7 +7,5 @@ namespace TiendaIna.Core.Services {
         Task<int> Add(BrandModel entity);
         Task Update(BrandModel entity);
         Task Delete(int Id);
-
-        Task<ImageModel?> GetImage(int brandId);
     }
 }

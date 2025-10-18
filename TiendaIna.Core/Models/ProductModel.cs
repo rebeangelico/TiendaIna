@@ -17,7 +17,7 @@ public class ProductModel {
 
     public BrandModel? Brand { get; set; }
     public ICollection<CategoryModel>? Categories { get; set; }
-    public ICollection<ImageModel>? Images { get; set; }
+    public SortedList<int, ProductImageModel>? Images { get; set; }
 
     public static ProductModel FromEntity(Product product) => product.Adapt<ProductModel>();
 }

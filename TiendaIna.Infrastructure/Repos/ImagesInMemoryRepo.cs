@@ -13,6 +13,11 @@ public class ImagesInMemoryRepo : InMemoryRepoBase<Image, int>, IImagesRepo {
         _productImagesStore = productImagesStore ?? throw new ArgumentNullException(nameof(productImagesStore));
     }
 
+    public override Task<int> CreateAsync(Image entity) {
+        entity.Id = Random.Shared.Next(1, 100000);
+        return base.CreateAsync(entity);
+    }
+
     public Task<Image?> GetByBrandAsync(int brandId) {
         var imageId = _brandsStore.SingleOrDefault(b => b.Id == brandId)?.ImageId;
         return Task.FromResult(_entities.SingleOrDefault(i => i.Id == imageId));
@@ -25,6 +30,7 @@ public class ImagesInMemoryRepo : InMemoryRepoBase<Image, int>, IImagesRepo {
             var image = _entities.SingleOrDefault(i => i.Id == productImage.ImageId);
             if (image is null) continue;
             result.Add(productImage.OrderIndex, image);
+
         }
         return Task.FromResult(result);
     }

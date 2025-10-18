@@ -11,41 +11,49 @@ namespace TiendaIna.Infrastructure.DataStore {
                 Id = 1,
                 ProductId = 1,
                 ImageId = 1,
+                OrderIndex= 1
               },
               new ProductImage {
                 Id = 2,
                 ProductId = 1,
-                ImageId = 2,
+                ImageId = 2, 
+                OrderIndex= 2
               },
               new ProductImage {
                 Id = 3,
                 ProductId = 2,
                 ImageId = 3,
+                OrderIndex= 3
               },
               new ProductImage {
                 Id = 4,
                 ProductId = 2,
                 ImageId = 4,
+                OrderIndex= 4
               },
               new ProductImage {
                 Id = 5,
                 ProductId = 2,
                 ImageId = 5,
+                OrderIndex= 5
               },
               new ProductImage {
                 Id = 6,
                 ProductId = 3,
                 ImageId = 6,
+                OrderIndex= 6
               },
               new ProductImage {
                 Id = 7,
                 ProductId = 4,
                 ImageId = 7,
+                OrderIndex= 7
               },
               new ProductImage {
                 Id = 8,
                 ProductId = 4,
                 ImageId = 8,
+                OrderIndex= 8
               }
         ]);
         }

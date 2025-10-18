@@ -9,22 +9,23 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
             public int Id { get; set; }
             public string? Url { get; set; }
             public string? SmallUrl { get; set; }
+            public int OrderIndex { get; set; }
         }
 
         public class ImageMoveEventData {
             public int Id { get; set; }
-            public int Position { get; set; }
+            public int OrderIndex { get; set; }
 
-            public ImageMoveEventData(int id, int pos) {
+            public ImageMoveEventData(int id, int orderIndex) {
                 Id = id;
-                Position = pos;
+                OrderIndex = orderIndex;
             }
         }
         #endregion
 
         #region Propierties
-        protected ImageData? SelectedImage { get; set; } = new();
-        protected string? NewImageUrl { get; set; } = null;
+        protected ImageData? SelectedImage { get; set; }
+        protected string? NewImageUrl { get; set; }
         protected bool IsLoading { get; set; } = false;
         #endregion
 
@@ -59,7 +60,44 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
         #endregion
 
         #region Event handlers
-        public void OnSelectImage(ImageData imageModel) => SelectedImage = imageModel;
+        public void OnSelectImage(ImageData selectedImage) => SelectedImage = selectedImage;
         #endregion
+
+        public async Task AddFromUrl() {
+            IsLoading = true;
+            try {
+                await OnAddFromUrl.InvokeAsync(NewImageUrl);
+                NewImageUrl = null;
+            } finally {
+                IsLoading = false;
+            }
+        }
+
+        public async Task Delete(int id) {
+            IsLoading = true;
+            try {
+                await OnDelete.InvokeAsync(id);
+            } finally {
+                IsLoading = false;
+            }
+        }
+
+        public async Task FilesSelected(IEnumerable<IBrowserFile> files) {
+            IsLoading = true;
+            try {
+                await OnFilesSelected.InvokeAsync(files);
+            } finally {
+                IsLoading = false;
+            }
+        }
+
+        public async Task Move(ImageMoveEventData eventData) {
+            IsLoading = true;
+            try {
+                await OnMove.InvokeAsync(eventData);
+            } finally {
+                IsLoading = false;
+            }
+        }
     }
 }

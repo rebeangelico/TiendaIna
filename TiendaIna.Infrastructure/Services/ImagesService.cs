@@ -31,7 +31,7 @@ public class ImagesService : IImagesService {
         };
     }
 
-    public async Task<ImageModel> GetAsync(int id, ImageSize size = ImageSize.Default) {
+    public async Task<ImageModel> GetAsync(int id) {
         var image = await _imagesRepo.GetAsync(id);
         if (image.CdnUrl == null && image.SmallCdnUrl == null) {
             return new ImageModel { Id = image.Id, Url = $"images/{image.Id}", SmallUrl = "images/{image.Id}?size=s" };
@@ -40,16 +40,25 @@ public class ImagesService : IImagesService {
         }
     }
 
-    public async Task<ImageModel> Update(int id, byte[] imageBytes, string mimeType, ImageSize size = ImageSize.Default) {
+    public async IAsyncEnumerable<ImageModel> GetAsync(int[] ids) {
+        var images = await _imagesRepo.GetAsync(ids);
+        foreach (var image in images) {
+            if (image.CdnUrl == null && image.SmallCdnUrl == null) {
+                yield return new ImageModel { Id = image.Id, Url = $"images/{image.Id}", SmallUrl = "images/{image.Id}?size=s" };
+            } else {
+                yield return new ImageModel { Id = image.Id, Url = image.CdnUrl, SmallUrl = image.SmallCdnUrl };
+            }
+        }
+    }
+
+    public async Task<ImageModel> Update(int id, byte[] imageBytes, string mimeType) {
         var image = await _imagesRepo.GetAsync(id);
         if (image == null) return null;
 
         image.MimeType = mimeType;
 
-        if (size != null && size != ImageSize.Default)
-            image.SmallData = imageBytes;
-        else
-            image.Data = imageBytes;
+        image.Data = imageBytes;
+        image.SmallData = imageBytes;
 
         await _imagesRepo.UpdateAsync(image);
 
@@ -60,14 +69,12 @@ public class ImagesService : IImagesService {
         };
     }
 
-    public async Task<ImageModel> Update(int id, string url, ImageSize size = ImageSize.Default) {
+    public async Task<ImageModel> Update(int id, string url) {
         var image = await _imagesRepo.GetAsync(id);
-        if (image == null) return null;
+        if (image == null) throw new FileNotFoundException();
 
-        if (size != null && size != ImageSize.Default)
-            image.SmallCdnUrl = url;
-        else
-            image.CdnUrl = url;
+        image.SmallCdnUrl = url;
+        image.CdnUrl = url;
 
         await _imagesRepo.UpdateAsync(image);
 

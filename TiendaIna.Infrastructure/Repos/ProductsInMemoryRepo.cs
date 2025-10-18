@@ -12,6 +12,11 @@ public class ProductsInMemoryRepo : InMemoryRepoBase<Product, int>, IProductsRep
         _productCategoriesStore = productCategoriesStore ?? throw new ArgumentNullException(nameof(productCategoriesStore));
     }
 
+    public override Task<int> CreateAsync(Product entity) {
+        entity.Id = Random.Shared.Next(1, 100000);
+        return base.CreateAsync(entity);
+    }
+
     public Task SetCategoriesAsync(int productId, IEnumerable<int> categoryIds) {
         ((List<ProductCategory>)_productCategoriesStore).RemoveBy(pc => pc.ProductId == productId);
         foreach(var catId in categoryIds)
