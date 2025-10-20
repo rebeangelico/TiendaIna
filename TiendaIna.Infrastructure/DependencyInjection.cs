@@ -14,6 +14,7 @@ namespace TiendaIna.Core {
             services.AddScoped<IProductsService, ProductsService>();
             services.AddScoped<IBrandsService, BrandsService>();
             services.AddScoped<IImagesService, ImagesService>();
+            services.AddScoped<IProductImagesService, ProductImagesService>();
 
             services.AddScoped<IProductsRepo, ProductsInMemoryRepo>();
             services.AddScoped<IProductImagesRepo, ProductImagesInMemoryRepo>();
