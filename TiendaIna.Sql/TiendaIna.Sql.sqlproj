@@ -65,7 +65,6 @@
     <Build Include="Tables\Images.sql" />
     <Build Include="Tables\ProductImages.sql" />
     <Build Include="Tables\Brands.sql" />
-    <Build Include="Views\brandImagesViews.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\ProductsCategories.sql" />
