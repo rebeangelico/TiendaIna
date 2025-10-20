@@ -5,5 +5,6 @@
         }
 
         public ConnectionStringsSection? ConnectionStrings { get; set; }
+        public bool InMemoryRepos { get; set; }
     }
 }

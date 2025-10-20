@@ -11,7 +11,7 @@ public partial class ProductEditNew : ComponentBase {
     private readonly IProductsService _productsService;
     private readonly ICategoriesService _categoriesService;
     private readonly IBrandsService _brandsService;
-    private readonly IImagesService _imagesService;
+    private readonly IProductImagesService _productImagesService;
     private readonly NavigationManager _navigationManager;
     private readonly NotificationService _notificationService;
     #endregion
@@ -30,11 +30,11 @@ public partial class ProductEditNew : ComponentBase {
     #endregion
 
     #region constructors
-    public ProductEditNew(IProductsService productsService, ICategoriesService categoriesService, IBrandsService brandsService, IImagesService imagesService, NotificationService notificationService, NavigationManager navigationManager) : base() {
+    public ProductEditNew(IProductsService productsService, ICategoriesService categoriesService, IBrandsService brandsService, IProductImagesService productImagesService, NotificationService notificationService, NavigationManager navigationManager) : base() {
         _productsService = productsService ?? throw new ArgumentNullException(nameof(productsService));
         _categoriesService = categoriesService ?? throw new ArgumentNullException(nameof(categoriesService));
         _brandsService = brandsService ?? throw new ArgumentNullException(nameof(brandsService));
-        _imagesService = imagesService ?? throw new ArgumentNullException(nameof(imagesService));
+        _productImagesService = productImagesService ?? throw new ArgumentNullException(nameof(productImagesService));
         _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
         _navigationManager = navigationManager ?? throw new ArgumentNullException(nameof(navigationManager));
     }
@@ -45,7 +45,7 @@ public partial class ProductEditNew : ComponentBase {
         Product = await _productsService.Get(productId);
         CategoriesData = (await _categoriesService.GetAll());
         SelectedCategoriesIds = (await _productsService.GetCategoriesAsync(productId)).Select(c => c.Id);
-        Images = GetImageData(await _productsService.GetImages(Product.Id));
+        Images = GetImageData(await _productImagesService.GetByProduct(Product.Id));
     }
 
     #endregion
@@ -83,9 +83,7 @@ public partial class ProductEditNew : ComponentBase {
                 using var memoryStream = new MemoryStream();
                 await stream.CopyToAsync(memoryStream);
                 var imageBytes = memoryStream.ToArray();
-                var newImage = await _imagesService.Add(imageBytes, mimeType);
-
-                await _productsService.AddImage(productId, newImage.Id);
+                var newImage = await _productImagesService.Add(imageBytes, mimeType);
             }
             ShowNotification(NotificationSeverity.Success, "Éxito", "Imágenes agregadas correctamente");
         } catch (Exception ex) {
@@ -96,10 +94,9 @@ public partial class ProductEditNew : ComponentBase {
     private async Task OnImageAddFromUrl(string url) {
         if (string.IsNullOrWhiteSpace(url)) return;
         try {
-            var newImage = await _imagesService.Add(url);
-            var imageProduct = await _productsService.AddImage(productId, newImage.Id);
+            var newImage = await _productImagesService.Add(url);
 
-            Images.Add(imageProduct.Key, GetImageData(imageProduct.Value));
+            Images.Add(newImage.OrderIndex, GetImageData(newImage));
 
             ShowNotification(NotificationSeverity.Success, "Éxito", "Imagen agregada correctamente");
         } catch (Exception ex) {
@@ -108,8 +105,8 @@ public partial class ProductEditNew : ComponentBase {
     }
     private async Task OnImageMove(EditImages.ImageMoveEventData imageMove){
         try {
-            await _productsService.MoveImage(imageMove.Id, imageMove.OrderIndex);
-            Images = GetImageData(await _productsService.GetImages(Product!.Id));
+            await _productImagesService.MoveImage(imageMove.Id, imageMove.OrderIndex);
+            Images = GetImageData(await _productImagesService.GetByProduct(Product!.Id));
 
             ShowNotification(NotificationSeverity.Info, "Orden actualizado", "Imagen movida hacia la izquierda");
         } catch (Exception ex) {
@@ -119,7 +116,7 @@ public partial class ProductEditNew : ComponentBase {
     private async Task OnImageDelete(int productImageId)
     {
         try {
-            await _productsService.RemoveImage(productImageId);
+            await _productImagesService.Delete(productImageId);
             ShowNotification(NotificationSeverity.Info, "Éxito", "Imagen eliminada correctamente");
         } catch (Exception ex) {
             ShowNotification(NotificationSeverity.Error, "Error", $"Error al reordenar: {ex.Message}");
@@ -128,7 +125,7 @@ public partial class ProductEditNew : ComponentBase {
     #endregion
 
     #region helpers
-    protected EditImages.ImageData GetImageData(ProductImageModel productImageModel) {
+    protected EditImages.ImageData GetImageData(ProductImageOutputModel productImageModel) {
         return new EditImages.ImageData() {
             Id = productImageModel.Id,
             SmallUrl = productImageModel.SmallUrl,
@@ -137,7 +134,7 @@ public partial class ProductEditNew : ComponentBase {
         };
     }
 
-    protected SortedList<int, EditImages.ImageData> GetImageData(SortedList<int, ProductImageModel> productImages) {
+    protected SortedList<int, EditImages.ImageData> GetImageData(SortedList<int, ProductImageOutputModel> productImages) {
         var productImageData = new SortedList<int, EditImages.ImageData>();
         foreach (var productImage in productImages) {
             productImageData.Add(productImage.Key, new EditImages.ImageData {
