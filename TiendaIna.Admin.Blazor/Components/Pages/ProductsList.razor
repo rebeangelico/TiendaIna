@@ -12,7 +12,8 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var p in Products)
+        @if (Products?.Any() is true) {
+        foreach (var p in Products)
         {
             <tr>
                 <td>@p.Name</td>
@@ -24,6 +25,7 @@
 
                 </td>
             </tr>
+        }
         }
     </tbody>
 </table>
