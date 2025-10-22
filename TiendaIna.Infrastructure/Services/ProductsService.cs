@@ -42,9 +42,10 @@ public class ProductsService : IProductsService {
         return _productsRepo.UpdateAsync(product);
     }
     
-    public Task Add(ProductModel productModel) {
+    public async Task<int> Add(ProductModel productModel) {
         var product = Product.FromModel(productModel);
-        return _productsRepo.CreateAsync(product);
+        var id = await _productsRepo.CreateAsync(product);
+        return id;
     }
     #endregion
 

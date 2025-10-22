@@ -1,31 +1,136 @@
 @page "/products"
 @rendermode InteractiveServer
+@using Radzen
+@using Radzen.Blazor
+@using TiendaIna.Admin.Blazor.Components.Pages.Shared.Components
+@using TiendaIna.Core.Models
+@using TiendaIna.Core.Services
+@using TiendaIna.Core
+@inject NavigationManager NavigationManager
 
-<h3>Productos</h3>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Precio</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Products?.Any() is true) {
-        foreach (var p in Products)
-        {
-            <tr>
-                <td>@p.Name</td>
-                <td>@p.Price</td>
-                <td>
-                    <a class="btn btn-link p-0" title="Editar" href="@($"/products/editnew/{p.Id}")">
-                        <i class="bi bi-pencil-fill"></i>
-                    </a>
+<div class="page-container">
+    <div class="component-wrapper component-top">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h3 class="card-title mb-0">Gestión de Productos</h3>
+                            <RadzenButton ButtonStyle="ButtonStyle.Success"
+                                          Icon="add_circle_outline"
+                                          class="me-2"
+                                          Text="Nuevo Producto"
+                                          Click="@(() => NavigationManager.NavigateTo("/products/editnew/0"))" />
+                        </div>
 
-                </td>
-            </tr>
+                        <div class="card-body">
+                            <RadzenDataGrid @ref="Grid"
+                                            Data="@Products"
+                                            TItem="ProductModel"
+                                            AllowPaging="true"
+                                            PageSize="10"
+                                            AllowSorting="true"
+                                            AllowFiltering="false"
+                                            RowHover="true"
+                                            Responsive="true"
+                                            EmptyText="No hay productos disponibles.">
+                                <Columns>
+                                    <RadzenDataGridColumn TItem="ProductModel" Property="Name" Title="Nombre" />
+                                    <RadzenDataGridColumn TItem="ProductModel" Property="Price" Title="Precio" />
+                                    <RadzenDataGridColumn TItem="ProductModel" Property="Stock" Title="Stock" />
+                                    <RadzenDataGridColumn TItem="ProductModel" Title="Visible">
+                                        <Template Context="p">
+                                            @UIOptions.SiNo.FirstOrDefault(o => o.Value == p.IsOutstanding)?.Label
+                                        </Template>
+                                    </RadzenDataGridColumn>
+
+                                    <RadzenDataGridColumn TItem="ProductModel" Title="Acciones" TextAlign="TextAlign.Right">
+                                        <Template Context="p">
+                                            <RadzenButton Icon="edit"
+                                                          ButtonStyle="ButtonStyle.Light"
+                                                          Size="ButtonSize.Medium"
+                                                          Click="@(() => NavigationManager.NavigateTo($"/products/editnew/{p.Id}"))"
+                                                          @onclick:stopPropagation="true" />
+                                            <RadzenButton Icon="delete"
+                                                          ButtonStyle="ButtonStyle.Danger"
+                                                          Shade="Shade.Lighter"
+                                                          Size="ButtonSize.Medium"
+                                                          class="ms-2"
+                                                          Click="@(() => Delete(p.Id))"
+                                                          @onclick:stopPropagation="true" />
+                                        </Template>
+                                    </RadzenDataGridColumn>
+                                </Columns>
+                            </RadzenDataGrid>
+                        </div> <!-- card-body -->
+                    </div> <!-- card -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .page-container {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .component-wrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .component-top {
+        flex: 1;
+        min-height: 50vh;
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .component-bottom {
+        flex: 1;
+        min-height: 50vh;
+        background-color: #ffffff;
+    }
+
+    @@media (max-width: 768px) {
+        .component-top,
+        .component-bottom {
+            min-height: 40vh;
+            padding: 1rem;
         }
+    }
+
+    @@media (max-width: 480px) {
+        .component-top,
+        .component-bottom {
+            min-height: 35vh;
+            padding: 0.5rem;
         }
-    </tbody>
-</table>
+    }
+
+    @@media (min-width: 1200px) {
+        .component-top,
+        .component-bottom {
+            min-height: 45vh;
+        }
+    }
+
+    .component-wrapper ::deep > * {
+        width: 100%;
+        height: 100%;
+    }
+
+    ::deep body {
+        margin: 0;
+        padding: 0;
+    }
+</style>

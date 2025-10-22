@@ -7,6 +7,7 @@ using TiendaIna.Core.Services;
 
 namespace TiendaIna.Admin.Blazor.Components.Pages;
 public partial class ProductEditNew : ComponentBase {
+
     #region fields
     private readonly IProductsService _productsService;
     private readonly ICategoriesService _categoriesService;
@@ -42,10 +43,19 @@ public partial class ProductEditNew : ComponentBase {
 
     #region overriden methods
     protected override async Task OnInitializedAsync() {
-        Product = await _productsService.Get(productId);
-        CategoriesData = (await _categoriesService.GetAll());
-        SelectedCategoriesIds = (await _productsService.GetCategoriesAsync(productId)).Select(c => c.Id);
-        Images = GetImageData(await _productImagesService.GetByProduct(Product.Id));
+        CategoriesData = await _categoriesService.GetAll();
+
+        if (productId == 0) {
+            // Crear nuevo producto
+            Product = new ProductModel();
+            SelectedCategoriesIds = [];
+            Images = new();
+        } else {
+            // Editar producto existente
+            Product = await _productsService.Get(productId);
+            SelectedCategoriesIds = (await _productsService.GetCategoriesAsync(productId)).Select(c => c.Id);
+            Images = GetImageData(await _productImagesService.GetByProduct(productId));
+        }
     }
 
     #endregion
@@ -55,21 +65,21 @@ public partial class ProductEditNew : ComponentBase {
         try {
             if (Product is null) throw new InvalidOperationException();
 
-            await _productsService.SetCategoriesAsync(productId, SelectedCategoriesIds);
-            await _productsService.Update(Product);
+            if (productId == 0) {
+                var newProductId = await _productsService.Add(Product);
+                await _productsService.SetCategoriesAsync(newProductId, SelectedCategoriesIds);
 
-            ShowNotification(
-                severity: NotificationSeverity.Success,
-                summary: "Cambios guardados",
-                detail: "El producto fue actualizado correctamente.");
+                ShowNotification(NotificationSeverity.Success, "Producto creado", "El producto fue creado correctamente.");
+            } else {
+                await _productsService.SetCategoriesAsync(productId, SelectedCategoriesIds);
+                await _productsService.Update(Product);
+
+                ShowNotification(NotificationSeverity.Success, "Cambios guardados", "El producto fue actualizado correctamente.");
+            }
 
             NavigateTo("/products");
-
         } catch (Exception ex) {
-            ShowNotification(
-                severity: NotificationSeverity.Error,
-                summary: "Error al guardar",
-                detail: $"Ocurrió un problema: {ex.Message}");
+            ShowNotification(NotificationSeverity.Error, "Error al guardar", $"Ocurrió un problema: {ex.Message}");
         }
     }
     #endregion
@@ -104,6 +114,7 @@ public partial class ProductEditNew : ComponentBase {
         }
     }
     private async Task OnImageMove(EditImages.ImageMoveEventData imageMove){
+        if (Product?.Id == 0) return; 
         try {
             await _productImagesService.MoveImage(imageMove.Id, imageMove.OrderIndex);
             Images = GetImageData(await _productImagesService.GetByProduct(Product!.Id));
@@ -115,6 +126,7 @@ public partial class ProductEditNew : ComponentBase {
     }
     private async Task OnImageDelete(int productImageId)
     {
+        if (Product?.Id == 0) return;
         try {
             await _productImagesService.Delete(productImageId);
             ShowNotification(NotificationSeverity.Info, "Éxito", "Imagen eliminada correctamente");

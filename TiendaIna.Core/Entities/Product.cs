@@ -13,7 +13,7 @@ public class Product : IEntity<int> {
     public string? DescriptionShort { get; set; }
     public decimal? Price { get; set; }
     public int? Stock { get; set; }
-    public bool IsOutstanding { get; set; }
+    public bool IsVisible { get; set; }
 
     public static Product FromModel(ProductModel model) => model.Adapt<Product>();
 }
