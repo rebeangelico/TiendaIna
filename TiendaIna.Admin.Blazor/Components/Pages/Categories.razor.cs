@@ -77,6 +77,7 @@ public partial class Categories : ComponentBase {
     private async Task EditRow(CategoryModel category) {
         categoryToUpdate = category;
         await grid.EditRow(categoryToUpdate);
+        Reset();
     }
 
     private void CancelEdit(CategoryModel category) {
@@ -107,10 +108,11 @@ public partial class Categories : ComponentBase {
     }
 
     void Reset() {
-        categoryToInsert = new();
-        categoryToUpdate = new();
+        categoryToInsert = null;
+        categoryToUpdate = null;
     }
     #endregion
+
     #region Helpers
     private void NotifySuccess(string message) =>
         _notificationService.Notify(NotificationSeverity.Success, "Éxito", message);

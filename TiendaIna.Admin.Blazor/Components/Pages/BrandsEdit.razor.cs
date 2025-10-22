@@ -114,8 +114,8 @@ public partial class BrandsEdit : ComponentBase {
     }
 
     void Reset() {
-        BrandToInsert = new();
-        BrandToUpdate = new();
+        BrandToInsert = null;
+        BrandToUpdate = null;
     }
     #endregion
 

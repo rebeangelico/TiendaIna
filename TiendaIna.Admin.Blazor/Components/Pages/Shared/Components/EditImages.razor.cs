@@ -61,7 +61,6 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
 
         #region Event handlers
         public void OnSelectImage(ImageData selectedImage) => SelectedImage = selectedImage;
-        #endregion
 
         public async Task AddFromUrl() {
             IsLoading = true;
@@ -99,5 +98,6 @@ namespace TiendaIna.Admin.Blazor.Components.Pages.Shared.Components {
                 IsLoading = false;
             }
         }
+        #endregion
     }
 }
