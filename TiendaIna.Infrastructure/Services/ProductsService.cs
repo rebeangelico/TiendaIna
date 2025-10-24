@@ -23,8 +23,12 @@ public class ProductsService : IProductsService {
     #region Methods CRUD Products
     public async Task<List<ProductModel>> Get() {
         var products = await _productsRepo.GetAsync();
-        var models = products.Select(p => ProductModel.FromEntity(p)).ToList();
-        return models;
+        var productModels = products.Select(p => ProductModel.FromEntity(p)).ToList();
+        foreach (var product in productModels) {
+            product.Categories = (await _categoriesRepo.GetByProductAsync(product.Id)).Select(c => CategoryModel.FromEntity(c)).ToList();
+            product.Images = await _productImagesService.GetByProduct(product.Id);
+        }
+        return productModels;
     }
 
     public async Task<ProductModel> Get(int productId) {

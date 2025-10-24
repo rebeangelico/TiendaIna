@@ -3,6 +3,8 @@ using RepoDb;
 using TiendaIna.Web.Blazor.Components;
 using TiendaIna.Core;
 using TiendaIna.Core.Models;
+using TiendaIna.Infrastructure.Services;
+using TiendaIna.Core.Services;
 
 namespace TiendaIna.Web.Blazor {
     public static class Program {
@@ -16,6 +18,7 @@ namespace TiendaIna.Web.Blazor {
             builder.Services.AddRadzenComponents();
 
             builder.Services.AddHttpClient();
+            builder.Services.AddScoped<ICategoriesService, CategoriesService>();
             builder.Services.AddScoped<DialogService>();
             builder.Services.AddScoped<NotificationService>();
 

@@ -1,0 +1,62 @@
+﻿@using System.Diagnostics.Metrics
+@using TiendaIna.Core.Entities
+@using TiendaIna.Core.Models
+@using TiendaIna.Core.Services
+@using TiendaIna.Infrastructure.Services
+@inherits LayoutComponentBase
+@inject ICategoriesService _categoriesService
+<RadzenLayout>
+    <!-- Barra superior -->
+    <RadzenHeader>
+        <RadzenRow class="header-row">
+            <RadzenColumn Width="20%">
+                <RadzenTextBox Placeholder="Buscar productos..." Style="width:100%;" />
+            </RadzenColumn>
+
+            <RadzenColumn Width="60%" Style="text-align:center;">
+                <img src="https://tiendaina.store/wp-content/uploads/2025/03/logo-sin-fondo-blanco-e1742354939681-300x175.png" alt="Logo" style="height:40px;" />
+            </RadzenColumn>
+
+            <RadzenColumn Width="20%" Style="text-align:right;">
+                <RadzenIcon Icon="shopping_cart" Style="font-size: 24px; cursor: pointer;" />
+            </RadzenColumn>
+        </RadzenRow>
+
+    </RadzenHeader>
+
+    <!-- Barra lateral -->
+    <RadzenSidebar>
+        <RadzenPanelMenu>
+            @if (categorias != null) {
+                @foreach (var cat in categorias) {
+                    <RadzenPanelMenuItem Text="@cat.Name" Path="" />
+                }
+            }
+        </RadzenPanelMenu>
+    </RadzenSidebar>
+
+
+    <!-- Contenido principal -->
+    <RadzenBody>
+        @Body
+    </RadzenBody>
+</RadzenLayout>
+
+@code {
+    private List<CategoryModel> categorias;
+
+    protected override async Task OnInitializedAsync() {
+        categorias = await _categoriesService.GetAll();
+    }
+}
+
+
+
+        <style>
+    .header-row {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        background-color: #f5f5f5;
+    }
+        </style>
