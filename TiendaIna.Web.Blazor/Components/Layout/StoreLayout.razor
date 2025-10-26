@@ -3,6 +3,7 @@
 @using TiendaIna.Core.Models
 @using TiendaIna.Core.Services
 @using TiendaIna.Infrastructure.Services
+@using TiendaIna.Web.Blazor.Components.Component
 @inherits LayoutComponentBase
 @inject ICategoriesService _categoriesService
 <RadzenLayout>
@@ -14,7 +15,7 @@
             </RadzenColumn>
 
             <RadzenColumn Width="60%" Style="text-align:center;">
-                <img src="https://tiendaina.store/wp-content/uploads/2025/03/logo-sin-fondo-blanco-e1742354939681-300x175.png" alt="Logo" style="height:40px;" />
+                <img src="lib/LOGO-NEGRO.png" alt="Logo" style="height:40px;" />
             </RadzenColumn>
 
             <RadzenColumn Width="20%" Style="text-align:right;">
@@ -25,16 +26,9 @@
     </RadzenHeader>
 
     <!-- Barra lateral -->
-    <RadzenSidebar>
-        <RadzenPanelMenu>
-            @if (categorias != null) {
-                @foreach (var cat in categorias) {
-                    <RadzenPanelMenuItem Text="@cat.Name" Path="" />
-                }
-            }
-        </RadzenPanelMenu>
-    </RadzenSidebar>
-
+        <div class="sidebar">
+            <Sidebar />   <!-- Aquí se renderiza tu Sidebar -->
+        </div>
 
     <!-- Contenido principal -->
     <RadzenBody>
@@ -49,8 +43,6 @@
         categorias = await _categoriesService.GetAll();
     }
 }
-
-
 
         <style>
     .header-row {

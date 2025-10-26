@@ -1,3 +1,4 @@
+@page "/"
 @page "/products"
 @layout StoreLayout
 @rendermode InteractiveServer
@@ -12,8 +13,8 @@
 <PageTitle>Products</PageTitle>
 
 <RadzenRow>
-    @if (Products != null) {
-        @foreach (var product in Products) {
+    @if (pagedProducts != null) {
+        @foreach (var product in pagedProducts) {
             <RadzenColumn SizeXL="3" SizeLG="4" SizeMD="6" SizeSM="6">
                 <RadzenCard Style="margin:10px; text-align:center; height: 100%">
                     <RadzenStack Orientation="Orientation.Vertical" JustifyContent="JustifyContent.Center" Gap="0px" Style="height:100%;">
@@ -26,7 +27,7 @@
                                  style="width:100%; height:200px; object-fit:cover;" />
                         </RadzenRow>
                         <RadzenRow AlignItems="AlignItems.Center" style="padding-top: 15px">
-                            <h3>@product.Name</h3>
+                            <h3 style="font-size:25px; margin:0;">@product.Name</h3>
                         </RadzenRow>
                         <RadzenRow AlignItems="AlignItems.Center" Style="padding-bottom: 15px;">
                             <RadzenBadge BadgeStyle="BadgeStyle.Success" Shade="Shade.Light" Variant="Variant.Outlined" >

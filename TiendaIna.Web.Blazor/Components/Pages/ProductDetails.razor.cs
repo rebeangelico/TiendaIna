@@ -4,30 +4,29 @@ using TiendaIna.Core.Models;
 using TiendaIna.Core.Services;
 
 namespace TiendaIna.Web.Blazor.Components.Pages;
-public partial class ProductsCatalog : ComponentBase {
+public partial class ProductDetails : ComponentBase {
     #region fields
     private readonly IProductsService _productsService;
-    private readonly ICategoriesService _categoriesService;
-    private readonly DialogService _dialogService;
     private readonly NotificationService _notificationService;
+    private readonly NavigationManager _navigationManager;
+    #endregion
+
+    #region Parameters
+    [Parameter] public int ProductId { get; set; }
+
     #endregion
 
     #region properties
-
-    public List<ProductModel>? Products { get; set; }
-    private IEnumerable<ProductModel> pagedProducts = [];
-
-    private int pageSize = 9;
-    private int currentPage = 0;
-    public bool IsLoading { get; set; } = false;
+    private ProductModel? Product { get; set; }
+    private string selectedImage;
+    private bool IsLoading { get; set; } = false;
     #endregion
 
     #region constructors
-    public ProductsCatalog(IProductsService productsService, ICategoriesService categoriesService, DialogService dialogService, NotificationService notificationService) : base() {
+    public ProductDetails(IProductsService productsService, NotificationService notificationService, NavigationManager navigationManager) : base() {
         _productsService = productsService ?? throw new ArgumentNullException(nameof(productsService));
-        _categoriesService = categoriesService ?? throw new ArgumentNullException(nameof(categoriesService));
-        _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
         _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
+        _navigationManager = navigationManager ?? throw new ArgumentNullException(nameof(navigationManager));
     }
     #endregion
 
@@ -35,8 +34,8 @@ public partial class ProductsCatalog : ComponentBase {
     protected override async Task OnInitializedAsync() {
         try {
             IsLoading = true;
-            Products = await _productsService.Get();
-            UpdatePagedProducts();
+            Product = await _productsService.Get(ProductId);
+            selectedImage = Product?.Images?.Values?.FirstOrDefault()?.Url ?? "placeholder.png";
             StateHasChanged();
         } catch (Exception ex) {
             NotifyError("Error al cargar los productos", ex);
@@ -46,20 +45,13 @@ public partial class ProductsCatalog : ComponentBase {
     }
     #endregion
     #region methods
-    public void AddToCart(int productId, int amount) {
+    public void AddToCart(int productId, int quantity) {
     
     
     }
-    private void OnPageChanged(PagerEventArgs args) {
-        currentPage = args.PageIndex;
-        UpdatePagedProducts();
-    }
-
-    private void UpdatePagedProducts() {
-        pagedProducts = Products!
-            .Where(p => p != null)
-            .Skip(currentPage * pageSize)
-            .Take(pageSize);
+    void NavigateToCategory(int categoryId) {
+        //implementar filtrado!!!
+        _navigationManager.NavigateTo($"{categoryId}");
     }
 
     #endregion

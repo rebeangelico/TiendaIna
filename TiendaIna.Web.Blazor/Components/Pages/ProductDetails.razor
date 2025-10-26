@@ -1,0 +1,77 @@
+@page "/productDetails{id:int}"
+@layout StoreLayout
+@rendermode InteractiveServer
+@inject NavigationManager Navigation
+@using TiendaIna.Web.Blazor.Components.Layout
+@using Radzen
+@using Radzen.Blazor
+@using TiendaIna.Core.Models
+@using TiendaIna.Core.Services
+@using TiendaIna.Core
+
+<PageTitle>Products</PageTitle>
+
+<RadzenRow>
+    @if (Product != null) {
+        <RadzenRow>
+            <!-- Columna de imágenes -->
+            <RadzenColumn SizeXL="6" SizeLG="6" SizeMD="12" SizeSM="12">
+                <div style="text-align:center;">
+                    <!-- Imagen principal -->
+                    <img src="@selectedImage"
+                         alt="@Product.Name"
+                         style="width:100%; max-height:400px; object-fit:contain; border:1px solid #ddd; padding:5px;" />
+
+                    <!-- Miniaturas -->
+                    <div style="margin-top:10px; display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
+                        @foreach (var img in Product.Images.Values) {
+                            <img src="@img.SmallUrl"
+                                 alt="thumbnail"
+                                 style="width:80px; height:80px; object-fit:cover; cursor:pointer; border:@(selectedImage == img.Url ? "2px solid #28a745" : "1px solid #ccc");"
+                                 @onclick="() => selectedImage = img.Url" />
+                        }
+                    </div>
+                </div>
+            </RadzenColumn>
+
+            <!-- Columna de detalles -->
+            <RadzenColumn SizeXL="6" SizeLG="6" SizeMD="12" SizeSM="12">
+                <RadzenCard Style="padding:20px;">
+                    <h2 style="margin:0;">@Product.Name</h2>
+
+                    <RadzenBadge BadgeStyle="BadgeStyle.Success" Shade="Shade.Light" Variant="Variant.Outlined" Style="margin:10px 0;">
+                        <span style="font-size:1.2rem; padding:5px;">$@Product.Price</span>
+                    </RadzenBadge>
+
+                    <p><strong>Stock:</strong> @Product.Stock</p>
+
+                    <p>@Product.Description</p>
+
+                    <!-- Categorías -->
+                    <div style="margin:10px 0;">
+                        <strong>Categorías:</strong>
+                        @if (Product.Categories != null && Product.Categories.Any()) {
+                            @foreach (var cat in Product.Categories) {
+                                <RadzenButton Text="@cat.Name"
+                                              Size="ButtonSize.Small"
+                                              ButtonStyle="ButtonStyle.Light"
+                                              Style="margin:3px; border-radius:6px; font-size:12px;"
+                                              Click="() => NavigateToCategory(cat.Id)" />
+                            }
+                        }
+                    </div>
+
+                    <!-- Botones de acción -->
+                    <div style="margin-top:20px;">
+                        <RadzenButton Text="Añadir al carrito"
+                                      Icon="add_shopping_cart"
+                                      ButtonStyle="ButtonStyle.Success"
+                                      Style="min-width:150px; margin:5px;"
+                                      Click="() => AddToCart(Product.Id, 1)" />
+                    </div>
+                </RadzenCard>
+            </RadzenColumn>
+        </RadzenRow>
+    }
+</RadzenRow>
+

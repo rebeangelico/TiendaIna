@@ -1,0 +1,21 @@
+﻿@using TiendaIna.Core.Models
+@using TiendaIna.Core.Services
+@inject ICategoriesService _categoriesService
+
+    <RadzenSidebar>
+        <RadzenPanelMenu>
+            @if (categorias != null) {
+                @foreach (var cat in categorias) {
+                    <RadzenPanelMenuItem Text="@cat.Name" Path="" />
+                }
+            }
+        </RadzenPanelMenu>
+    </RadzenSidebar>
+
+@code {
+    private List<CategoryModel>? categorias;
+
+    protected override async Task OnInitializedAsync() {
+        categorias = await _categoriesService.GetAll();
+    }
+}
