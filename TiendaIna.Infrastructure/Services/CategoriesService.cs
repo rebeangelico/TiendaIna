@@ -1,4 +1,5 @@
-﻿using TiendaIna.Core.Entities;
+﻿using System.Collections.Generic;
+using TiendaIna.Core.Entities;
 using TiendaIna.Core.Models;
 using TiendaIna.Core.Repos;
 using TiendaIna.Core.Services;
@@ -33,5 +34,14 @@ public class CategoriesService : ICategoriesService {
     }
 
     public Task Delete(int Id) => _categoriesRepo.DeleteAsync(Id);
+
+    public async Task<IEnumerable<CategoryModel>> GetByProductAsync(int productId) {
+        var categories = await _categoriesRepo.GetByProductAsync(productId);
+        var models = new List<CategoryModel>();
+        foreach (var category in categories) { 
+        models.Add(CategoryModel.FromEntity(category));
+        }
+        return models;
+    }
 }
 

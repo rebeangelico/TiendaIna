@@ -2,7 +2,7 @@
 @page "/products"
 @layout StoreLayout
 @rendermode InteractiveServer
-@inject NavigationManager Navigation
+@inject NavigationManager NavigationManager
 @using TiendaIna.Web.Blazor.Components.Layout
 @using Radzen
 @using Radzen.Blazor
@@ -29,11 +29,20 @@
                         <RadzenRow AlignItems="AlignItems.Center" style="padding-top: 15px">
                             <h3 style="font-size:25px; margin:0;">@product.Name</h3>
                         </RadzenRow>
+                       
                         <RadzenRow AlignItems="AlignItems.Center" Style="padding-bottom: 15px;">
-                            <RadzenBadge BadgeStyle="BadgeStyle.Success" Shade="Shade.Light" Variant="Variant.Outlined" >
+                            <p>
+                                <strong>Marca:</strong> 
+                                <RadzenButton Text="@product.Brand?.Name"
+                                              Size="ButtonSize.Small"
+                                              ButtonStyle="ButtonStyle.Light"
+                                              Style="margin:3px; border-radius:6px; font-size:12px;" /> <!-- Click="() => NavigateTo(cat.Id)"-->
+                            </p>
+                            <RadzenBadge BadgeStyle="BadgeStyle.Success" Shade="Shade.Light" Variant="Variant.Outlined">
                                 <span style="font-size: 1rem; padding: 5px;">$@product.Price</span>
                             </RadzenBadge>
                         </RadzenRow>
+
                         <RadzenRow AlignItems="AlignItems.Center">
                             <RadzenColumn>
                                 <RadzenRow AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceAround">
@@ -54,7 +63,7 @@
                         </RadzenRow>
                         <RadzenRow AlignItems="AlignItems.Center">
                             <RadzenColumn>
-                                <RadzenButton Text="Ver producto" Icon="visibility" ButtonStyle="ButtonStyle.Light" Style="min-width: 150px; margin:5px;" /> <!--  Click="() => NavigateToProduct(product.Id)" -->
+                                <RadzenButton Text="Ver producto" Icon="visibility" ButtonStyle="ButtonStyle.Light" Style="min-width: 150px; margin:5px;" Click="@(() => NavigationManager.NavigateTo($"/productDetails/{product.Id}"))" /> <!--  Click="() => NavigateToProduct(product.Id)" -->
                                 <RadzenButton Text="Añadir al carrito" Icon="add_shopping_cart" ButtonStyle="ButtonStyle.Success" Style="min-width: 150px; margin:5px;" Click="() => AddToCart(product.Id, 1)" />
                             </RadzenColumn>
                         </RadzenRow>

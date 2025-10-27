@@ -15,7 +15,7 @@ public class ProductModel {
     public bool IsOutstanding { get; set; }
 
     public BrandModel? Brand { get; set; }
-    public ICollection<CategoryModel>? Categories { get; set; }
+    public IEnumerable<CategoryModel>? Categories { get; set; }
     public SortedList<int, ProductImageOutputModel>? Images { get; set; }
 
     public static ProductModel FromEntity(Product product) => product.Adapt<ProductModel>();

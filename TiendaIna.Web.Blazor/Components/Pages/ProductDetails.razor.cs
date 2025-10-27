@@ -12,7 +12,7 @@ public partial class ProductDetails : ComponentBase {
     #endregion
 
     #region Parameters
-    [Parameter] public int ProductId { get; set; }
+    [Parameter] public int Id { get; set; }
 
     #endregion
 
@@ -34,7 +34,7 @@ public partial class ProductDetails : ComponentBase {
     protected override async Task OnInitializedAsync() {
         try {
             IsLoading = true;
-            Product = await _productsService.Get(ProductId);
+            Product = await _productsService.Get(Id);
             selectedImage = Product?.Images?.Values?.FirstOrDefault()?.Url ?? "placeholder.png";
             StateHasChanged();
         } catch (Exception ex) {
