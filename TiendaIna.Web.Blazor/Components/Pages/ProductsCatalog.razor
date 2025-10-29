@@ -13,8 +13,8 @@
 <PageTitle>Products</PageTitle>
 
 <RadzenRow>
-    @if (pagedProducts != null) {
-        @foreach (var product in pagedProducts) {
+    @if (PagedProducts != null) {
+        @foreach (var product in PagedProducts) {
             <RadzenColumn SizeXL="3" SizeLG="4" SizeMD="6" SizeSM="6">
                 <RadzenCard Style="margin:10px; text-align:center; height: 100%">
                     <RadzenStack Orientation="Orientation.Vertical" JustifyContent="JustifyContent.Center" Gap="0px" Style="height:100%;">
@@ -32,11 +32,12 @@
                        
                         <RadzenRow AlignItems="AlignItems.Center" Style="padding-bottom: 15px;">
                             <p>
-                                <strong>Marca:</strong> 
+                                <strong>Marca:</strong>
                                 <RadzenButton Text="@product.Brand?.Name"
                                               Size="ButtonSize.Small"
                                               ButtonStyle="ButtonStyle.Light"
-                                              Style="margin:3px; border-radius:6px; font-size:12px;" /> <!-- Click="() => NavigateTo(cat.Id)"-->
+                                              Style="margin:3px; border-radius:6px; font-size:12px;"
+                                              Click="@(() => FilterByBrand(product.BrandId))" />
                             </p>
                             <RadzenBadge BadgeStyle="BadgeStyle.Success" Shade="Shade.Light" Variant="Variant.Outlined">
                                 <span style="font-size: 1rem; padding: 5px;">$@product.Price</span>
@@ -48,12 +49,12 @@
                                 <RadzenRow AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceAround">
                                     @if (product.Categories != null && product.Categories.Any()) {
                                         @foreach (var cat in product.Categories) {
-                                                <RadzenButton Text="@cat.Name"
-                                                              Size="ButtonSize.Small"
-                                                              ButtonStyle="ButtonStyle.Light"
-                                                              Style="border-radius:6px; font-size:12px;" />
-                                                <!--  Click="() => NavigateToCategory(cat)" -->
-                                            }
+                                            <RadzenButton Text="@cat.Name"
+                                                          Size="ButtonSize.Small"
+                                                          ButtonStyle="ButtonStyle.Light"
+                                                          Style="border-radius:6px; font-size:12px;"
+                                                          Click="@(() => FilterByCategory(cat.Id))" />
+                                        }
                                     }
                                 </RadzenRow>
                             </RadzenColumn>
@@ -77,6 +78,6 @@
 <!-- Paginación -->
 <div style="text-align:center; margin-top:20px;">
     <RadzenPager Count="@Products.Count"
-                 PageSize="@pageSize"
+                 PageSize="@_pageSize"
                  PageChanged="OnPageChanged" />
 </div>
