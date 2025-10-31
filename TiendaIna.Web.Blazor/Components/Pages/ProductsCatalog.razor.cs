@@ -4,11 +4,13 @@ using TiendaIna.Core.Entities;
 using TiendaIna.Core.Extensions;
 using TiendaIna.Core.Models;
 using TiendaIna.Core.Services;
+using TiendaIna.Infrastructure.Services;
 
 namespace TiendaIna.Web.Blazor.Components.Pages;
 public partial class ProductsCatalog : ComponentBase {
     #region fields
     private readonly IProductsService _productsService;
+    private readonly ICategoriesService _categoriesService;
     private readonly DialogService _dialogService;
     private readonly NotificationService _notificationService;
     #endregion
@@ -16,6 +18,7 @@ public partial class ProductsCatalog : ComponentBase {
     #region properties
 
     public List<ProductModel>? Products { get; set;}
+    public List<CategoryModel> Categories { get; set; } = [];
     public IEnumerable<ProductModel>? FilteredProducts { get; set; }
     public IEnumerable<ProductModel> PagedProducts = [];
     public int? BrandId;
@@ -29,8 +32,9 @@ public partial class ProductsCatalog : ComponentBase {
     #endregion
 
     #region constructors
-    public ProductsCatalog(IProductsService productsService, DialogService dialogService, NotificationService notificationService) : base() {
+    public ProductsCatalog(IProductsService productsService, ICategoriesService categoriesService, DialogService dialogService, NotificationService notificationService) : base() {
         _productsService = productsService ?? throw new ArgumentNullException(nameof(productsService));
+        _categoriesService = categoriesService ?? throw new ArgumentNullException(nameof(categoriesService));
         _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
         _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
     }
@@ -40,6 +44,7 @@ public partial class ProductsCatalog : ComponentBase {
     protected override async Task OnInitializedAsync() {
         IsLoading = true;
         Products = await _productsService.Get();
+        Categories = await _categoriesService.GetAll();
         SetFiltersFromUrl();
         ApplyFilters();
         StateHasChanged();

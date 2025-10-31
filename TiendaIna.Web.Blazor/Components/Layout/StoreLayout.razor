@@ -25,24 +25,12 @@
 
     </RadzenHeader>
 
-    <!-- Barra lateral -->
-        <div class="sidebar">
-            <Sidebar />   <!-- Aquí se renderiza tu Sidebar -->
-        </div>
-
     <!-- Contenido principal -->
     <RadzenBody>
         @Body
     </RadzenBody>
 </RadzenLayout>
 
-@code {
-    private List<CategoryModel> categorias;
-
-    protected override async Task OnInitializedAsync() {
-        categorias = await _categoriesService.GetAll();
-    }
-}
 
         <style>
     .header-row {
