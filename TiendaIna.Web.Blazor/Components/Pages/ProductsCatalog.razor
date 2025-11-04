@@ -13,16 +13,24 @@
 
 <PageTitle>Products</PageTitle>
 
-<div class="container-fluid">
-<RadzenRow Style="height: 100vh;">
+<div class="page-container">
+    <!-- Botón hamburguesa fuera de la sidebar -->
+    <div class="hamburger-button">
+        <RadzenButton Icon="menu"
+                      ButtonStyle="ButtonStyle.Light"
+                      Click="@ToggleSidebar"
+                      Style="width: 40px; height: 40px;" />
+    </div>
 
-    <div class="sidebar">
-        <CategoriesSidebar Categories="@Categories" />
+    <!-- Sidebar -->
+    <div class="sidebar @(isSidebarOpen ? "sidebar-open" : "sidebar-closed")">
+        <div class="sidebar-content">
+            <CategoriesSidebar Categories="@Categories" />
+        </div>
     </div>
 
     <div class="main-content">
         <RadzenRow>
-
             @if (PagedProducts != null) {
                 @foreach (var product in PagedProducts) {
                     <RadzenColumn SizeXL="3" SizeLG="4" SizeMD="6" SizeSM="6">
@@ -74,7 +82,7 @@
                                 </RadzenRow>
                                 <RadzenRow AlignItems="AlignItems.Center">
                                     <RadzenColumn>
-                                        <RadzenButton Text="Ver producto" Icon="visibility" ButtonStyle="ButtonStyle.Light" Style="min-width: 150px; margin:5px;" Click="@(() => NavigationManager.NavigateTo($"/productDetails/{product.Id}"))" /> <!--  Click="() => NavigateToProduct(product.Id)" -->
+                                        <RadzenButton Text="Ver producto" Icon="visibility" ButtonStyle="ButtonStyle.Light" Style="min-width: 150px; margin:5px;" Click="@(() => NavigationManager.NavigateTo($"/productDetails/{product.Id}"))" />
                                         <RadzenButton Text="Añadir al carrito" Icon="add_shopping_cart" ButtonStyle="ButtonStyle.Success" Style="min-width: 150px; margin:5px;" Click="() => AddToCart(product.Id, 1)" />
                                     </RadzenColumn>
                                 </RadzenRow>
@@ -84,29 +92,142 @@
                 }
             }
         </RadzenRow>
-    </div>
-</RadzenRow>
 
-<!-- Paginación -->
-<div style="text-align:center; margin-top:20px;">
-    <RadzenPager Count="@Products.Count"
-                 PageSize="@_pageSize"
-                 PageChanged="OnPageChanged" />
+        <!-- Paginación -->
+        <div style="text-align:center; margin-top:20px; padding-bottom:20px;">
+            <RadzenPager Count="@Products.Count"
+                         PageSize="@_pageSize"
+                         PageChanged="OnPageChanged" />
+        </div>
+    </div>
 </div>
 
+@code {
+    private bool isSidebarOpen = false;
+
+    private void ToggleSidebar() {
+        isSidebarOpen = !isSidebarOpen;
+    }
+}
+
 <style>
+    .hamburger-button {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1002;
+        background-color: #f5f5f5;
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+        .hamburger-button button {
+            margin: 0 !important;
+        }
+
+    .page-container {
+        display: flex;
+        min-height: 100vh;
+        width: 100%;
+        position: relative;
+    }
+
     .sidebar {
         width: 250px;
         min-height: 100vh;
         background-color: #f5f5f5;
-        padding: 10px;
+        padding: 0;
         box-sizing: border-box;
         flex-shrink: 0;
+        transition: transform 0.3s ease;
     }
 
+    .sidebar-header {
+        display: none;
+        height: 60px;
+        background-color: #f5f5f5;
+    }
+
+    .main-content {
+        flex: 1;
+        padding: 10px;
+        overflow-x: hidden;
+    }
+
+    .sidebar-overlay {
+        display: none;
+    }
+
+
     @@media (max-width: 768px) {
-        .sidebar {
-            display: none; /* Oculta el sidebar en mobile */
+        .hamburger-button
+
+    {
+        display: block;
+    }
+
+    .sidebar-header {
+        display: block;
+    }
+
+    /* Sidebar oculta por defecto en mobile */
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        transform: translateX(-100%);
+        z-index: 1001;
+        box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    }
+
+        /* Ocultar completamente cuando está cerrada */
+        .sidebar.sidebar-closed {
+            transform: translateX(-100%);
+            visibility: hidden;
         }
+
+        /* Sidebar abierta */
+        .sidebar.sidebar-open {
+            transform: translateX(0);
+            visibility: visible;
+        }
+
+        /* Ocultar el contenido de Radzen cuando está cerrada */
+        .sidebar.sidebar-closed .rz-sidebar,
+        .sidebar.sidebar-closed .rz-panel-menu {
+            display: none;
+        }
+
+    /* Overlay oscuro cuando sidebar está abierta */
+    .sidebar-overlay {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+    }
+
+    /* Ajustar contenido principal en mobile */
+    .main-content {
+        width: 100%;
+        padding-top: 10px;
+    }
+
+    }
+
+    /* En pantallas grandes, añadir padding a la sidebar */
+    @@media (min-width: 769px) {
+        .sidebar
+
+    {
+        padding: 10px;
+        transform: translateX(0) !important;
+    }
+
     }
 </style>
