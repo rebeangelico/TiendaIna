@@ -73,6 +73,21 @@ public partial class ProductsCatalog : ComponentBase {
 
     #region methods
     public void AddToCart(int productId, int amount) { } //implementar
+    private void OnPageChanged(PagerEventArgs args) {
+        _currentPage = args.PageIndex;
+        UpdatePagedProducts();
+    }
+
+    private void UpdatePagedProducts() {
+        PagedProducts = FilteredProducts!
+            .Where(p => p != null)
+            .Skip(_currentPage * _pageSize)
+            .Take(_pageSize);
+    }
+
+    #endregion
+
+    #region Filters Methods
     private void ApplyFilters() {
         IsLoading = true;
         FilteredProducts = Products.DeepClone();
@@ -96,45 +111,15 @@ public partial class ProductsCatalog : ComponentBase {
         IsLoading = false;
         StateHasChanged();
     }
-    private void RemoveFilter(string text) {
-        var filtro = FiltersApplied.FirstOrDefault(f => f.FilterText == text);
-        filtro?.Action?.Invoke();
-    }
-    private void OnPageChanged(PagerEventArgs args) {
-        _currentPage = args.PageIndex;
-        UpdatePagedProducts();
-    }
-
-    private void UpdatePagedProducts() {
-        PagedProducts = FilteredProducts!
-            .Where(p => p != null)
-            .Skip(_currentPage * _pageSize)
-            .Take(_pageSize);
-    }
-
     private void FilterByBrand(int? brandId) {
         ResetFilters();
         BrandId = brandId;
-
-      //  FiltersApplied.Clear(); //dudoso
-        FiltersApplied.Add(new ProductFiltersItems {
-            FilterText = $"Marca: {GetBrandName(BrandId!.Value)}",
-            Action = () => { BrandId = null; ApplyFilters(); }
-        });
-
         ApplyFilters();
     }
 
     private void FilterByCategory(int? categoryId) {
         ResetFilters();
         CategoryId = categoryId;
-
-       // FiltersApplied.Clear();//mm
-        FiltersApplied.Add(new ProductFiltersItems {
-            FilterText = $"Categoría: {GetCategoryName(CategoryId!.Value)}",
-            Action = () => { CategoryId = null; ApplyFilters(); }
-        });
-
         ApplyFilters();
     }
 
@@ -144,6 +129,10 @@ public partial class ProductsCatalog : ComponentBase {
         StateHasChanged();
     }
 
+    void RemoveFilter(ProductFiltersItems filtro) {
+        FiltersApplied.Remove(filtro); 
+        StateHasChanged();
+    }
     private void SetFiltersFromUrl() {
         var uri = new Uri(NavigationManager.Uri);
         var queryParams = System.Web.HttpUtility.ParseQueryString(uri.Query);
@@ -153,6 +142,7 @@ public partial class ProductsCatalog : ComponentBase {
         if (int.TryParse(queryParams["categoryId"], out var categoryId))
             CategoryId = categoryId;
     }
+
     #endregion
 
     #region Helpers
