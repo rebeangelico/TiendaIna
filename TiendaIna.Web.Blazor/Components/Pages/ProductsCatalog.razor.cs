@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Components;
+ï»¿using Microsoft.AspNetCore.Components;
 using Radzen;
 using Radzen.Blazor;
 using TiendaIna.Core.Extensions;
@@ -90,19 +90,35 @@ public partial class ProductsCatalog : ComponentBase {
     #region Filters Methods
     private void ApplyFilters() {
         IsLoading = true;
+        FiltersApplied.Clear();
+
         FilteredProducts = Products.DeepClone();
-        if (CategoryId is not null) { 
-            FilteredProducts = FilteredProducts?.Where(p => p.Categories != null && p.Categories.Any(c => c.Id == CategoryId));
+
+        if (CategoryId is not null) {
+            FilteredProducts = FilteredProducts?
+                .Where(p => p.Categories != null && p.Categories.Any(c => c.Id == CategoryId));
+
             FiltersApplied.Add(new ProductFiltersItems {
-                FilterText = $"Categoría: {GetCategoryName(CategoryId!.Value)}",
-                Action = () => { CategoryId = null; ApplyFilters(); }
+                FilterText = $"CategorÃ­a: {GetCategoryName(CategoryId.Value)}",
+                Action = () =>
+                {
+                    CategoryId = null;
+                    ApplyFilters();
+                }
             });
         }
-        if (BrandId is not null) { 
-            FilteredProducts = FilteredProducts?.Where(p => p.BrandId == BrandId);
+
+        if (BrandId is not null) {
+            FilteredProducts = FilteredProducts?
+                .Where(p => p.BrandId == BrandId);
+
             FiltersApplied.Add(new ProductFiltersItems {
-                FilterText = $"Marca: {GetBrandName(BrandId!.Value)}",
-                Action = () => { BrandId = null; ApplyFilters(); }
+                FilterText = $"Marca: {GetBrandName(BrandId.Value)}",
+                Action = () =>
+                {
+                    BrandId = null;
+                    ApplyFilters();
+                }
             });
         }
 
@@ -112,13 +128,11 @@ public partial class ProductsCatalog : ComponentBase {
         StateHasChanged();
     }
     private void FilterByBrand(int? brandId) {
-        ResetFilters();
         BrandId = brandId;
         ApplyFilters();
     }
 
     private void FilterByCategory(int? categoryId) {
-        ResetFilters();
         CategoryId = categoryId;
         ApplyFilters();
     }
@@ -130,10 +144,10 @@ public partial class ProductsCatalog : ComponentBase {
     }
 
     void RemoveFilter(ProductFiltersItems filtro) {
-        FiltersApplied.Remove(filtro); 
-        StateHasChanged();
-        ApplyFilters();
+        filtro.Action?.Invoke();
     }
+
+
     private void SetFiltersFromUrl() {
         var uri = new Uri(NavigationManager.Uri);
         var queryParams = System.Web.HttpUtility.ParseQueryString(uri.Query);
@@ -150,7 +164,7 @@ public partial class ProductsCatalog : ComponentBase {
     public string GetBrandName(int id) => _brandsService.Get(id).Result.Name;
     public string GetCategoryName(int id) => _categoriesService.Get(id).Result.Name;
     private void NotifySuccess(string message) =>
-        _notificationService.Notify(NotificationSeverity.Success, "Éxito", message);
+        _notificationService.Notify(NotificationSeverity.Success, "Ã‰xito", message);
 
     private void NotifyError(string context, Exception ex) =>
         _notificationService.Notify(NotificationSeverity.Error, "Error", $"{context}: {ex.Message}");
