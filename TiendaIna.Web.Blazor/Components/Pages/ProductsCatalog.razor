@@ -13,16 +13,24 @@
 
 <PageTitle>Products</PageTitle>
 
-<div class="page-container">
-    <!-- Botón hamburguesa fuera de la sidebar -->
-    <div class="hamburger-button">
-        <RadzenButton Icon="menu"
-                      ButtonStyle="ButtonStyle.Light"
-                      Click="@ToggleSidebar"
-                      Style="width: 40px; height: 40px;" />
-    </div>
+<div class="barra-horizontal">
+    <div class="barra-contenido">
+        <!-- Izquierda: botón hamburguesa -->
+        <div class="barra-izquierda">
+            <RadzenButton Icon="menu"
+                          ButtonStyle="ButtonStyle.Light"
+                          Click="@ToggleSidebar"
+                          Style="width: 40px; height: 40px;" />
+        </div>
 
-    <!-- Sidebar -->
+        <!-- Centro: texto -->
+        <div class="barra-centro">
+            <span>Bienvenida a mi sitio Blazor</span>
+        </div>
+    </div>
+</div>
+
+<div class="page-container">
     <div class="sidebar @(isSidebarOpen ? "sidebar-open" : "sidebar-closed")">
         <div class="sidebar-content">
             <CategoriesSidebar Categories="@Categories" />
@@ -162,72 +170,98 @@
 
 
     @@media (max-width: 768px) {
-        .hamburger-button
+        .hamburger-button {
+            display: block;
+        }
 
-    {
-        display: block;
-    }
-
-    .sidebar-header {
-        display: block;
-    }
-
-    /* Sidebar oculta por defecto en mobile */
-    .sidebar {
-        position: fixed;
-        left: 0;
-        top: 0;
-        transform: translateX(-100%);
-        z-index: 1001;
-        box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-    }
-
-        /* Ocultar completamente cuando está cerrada */
-        .sidebar.sidebar-closed {
+        .sidebar-header {
+            display: block;
+        }
+        /* Sidebar oculta por defecto en mobile */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
             transform: translateX(-100%);
-            visibility: hidden;
+            z-index: 1001;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
         }
-
-        /* Sidebar abierta */
-        .sidebar.sidebar-open {
-            transform: translateX(0);
-            visibility: visible;
+            /* Ocultar completamente cuando está cerrada */
+            .sidebar.sidebar-closed {
+                transform: translateX(-100%);
+                visibility: hidden;
+            }
+            /* Sidebar abierta */
+            .sidebar.sidebar-open {
+                transform: translateX(0);
+                visibility: visible;
+            }
+            /* Ocultar el contenido de Radzen cuando está cerrada */
+            .sidebar.sidebar-closed .rz-sidebar,
+            .sidebar.sidebar-closed .rz-panel-menu {
+                display: none;
+            }
+        /* Overlay oscuro cuando sidebar está abierta */
+        .sidebar-overlay {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
         }
-
-        /* Ocultar el contenido de Radzen cuando está cerrada */
-        .sidebar.sidebar-closed .rz-sidebar,
-        .sidebar.sidebar-closed .rz-panel-menu {
-            display: none;
+        /* Ajustar contenido principal en mobile */
+        .main-content {
+            width: 100%;
+            padding-top: 10px;
         }
-
-    /* Overlay oscuro cuando sidebar está abierta */
-    .sidebar-overlay {
-        display: block;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 999;
-    }
-
-    /* Ajustar contenido principal en mobile */
-    .main-content {
-        width: 100%;
-        padding-top: 10px;
-    }
-
     }
 
     /* En pantallas grandes, añadir padding a la sidebar */
     @@media (min-width: 769px) {
-        .sidebar
-
-    {
-        padding: 10px;
-        transform: translateX(0) !important;
+        .sidebar {
+            padding: 10px;
+            transform: translateX(0) !important;
+        }
     }
 
+    .barra-horizontal {
+        width: 100%;
+        border-bottom: 1px solid #ccc;
+        padding: 10px 20px;
+        box-sizing: border-box;
     }
+
+    .barra-contenido {
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
+
+    .barra-izquierda {
+        z-index: 1;
+    }
+
+    .barra-centro {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+
 </style>
+
+@* @if (FiltersApplied?.Any() == true) {
+                <RadzenBreadCrumb Items="@BreadCrumbItems">
+                    <Template Context="item">
+                        <span>@item.Text</span>
+                        <RadzenIcon Icon="close"
+                                    Style="cursor:pointer; margin-left:5px;"
+                                    Click="@(() => RemoveFilter(item.Text))" />
+                    </Template>
+                </RadzenBreadCrumb>
+            } *@

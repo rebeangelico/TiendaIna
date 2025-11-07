@@ -1,26 +1,43 @@
 using Microsoft.AspNetCore.Components;
 using Radzen;
-using TiendaIna.Core.Entities;
+using Radzen.Blazor;
 using TiendaIna.Core.Extensions;
 using TiendaIna.Core.Models;
 using TiendaIna.Core.Services;
-using TiendaIna.Infrastructure.Services;
+
 
 namespace TiendaIna.Web.Blazor.Components.Pages;
 public partial class ProductsCatalog : ComponentBase {
+
+    #region SubClass
+    public class ProductFiltersItems {
+        public string? FilterText { get; set; } = "";
+        public Action? Action { get; set; }
+
+    }
+    #endregion
+
     #region fields
     private readonly IProductsService _productsService;
     private readonly ICategoriesService _categoriesService;
+    private readonly IBrandsService _brandsService;
     private readonly DialogService _dialogService;
     private readonly NotificationService _notificationService;
     #endregion
 
     #region properties
 
-    public List<ProductModel>? Products { get; set;}
+    public List<ProductModel>? Products { get; set; }
     public List<CategoryModel> Categories { get; set; } = [];
     public IEnumerable<ProductModel>? FilteredProducts { get; set; }
     public IEnumerable<ProductModel> PagedProducts = [];
+
+    public List<ProductFiltersItems> FiltersApplied { get; set; } = [];
+    public IEnumerable<RadzenBreadCrumbItem> BreadCrumbItems =>
+    FiltersApplied.Select(f => new RadzenBreadCrumbItem {
+        Text = f.FilterText
+    });
+
     public int? BrandId;
     public int? CategoryId;
 
@@ -32,9 +49,10 @@ public partial class ProductsCatalog : ComponentBase {
     #endregion
 
     #region constructors
-    public ProductsCatalog(IProductsService productsService, ICategoriesService categoriesService, DialogService dialogService, NotificationService notificationService) : base() {
+    public ProductsCatalog(IProductsService productsService, ICategoriesService categoriesService, IBrandsService brandsService, DialogService dialogService, NotificationService notificationService) : base() {
         _productsService = productsService ?? throw new ArgumentNullException(nameof(productsService));
         _categoriesService = categoriesService ?? throw new ArgumentNullException(nameof(categoriesService));
+        _brandsService = brandsService ?? throw new ArgumentNullException(nameof(brandsService));
         _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
         _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
     }
@@ -54,19 +72,33 @@ public partial class ProductsCatalog : ComponentBase {
     #endregion
 
     #region methods
-    public void AddToCart(int productId, int amount) {} //implementar
+    public void AddToCart(int productId, int amount) { } //implementar
     private void ApplyFilters() {
         IsLoading = true;
         FilteredProducts = Products.DeepClone();
-        if (CategoryId is not null)
+        if (CategoryId is not null) { 
             FilteredProducts = FilteredProducts?.Where(p => p.Categories != null && p.Categories.Any(c => c.Id == CategoryId));
-        if (BrandId is not null)
+            FiltersApplied.Add(new ProductFiltersItems {
+                FilterText = $"Categoría: {GetCategoryName(CategoryId!.Value)}",
+                Action = () => { CategoryId = null; ApplyFilters(); }
+            });
+        }
+        if (BrandId is not null) { 
             FilteredProducts = FilteredProducts?.Where(p => p.BrandId == BrandId);
+            FiltersApplied.Add(new ProductFiltersItems {
+                FilterText = $"Marca: {GetBrandName(BrandId!.Value)}",
+                Action = () => { BrandId = null; ApplyFilters(); }
+            });
+        }
 
         _currentPage = 0;
         UpdatePagedProducts();
         IsLoading = false;
         StateHasChanged();
+    }
+    private void RemoveFilter(string text) {
+        var filtro = FiltersApplied.FirstOrDefault(f => f.FilterText == text);
+        filtro?.Action?.Invoke();
     }
     private void OnPageChanged(PagerEventArgs args) {
         _currentPage = args.PageIndex;
@@ -83,12 +115,26 @@ public partial class ProductsCatalog : ComponentBase {
     private void FilterByBrand(int? brandId) {
         ResetFilters();
         BrandId = brandId;
+
+      //  FiltersApplied.Clear(); //dudoso
+        FiltersApplied.Add(new ProductFiltersItems {
+            FilterText = $"Marca: {GetBrandName(BrandId!.Value)}",
+            Action = () => { BrandId = null; ApplyFilters(); }
+        });
+
         ApplyFilters();
     }
 
     private void FilterByCategory(int? categoryId) {
         ResetFilters();
         CategoryId = categoryId;
+
+       // FiltersApplied.Clear();//mm
+        FiltersApplied.Add(new ProductFiltersItems {
+            FilterText = $"Categoría: {GetCategoryName(CategoryId!.Value)}",
+            Action = () => { CategoryId = null; ApplyFilters(); }
+        });
+
         ApplyFilters();
     }
 
@@ -110,6 +156,8 @@ public partial class ProductsCatalog : ComponentBase {
     #endregion
 
     #region Helpers
+    public string GetBrandName(int id) => _brandsService.Get(id).Result.Name;
+    public string GetCategoryName(int id) => _categoriesService.Get(id).Result.Name;
     private void NotifySuccess(string message) =>
         _notificationService.Notify(NotificationSeverity.Success, "Éxito", message);
 
