@@ -132,6 +132,7 @@ public partial class ProductsCatalog : ComponentBase {
     void RemoveFilter(ProductFiltersItems filtro) {
         FiltersApplied.Remove(filtro); 
         StateHasChanged();
+        ApplyFilters();
     }
     private void SetFiltersFromUrl() {
         var uri = new Uri(NavigationManager.Uri);

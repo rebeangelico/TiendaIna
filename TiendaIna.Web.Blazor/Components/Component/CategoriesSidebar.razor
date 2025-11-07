@@ -1,18 +1,23 @@
 ﻿@using TiendaIna.Core.Models
 @using TiendaIna.Core.Services
 
-    <RadzenSidebar>
-        <RadzenPanelMenu>
-        @if (Categories != null) {
-            @foreach (var cat in Categories) {
-                    <RadzenPanelMenuItem Text="@cat.Name" Path="" />
-                }
+<RadzenSidebar>
+    <RadzenPanelMenu>
+        @if (Categories != null)
+        {
+            foreach (var cat in Categories)
+            {
+                <RadzenPanelMenuItem 
+                    Text="@cat.Name" 
+                    Path=""
+                    Click="@(() => OnCategoryClick.InvokeAsync(cat.Id))" />
+
             }
-        </RadzenPanelMenu>
-    </RadzenSidebar>
+        }
+    </RadzenPanelMenu>
+</RadzenSidebar>
 
 @code {
-
     [Parameter] public List<CategoryModel>? Categories { get; set; }
-
+    [Parameter] public EventCallback<int?> OnCategoryClick { get; set; }
 }

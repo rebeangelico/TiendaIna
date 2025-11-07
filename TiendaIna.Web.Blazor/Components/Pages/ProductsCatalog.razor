@@ -44,7 +44,9 @@
 <div class="page-container">
     <div class="sidebar @(isSidebarOpen ? "sidebar-open" : "sidebar-closed")">
         <div class="sidebar-content">
-            <CategoriesSidebar Categories="@Categories" />
+            <CategoriesSidebar Categories="@Categories"
+                               OnCategoryClick="@FilterByCategory" />
+
         </div>
     </div>
 
