@@ -40,6 +40,7 @@ public partial class ProductsCatalog : ComponentBase {
 
     public int? BrandId;
     public int? CategoryId;
+    private bool isSidebarOpen = false;
 
     private List<BrandModel>? Brands { get; set; }
 
@@ -83,6 +84,13 @@ public partial class ProductsCatalog : ComponentBase {
             .Where(p => p != null)
             .Skip(_currentPage * _pageSize)
             .Take(_pageSize);
+    }
+
+    #endregion
+
+    #region methods Sidebar
+    private void ToggleSidebar() {
+        isSidebarOpen = !isSidebarOpen;
     }
 
     #endregion

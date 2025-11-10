@@ -20,6 +20,8 @@ public partial class ProductDetails : ComponentBase {
     private ProductModel? Product { get; set; }
     private string selectedImage;
     private bool IsLoading { get; set; } = false;
+
+    private bool isSidebarOpen = false;
     #endregion
 
     #region constructors
@@ -44,6 +46,7 @@ public partial class ProductDetails : ComponentBase {
         }
     }
     #endregion
+
     #region methods
     public void AddToCart(int productId, int quantity) {
     
@@ -55,7 +58,9 @@ public partial class ProductDetails : ComponentBase {
     }
 
     #endregion
-
+    private void ToggleSidebar() {
+        isSidebarOpen = !isSidebarOpen;
+    }
     #region Helpers
     private void NotifySuccess(string message) =>
         _notificationService.Notify(NotificationSeverity.Success, "Éxito", message);
