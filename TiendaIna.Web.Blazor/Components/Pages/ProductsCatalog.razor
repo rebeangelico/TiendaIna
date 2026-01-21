@@ -65,48 +65,51 @@
                                          alt="@product?.Name"
                                          style="width:100%; height:200px; object-fit:cover;" />
                                 </RadzenRow>
-                                <RadzenRow AlignItems="AlignItems.Center" style="padding-top: 15px">
-                                    <h3 style="font-size:25px; margin:0;">@product.Name</h3>
-                                </RadzenRow>
 
-                                <RadzenRow AlignItems="AlignItems.Center" Style="padding-bottom: 15px;">
-                                    <p>
+                                <RadzenRow AlignItems="AlignItems.Center"
+                                           Style="padding:5px 0; display:flex; justify-content:space-between;">
+                                    <div style="display:flex; align-items:center; gap:6px;">
                                         <strong>Marca:</strong>
                                         <RadzenButton Text="@product.Brand?.Name"
                                                       Size="ButtonSize.Small"
                                                       ButtonStyle="ButtonStyle.Light"
-                                                      Style="margin:3px; border-radius:6px; font-size:12px;"
+                                                      Style="margin:0; border-radius:6px; font-size:12px; padding:2px 10px;"
                                                       Click="@(() => FilterByBrand(product.BrandId))" />
-                                    </p>
+                                    </div>
                                     <RadzenBadge BadgeStyle="BadgeStyle.Success" Shade="Shade.Light" Variant="Variant.Outlined">
-                                        <span style="font-size: 1rem; padding: 5px;">$@product.Price</span>
+                                        <span style="font-size:0.95rem; padding:2px 6px; font-weight:600;">$@product.Price</span>
                                     </RadzenBadge>
                                 </RadzenRow>
 
-                                <RadzenRow AlignItems="AlignItems.Center">
+                                <RadzenRow AlignItems="AlignItems.Center" Style="margin:4px 0;">
                                     <RadzenColumn>
-                                        <RadzenRow AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceAround">
-                                            @if (product.Categories != null && product.Categories.Any()) {
-                                                @foreach (var cat in product.Categories) {
-                                                    <RadzenButton Text="@cat.Name"
-                                                                  Size="ButtonSize.Small"
-                                                                  ButtonStyle="ButtonStyle.Light"
-                                                                  Style="border-radius:6px; font-size:12px;"
-                                                                  Click="@(() => FilterByCategory(cat.Id))" />
-                                                }
+                                        <RadzenRow AlignItems="AlignItems.Center" JustifyContent="JustifyContent.Start" Style="gap:4px; flex-wrap:wrap;">
+                                            <strong>Categorias:</strong>
+                                            @foreach (var cat in product.Categories)
+                                            {
+                                                <RadzenButton Text="@cat.Name"
+                                                              Size="ButtonSize.Small"
+                                                              ButtonStyle="ButtonStyle.Light"
+                                                              Style="border-radius:4px; font-size:11px; padding:2px 8px; margin:0;"
+                                                              Click="@(() => FilterByCategory(cat.Id))" />
                                             }
                                         </RadzenRow>
                                     </RadzenColumn>
                                 </RadzenRow>
-                                <RadzenRow AlignItems="AlignItems.Center" Style="flex:1;">
-                                    <p>@product.DescriptionShort</p>
+
+                                <RadzenRow AlignItems="AlignItems.Center" Style="flex:1; margin:4px 0;">
+                                    <p style="margin:0; font-size:13px;">@product.DescriptionShort</p>
                                 </RadzenRow>
-                                <RadzenRow AlignItems="AlignItems.Center">
+
+                                <RadzenRow AlignItems="AlignItems.Center" Style="margin-top:10px;">
                                     <RadzenColumn>
-                                        <RadzenButton Text="Ver producto" Icon="visibility" ButtonStyle="ButtonStyle.Light" Style="min-width: 150px; margin:5px;" Click="@(() => NavigationManager.NavigateTo($"/productDetails/{product.Id}"))" />
-                                        <RadzenButton Text="Añadir al carrito" Icon="add_shopping_cart" ButtonStyle="ButtonStyle.Success" Style="min-width: 150px; margin:5px;" Click="() => AddToCart(product.Id, 1)" />
+                                        <RadzenButton Text="Ver producto" Icon="visibility" ButtonStyle="ButtonStyle.Light"
+                                                      Style="min-width:140px; margin:4px;" Click="@(() => NavigationManager.NavigateTo($"/productDetails/{product.Id}"))" />
+                                        <RadzenButton Text="Añadir al carrito" Icon="add_shopping_cart" ButtonStyle="ButtonStyle.Success"
+                                                      Style="min-width:140px; margin:4px;" Click="() => AddToCart(product.Id, 1)" />
                                     </RadzenColumn>
                                 </RadzenRow>
+
                             </RadzenStack>
                         </RadzenCard>
                     </RadzenColumn>
