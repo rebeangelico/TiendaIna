@@ -10,8 +10,9 @@ public class Payment : IEntity<int> {
     public PaymentStatus? Estado { get; set; }
     public string? Details { get; set; }
     public int? Amount { get; set; }
-    public Client? Client { get; set; }
-
+    public int? ClientId { get; set; }
+    
+    //public Client? Client { get; set; }
 
    // public static Clients FromModel(ProductInfoModel model) => model.Adapt<Clients>();
 }
