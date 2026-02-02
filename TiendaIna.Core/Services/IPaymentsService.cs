@@ -1,7 +1,7 @@
 ﻿using TiendaIna.Core.Models;
 
 namespace TiendaIna.Core.Services {
-    public interface IPaymentService {
+    public interface IPaymentsService {
         Task<List<PaymentModel>> GetAll();
         Task<OrderModel> Get(int id);
         Task<int> Add(PaymentModel entity);

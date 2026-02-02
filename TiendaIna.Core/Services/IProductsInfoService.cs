@@ -1,7 +1,7 @@
 ﻿using TiendaIna.Core.Models;
 
 namespace TiendaIna.Core.Services {
-    public interface IProductInfoModelService
+    public interface IProductsInfoService
     {
         Task<List<ProductInfoModel>> GetAll();
         Task<ProductInfoModel> Get(int id);

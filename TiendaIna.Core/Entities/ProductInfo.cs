@@ -6,6 +6,7 @@ namespace TiendaIna.Core.Entities;
 [Table("ProductInfo")]
 public class ProductInfo : IEntity<int> {
     public int Id { get; set; }
+    public int IdProduct { get; set; }
     public int IdPedido { get; set; }
     public string? Name { get; set; }
     public int? Quantity { get; set; }

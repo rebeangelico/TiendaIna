@@ -1,7 +1,7 @@
 ﻿namespace TiendaIna.Core {
     public enum PaymentStatus {
-        Approved,
-        Pending,
-        Rejected
+        Approved = 1,
+        Pending = 2,
+        Rejected = 3
     }
 }

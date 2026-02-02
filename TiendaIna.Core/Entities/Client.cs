@@ -9,7 +9,7 @@ public class Client : IEntity<int> {
     public string? Name { get; set; }
     public string? Email { get; set; }
     public string? IdentificationNumber { get; set; }
-    public Gender? Gender { get; set; }
+    //public Gender? Gender { get; set; } --- no creado en data base
 
 
     public static Client FromModel(ClientModel model) => model.Adapt<Client>();

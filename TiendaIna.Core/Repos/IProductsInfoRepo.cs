@@ -2,4 +2,4 @@
 
 namespace TiendaIna.Core.Repos;
 
-public interface IProductInfoRepo : ICrudRepo<ProductInfo, int> { }
+public interface IProductsInfoRepo : ICrudRepo<ProductInfo, int> { }
