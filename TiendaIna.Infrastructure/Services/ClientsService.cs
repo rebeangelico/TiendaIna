@@ -12,29 +12,30 @@ public class ClientsService : IClientsService {
         this._clientsRepo = clientsRepo ?? throw new ArgumentNullException(nameof(clientsRepo));
     }
 
-    public Task<int> Add(ClientModel entity)
-    {
-        throw new NotImplementedException();
+    public Task<int> Add(ClientModel entity) {
+        var Entity = Client.FromModel(entity);
+       return _clientsRepo.CreateAsync(Entity);
     }
 
-    public Task Delete(int Id)
-    {
-        throw new NotImplementedException();
+    public Task Delete(int Id){
+        return _clientsRepo.DeleteAsync(Id);
     }
 
-    public Task<ClientModel> Get(int id)
-    {
-        throw new NotImplementedException();
+    public async Task<ClientModel> Get(int id) {
+        var client = await _clientsRepo.GetAsync(id);
+        var model = ClientModel.FromEntity(client);
+        return model;
     }
 
-    public Task<List<ClientModel>> GetAll()
-    {
-        throw new NotImplementedException();
+    public async Task<List<ClientModel>> GetAll() {
+        var clients = await _clientsRepo.GetAsync();
+        var models = clients.Select(c => ClientModel.FromEntity(c)).ToList();
+        return models;
     }
 
-    public Task Update(ClientModel entity)
-    {
-        throw new NotImplementedException();
+    public Task Update(ClientModel client) {
+        var entity = Client.FromModel(client);
+        return _clientsRepo.UpdateAsync(entity);
     }
 }
 

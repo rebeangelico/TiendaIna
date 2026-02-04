@@ -7,7 +7,7 @@ namespace TiendaIna.Core.Entities;
 public class ProductInfo : IEntity<int> {
     public int Id { get; set; }
     public int IdProduct { get; set; }
-    public int IdOrder{ get; set; }
+    public int OrderId{ get; set; }
     public string? Name { get; set; }
     public int? Quantity { get; set; }
     public decimal? Price{ get; set; }

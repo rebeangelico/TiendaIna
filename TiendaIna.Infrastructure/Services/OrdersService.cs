@@ -1,8 +1,9 @@
-﻿using TiendaIna.Core;
+﻿
+using TiendaIna.Core;
+using TiendaIna.Core.Entities;
 using TiendaIna.Core.Models;
 using TiendaIna.Core.Repos;
 using TiendaIna.Core.Services;
-using TiendaIna.Infrastructure.Repos;
 
 namespace TiendaIna.Infrastructure.Services;
 
@@ -22,32 +23,70 @@ public class OrdersService : IOrdersService
 
     public Task<int> Add(OrderModel entity)
     {
-        throw new NotImplementedException();
+        var Entity = Order.FromModel(entity);
+        return _ordersRepo.CreateAsync(Entity);
     }
 
-    public Task Delete(int Id)
-    {
-        throw new NotImplementedException();
+    public Task Delete(int Id) => _ordersRepo.DeleteAsync(Id);
+
+    public async Task<OrderModel> Get(int id) {
+        var order = await _ordersRepo.GetAsync(id);
+        var model = OrderModel.FromEntity(order);
+        model.Payments = await GetPayments(id);
+        model.Products = await GetProductsInfo(id);
+        model.Client = await GetClient(id);
+        return model;
     }
 
-    public Task<OrderModel> Get(int id)
-    {
-        throw new NotImplementedException();
+    public async Task<List<OrderModel>> GetAll() {
+        var orders = await _ordersRepo.GetAsync();
+        var models = new List<OrderModel>();
+        foreach (var order in orders) {
+            var model = await Get(order.Id);
+            models.Add(model);
+        }
+        return models;
     }
 
-    public Task<List<OrderModel>> GetAll()
-    {
-        throw new NotImplementedException();
+    public Task Update(OrderModel entityModel) {
+        var entity = Order.FromModel(entityModel);
+        return _ordersRepo.UpdateAsync(entity);
     }
 
-    public Task Update(OrderModel entity)
-    {
-        throw new NotImplementedException();
+    public Task UpdateStatus(int id, OrderStatus status) {
+        var entity = _ordersRepo.GetAsync(id).Result;
+        entity.Status = status;
+        return _ordersRepo.UpdateAsync(entity);
     }
 
-    public Task UpdateStatus(OrderModel entity, OrderStatus status)
-    {
-        throw new NotImplementedException();
+    #region Helpers
+    private async Task<ICollection<ProductInfoModel>> GetProductsInfo(int orderId) {
+        var productInfos = await _productsInfoRepo.GetByOrder(orderId);
+        var models = productInfos
+                            .Select(p => ProductInfoModel.FromEntity(p))
+                            .ToList();
+        return models;
     }
+
+    private async Task<ICollection<PaymentModel>> GetPayments(int orderId) {
+        var payments = await _paymentsRepo.GetByOrder(orderId);
+        var models = payments
+                            .Select(p => PaymentModel.FromEntity(p))
+                            .ToList();
+        return models;
+    }
+
+    private async Task<ClientModel> GetClient(int id) { 
+        var client = await _clientsRepo.GetAsync(id);
+        var model = ClientModel.FromEntity(client);
+        return model;
+    }
+
+    #endregion
+
 }
+    
+
+
+
 

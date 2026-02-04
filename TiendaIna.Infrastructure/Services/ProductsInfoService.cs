@@ -1,4 +1,5 @@
-﻿using TiendaIna.Core.Models;
+﻿using TiendaIna.Core.Entities;
+using TiendaIna.Core.Models;
 using TiendaIna.Core.Repos;
 using TiendaIna.Core.Services;
 
@@ -12,24 +13,26 @@ public class ProductsInfoService : IProductsInfoService
         this._productsInfoRepo = productsInfoRepo ?? throw new ArgumentNullException(nameof(productsInfoRepo));
     }
 
-    public Task<int> Add(ProductInfoModel entity)
-    {
-        throw new NotImplementedException();
+    public Task<int> Add(ProductInfoModel entity) {
+        var Entity = ProductInfo.FromModel(entity);
+        return _productsInfoRepo.CreateAsync(Entity);
     }
 
-    public Task Delete(int Id)
-    {
-        throw new NotImplementedException();
+    public Task Delete(int Id) {
+        return _productsInfoRepo.DeleteAsync(Id);
     }
 
-    public Task<ProductInfoModel> Get(int id)
-    {
-        throw new NotImplementedException();
+
+    public async Task<ProductInfoModel> Get(int id) {
+        var productInfo = await _productsInfoRepo.GetAsync(id);
+        var model = ProductInfoModel.FromEntity(productInfo);
+        return model;
     }
 
-    public Task<List<ProductInfoModel>> GetAll()
-    {
-        throw new NotImplementedException();
+    public async Task<List<ProductInfoModel>> GetAll() {
+        var productsInfo = await _productsInfoRepo.GetAsync();
+        var models = productsInfo.Select(p => ProductInfoModel.FromEntity(p)).ToList();
+        return models;
     }
 
     public Task<List<ProductInfoModel>> GetFromOrder(int id)

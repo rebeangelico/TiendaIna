@@ -1,4 +1,5 @@
 ﻿using TiendaIna.Core;
+using TiendaIna.Core.Entities;
 using TiendaIna.Core.Models;
 using TiendaIna.Core.Repos;
 using TiendaIna.Core.Services;
@@ -13,34 +14,36 @@ public class PaymentsService : IPaymentsService
         this._paymentsRepo = paymentsRepo ?? throw new ArgumentNullException(nameof(paymentsRepo));
     }
 
-    public Task<int> Add(PaymentModel entity)
-    {
-        throw new NotImplementedException();
+    public Task UpdateStatus(int id, PaymentStatus status) {
+        var entity = _paymentsRepo.GetAsync(id).Result;
+         entity.Status = status;
+        return _paymentsRepo.UpdateAsync(entity);
     }
 
-    public Task Delete(int Id)
-    {
-        throw new NotImplementedException();
+    public Task<int> Add(PaymentModel entity) {
+        var Entity = Payment.FromModel(entity);
+        return _paymentsRepo.CreateAsync(Entity);
     }
 
-    public Task<OrderModel> Get(int id)
-    {
-        throw new NotImplementedException();
+    public Task Delete(int Id) {
+        return _paymentsRepo.DeleteAsync(Id);
     }
 
-    public Task<List<PaymentModel>> GetAll()
-    {
-        throw new NotImplementedException();
+    public async Task<PaymentModel> Get(int id) {
+        var payment = await _paymentsRepo.GetAsync(id);
+        var model = PaymentModel.FromEntity(payment);
+        return model;
     }
 
-    public Task Update(PaymentModel entity)
-    {
-        throw new NotImplementedException();
+    public async Task<List<PaymentModel>> GetAll() {
+        var payments = await _paymentsRepo.GetAsync();
+        var models = payments.Select(p => PaymentModel.FromEntity(p)).ToList();
+        return models;
     }
 
-    public Task UpdateStatus(PaymentModel entity, PaymentStatus status)
-    {
-        throw new NotImplementedException();
+    public Task Update(PaymentModel payment) {
+        var entity = Payment.FromModel(payment);
+        return _paymentsRepo.UpdateAsync(entity);
     }
 }
 

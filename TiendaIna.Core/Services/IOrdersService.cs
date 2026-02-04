@@ -6,7 +6,7 @@ namespace TiendaIna.Core.Services {
         Task<OrderModel> Get(int id);
         Task<int> Add(OrderModel entity);
         Task Update(OrderModel entity);
-        Task UpdateStatus(OrderModel entity, OrderStatus status);
+        Task UpdateStatus(int id, OrderStatus status);
         Task Delete(int Id);
     }
 }

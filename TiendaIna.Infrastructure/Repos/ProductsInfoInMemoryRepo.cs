@@ -12,4 +12,6 @@ public class ProductsInfoInMemoryRepo : InMemoryRepoBase<ProductInfo, int>, IPro
         entity.Id = Random.Shared.Next(1, 100);
         return base.CreateAsync(entity);
     }
+
+    public Task<IEnumerable<ProductInfo>> GetByOrder(int orderId) => Task.FromResult(_entities.Where(pi => pi.OrderId == orderId));
 }

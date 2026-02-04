@@ -8,7 +8,7 @@ namespace TiendaIna.Core.Entities;
 public class Payment : IEntity<int> {
     public int Id { get; set; }
     public int OrderId { get; set; }
-    public PaymentStatus? Estado { get; set; }
+    public PaymentStatus? Status { get; set; }
     public string? Details { get; set; }
     public int? Amount { get; set; }
     public int? ClientId { get; set; }
