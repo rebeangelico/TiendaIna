@@ -30,12 +30,11 @@ namespace TiendaIna.Core {
                 services.AddScoped<IBrandsRepo, BrandsInMemoryRepo>();
                 services.AddScoped<IImagesRepo, ImagesInMemoryRepo>();
 
-                /*   
                 services.AddScoped<IOrdersRepo, OrdersInMemoryRepo>();
                 services.AddScoped<IClientsRepo, ClientsInMemoryRepo>();
                 services.AddScoped<IPaymentsRepo, PaymentsInMemoryRepo>();
                 services.AddScoped<IProductsInfoRepo, ProductsInfoInMemoryRepo>();
-                */
+                
 
                 //in-memory stores (only for local testing)
                 services.AddSingleton<IInMemoryProductsStore, InMemoryProductsStore>();
@@ -44,12 +43,12 @@ namespace TiendaIna.Core {
                 services.AddSingleton<IInMemoryCategoriesStore, InMemoryCategoriesStore>();
                 services.AddSingleton<IInMemoryBrandsStore, InMemoryBrandsStore>();
                 services.AddSingleton<IInMemoryImagesStore, InMemoryImagesStore>();
-                /*   
+           
                 services.AddSingleton<IInMemoryOrdersStore, InMemoryOrdersStore>();
                 services.AddSingleton<IInMemoryClientsStore, InMemoryClientsStore>();
                 services.AddSingleton<IInMemoryPaymentsStore, InMemoryPaymentsStore>();
                 services.AddSingleton<IInMemoryProductsInfoStore, InMemoryProductsInfoStore>();
-                 */
+                
             }
             else {
                 services.AddScoped<IProductsRepo, ProductsDbRepo>();

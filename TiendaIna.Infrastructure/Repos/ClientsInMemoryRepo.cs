@@ -4,10 +4,10 @@ using TiendaIna.Infrastructure.DataStore;
 
 namespace TiendaIna.Infrastructure.Repos;
 
-public class BrandsInMemoryRepo : InMemoryRepoBase<Brand, int>, IBrandsRepo {
-    public BrandsInMemoryRepo(IInMemoryBrandsStore brandsStore) : base(brandsStore) { }
+public class ClientsInMemoryRepo : InMemoryRepoBase<Client, int>, IClientsRepo {
+    public ClientsInMemoryRepo(IInMemoryClientsStore ClientsStore) : base(ClientsStore) { }
 
-    public override Task<int> CreateAsync(Brand entity) {
+    public override Task<int> CreateAsync(Client entity) {
         entity.Id = Random.Shared.Next(1, 100);
         return base.CreateAsync(entity);
     }

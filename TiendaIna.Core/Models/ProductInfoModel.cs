@@ -3,7 +3,7 @@ namespace TiendaIna.Core.Models;
 
 public class ProductInfoModel {
     public int Id { get; set; }
-    public int IdPedido { get; set; }
+    public int IdOrder { get; set; }
     public int IdProduct { get; set; }
     public string? Name { get; set; }
     public int Quantity { get; set; }

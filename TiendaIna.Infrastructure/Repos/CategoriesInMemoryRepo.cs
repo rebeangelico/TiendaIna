@@ -12,7 +12,7 @@ public class CategoriesInMemoryRepo : InMemoryRepoBase<Category, int>, ICategori
     }
 
     public override Task<int> CreateAsync(Category entity) {
-        entity.Id = Random.Shared.Next(1, 100000);
+        entity.Id = Random.Shared.Next(1, 100);
         return base.CreateAsync(entity);
     }
 
