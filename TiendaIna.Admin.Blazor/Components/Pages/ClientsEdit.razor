@@ -1,0 +1,271 @@
+@page "/clientsEdit"
+@rendermode InteractiveServer
+@using Radzen
+@using Radzen.Blazor
+@using TiendaIna.Admin.Blazor.Components.Pages.Shared.Components
+@using TiendaIna.Core.Models
+@using TiendaIna.Core.Services
+
+
+<div class="page-container">
+    <div class="component-wrapper component-top">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h3 class="card-title mb-0">Gestión de Clientes</h3>
+                            <RadzenButton ButtonStyle="ButtonStyle.Success"
+                                          Icon="add_circle_outline"
+                                          class="me-2"
+                                          Text="Nuevo Cliente"
+                                          Click="@InsertRow"
+                                          Disabled="@(ClientToInsert != null || ClientToUpdate != null)" />
+                        </div>
+
+                        <div class="card-body">
+                            @if (IsLoading) {
+                                <div class="text-center p-4">
+                                    <RadzenProgressBarCircular ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+                                    <p class="mt-2">Cargando clientes...</p>
+                                </div>
+                            } else {
+                                <RadzenDataGrid @ref="Grid"
+                                                Data="@Clients"
+                                                TItem="ClientModel"
+                                                EditMode="DataGridEditMode.Single"
+                                                AllowPaging="false"
+                                                AllowSorting="false"
+                                                AllowFiltering="false">
+                                    <Columns>
+                                        <RadzenDataGridColumn TItem="ClientModel" Property="Id" Title="ID" Width="80px" />
+
+                                        <RadzenDataGridColumn TItem="ClientModel" Property="Name" Title="Nombre">
+                                            <EditTemplate Context="client">
+                                                <RadzenTextBox @bind-Value="client.Name" Style="width:100%; display: block" Name="Name" />
+                                                <RadzenRequiredValidator Text="El nombre es requerido" Component="Name" Popup="true" />
+                                            </EditTemplate>
+                                        </RadzenDataGridColumn>
+
+                                        <RadzenDataGridColumn TItem="ClientModel" Property="Email" Title="Email">
+                                            <EditTemplate Context="client">
+                                                <RadzenTextBox @bind-Value="client.Email" Style="width:100%; display: block" Name="Email" />
+                                                <RadzenRequiredValidator Text="La direccion de correo electronico es requerida" Component="Email" Popup="true" />
+                                            </EditTemplate>
+                                        </RadzenDataGridColumn>
+
+                                        <RadzenDataGridColumn TItem="ClientModel" Property="IdentificationNumber" Title="Numero de Documento">
+                                            <EditTemplate Context="client">
+                                                <RadzenTextBox @bind-Value="client.IdentificationNumber" Style="width:100%; display: block" Name="Numero de Documento" />
+                                                <RadzenRequiredValidator Text="El numero de DNI es requerido" Component="Numero de Documento" Popup="true" />
+                                            </EditTemplate>
+                                        </RadzenDataGridColumn>
+
+                                        <RadzenDataGridColumn TItem="ClientModel" TextAlign="TextAlign.Right" Width="150px">
+                                            <Template Context="client">
+                                                <RadzenButton Icon="edit"
+                                                              ButtonStyle="ButtonStyle.Light"
+                                                              Size="ButtonSize.Medium"
+                                                              Click="@(() => EditRow(client))"
+                                                              @onclick:stopPropagation="true">
+                                                </RadzenButton>
+                                                <RadzenButton ButtonStyle="ButtonStyle.Danger"
+                                                              Icon="delete"
+                                                              Shade="Shade.Lighter"
+                                                              Size="ButtonSize.Medium"
+                                                              class="my-1 ms-1"
+                                                              Click="@(() => DeleteRow(client))"
+                                                              @onclick:stopPropagation="true">
+                                                </RadzenButton>
+                                            </Template>
+                                            <EditTemplate Context="client">
+                                                <RadzenButton Icon="check"
+                                                              ButtonStyle="ButtonStyle.Success"
+                                                              Size="ButtonSize.Medium"
+                                                              Click="@(() => SaveRow(client))">
+                                                </RadzenButton>
+                                                <RadzenButton Icon="close"
+                                                              ButtonStyle="ButtonStyle.Light"
+                                                              Size="ButtonSize.Medium"
+                                                              class="my-1 ms-1"
+                                                              Click="@(() => CancelEdit(client))">
+                                                </RadzenButton>
+                                            </EditTemplate>
+
+                                        </RadzenDataGridColumn>
+                                    </Columns>
+                                </RadzenDataGrid>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<style>
+    .page-container {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .component-wrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .component-top {
+        flex: 1;
+        min-height: 50vh;
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .component-bottom {
+        flex: 1;
+        min-height: 50vh;
+        background-color: #ffffff;
+    }
+
+    @@media (max-width: 768px) {
+        .component-top,
+        .component-bottom {
+            min-height: 40vh;
+            padding: 1rem;
+        }
+    }
+
+    @@media (max-width: 480px) {
+        .component-top,
+        .component-bottom {
+            min-height: 35vh;
+            padding: 0.5rem;
+        }
+    }
+
+    @@media (min-width: 1200px) {
+        .component-top,
+        .component-bottom {
+            min-height: 45vh;
+        }
+    }
+
+    .component-wrapper ::deep > * {
+        width: 100%;
+        height: 100%;
+    }
+
+    ::deep body {
+        margin: 0;
+        padding: 0;
+    }
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+    .page-container {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .component-wrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .component-top {
+        flex: 1;
+        min-height: 50vh;
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .component-bottom {
+        flex: 1;
+        min-height: 50vh;
+        background-color: #ffffff;
+    }
+
+    @@media (max-width: 768px) {
+        .component-top,
+        .component-bottom {
+            min-height: 40vh;
+            padding: 1rem;
+        }
+    }
+
+    @@media (max-width: 480px) {
+        .component-top,
+        .component-bottom {
+            min-height: 35vh;
+            padding: 0.5rem;
+        }
+    }
+
+    @@media (min-width: 1200px) {
+        .component-top,
+        .component-bottom {
+            min-height: 45vh;
+        }
+    }
+
+    .component-wrapper > * {
+        width: 100%;
+        height: 100%;
+    }
+
+    }
+</style>
+

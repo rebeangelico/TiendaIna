@@ -9,6 +9,7 @@ public class Client : IEntity<int> {
     public string? Name { get; set; }
     public string? Email { get; set; }
     public string? IdentificationNumber { get; set; }
+    //AGREGAR FECHA DE NACIMIENTO???
     //public Gender? Gender { get; set; } --- no creado en data base
 
 
