@@ -6,7 +6,7 @@ namespace TiendaIna.Core.Entities;
 [Table("Order")]
 public class Order : IEntity<int> {
     public int Id { get; set; }
-    public DateTime DateTime { get; set; }
+    public DateTimeOffset DateTime { get; set; }
     public int? ClientId { get; set; }
     public int? Amount { get; set; }
     public OrderStatus Status { get; set; }

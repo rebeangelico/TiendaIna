@@ -1,5 +1,4 @@
-﻿
-using TiendaIna.Core;
+﻿using TiendaIna.Core;
 using TiendaIna.Core.Entities;
 using TiendaIna.Core.Models;
 using TiendaIna.Core.Repos;
