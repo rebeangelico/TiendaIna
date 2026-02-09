@@ -10,6 +10,7 @@ public class OrderModel {
     public ICollection<ProductInfoModel>? Products { get; set; }
     public int? Amount { get; set; }
     public ICollection<PaymentModel>? Payments { get; set; }
+    public PaymentModel? LastPayment { get; set; }
     public OrderStatus Status { get; set; }
 
     public static OrderModel FromEntity(Order order) => order.Adapt<OrderModel>();

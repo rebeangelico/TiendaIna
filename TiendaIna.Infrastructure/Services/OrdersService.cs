@@ -30,8 +30,10 @@ public class OrdersService : IOrdersService
 
     public async Task<OrderModel> Get(int id) {
         var order = await _ordersRepo.GetAsync(id);
+        var payments = await GetPayments(id);
         var model = OrderModel.FromEntity(order);
-        model.Payments = await GetPayments(id);
+        model.Payments = payments;
+        model.LastPayment = GetLastStatusPayment(payments);
         model.Products = await GetProductsInfo(id);
         model.Client = await GetClient(id);
         return model;
@@ -80,6 +82,13 @@ public class OrdersService : IOrdersService
         var model = ClientModel.FromEntity(client);
         return model;
     }
+    private PaymentModel GetLastStatusPayment(ICollection<PaymentModel> payments) {
+        var ultimoPago = payments?
+                                .OrderByDescending(p => p.DateTime)
+                                .FirstOrDefault();
+        return ultimoPago!;
+    }
+
 
     #endregion
 
