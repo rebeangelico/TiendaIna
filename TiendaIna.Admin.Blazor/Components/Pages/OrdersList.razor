@@ -17,11 +17,14 @@
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h3 class="card-title mb-0">Gestión de Pedidos</h3>
+
+                            <!-- Crear nuevo pedido, la logica momentaneamente no lo necesita manual
+
                             <RadzenButton ButtonStyle="ButtonStyle.Success"
                                           Icon="add_circle_outline"
                                           class="me-2"
                                           Text="Nuevo Pedido"
-                                          Click="@(() => NavigationManager.NavigateTo("/order/edit/0"))" />
+                                          Click="@(() => NavigationManager.NavigateTo("/order/edit/0"))" />-->
                         </div>
 
                         <div class="card-body">
@@ -41,11 +44,11 @@
                                     <RadzenDataGridColumn TItem="OrderModel" Property="DateTime" Title="Fecha y Hora" />
                                     <RadzenDataGridColumn TItem="OrderModel" Property="Status" Title="Estado pedido" />
                                     <RadzenDataGridColumn TItem="OrderModel" Property="Amount" Title="Precio total" />
-                                    <RadzenDataGridColumn TItem="OrderModel" Property="LastPayment.Status" Title="Ultimo estado de Pago" />
+                                    <RadzenDataGridColumn TItem="OrderModel" Property="LastPayment.Status" Title="Ultimo Pago" />
 
                                     <RadzenDataGridColumn TItem="OrderModel" Title="Acciones" TextAlign="TextAlign.Right">
                                         <Template Context="o">
-                                            <RadzenButton Icon="visibility"
+                                            <RadzenButton Icon="edit"
                                                           ButtonStyle="ButtonStyle.Light"
                                                           Size="ButtonSize.Medium"
                                                           Click="@(() => NavigationManager.NavigateTo($"/order/edit/{o.Id}"))"

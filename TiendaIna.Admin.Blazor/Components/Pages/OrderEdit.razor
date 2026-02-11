@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="col-md-6 col-12 campo-formulario">
                     <h4 class="titulo-campo">Numero de Pedido</h4>
-                    <RadzenNumeric Value="@Order.Id" Style="width: 100%; font-size: 1.1rem; height: 40px; resize:none" />
+                        <RadzenNumeric Value="@Order.Id" ReadOnly="true" Style="width: 100%; font-size: 1.1rem; height: 40px; resize:none" />
                 </div>
                 <div class="col-md-6 col-12 campo-formulario">
                     <h4 class="titulo-campo">Fecha de Creacion</h4>
@@ -28,7 +28,7 @@
             <div class="row">
                 <div class="col-md-6 col-12 campo-formulario">
                     <h4 class="titulo-campo">Precio Total</h4>
-                    <RadzenNumeric Value="@Order.Amount" Format="$#,##0" Min="0" Step="1" Style="width: 100%; height: 40px;" Class="numero-grande" />
+                        <RadzenNumeric Value="@Order.Amount" Format="$#,##0" Min="0" Step="1" ReadOnly="true" Style="width: 100%; height: 40px;" Class="numero-grande" />
                 </div>
 
                 <div class="col-md-6 col-12 campo-formulario">
