@@ -23,7 +23,6 @@ public partial class OrderEdit : ComponentBase {
     public OrderModel Order { get; set; }
     public List<PaymentModel> PaymentsData { get; set; }
     public ClientModel Client { get; set; }
-
     public IEnumerable<ProductInfoModel> ProductsInfo { get; set; }
     public List<int> PruductsInfoIds { get; set; }
 
@@ -94,15 +93,11 @@ public partial class OrderEdit : ComponentBase {
                 ShowNotification(NotificationSeverity.Success, "Cambios guardados", "El pedido fue actualizado correctamente.");
             }
 
-            NavigateTo("/products");
+            NavigateTo("/orders");
         } catch (Exception ex) {
             ShowNotification(NotificationSeverity.Error, "Error al guardar", $"Ocurrió un problema: {ex.Message}");
         }
     }
-    #endregion
-
-    #region image event handlers
-
     #endregion
 
     #region helpers
