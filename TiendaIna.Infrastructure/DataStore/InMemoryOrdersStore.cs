@@ -11,28 +11,28 @@ namespace TiendaIna.Infrastructure.DataStore {
             AddRange([
               new Order {
                 Id = 1,
-                DateTime = new DateTime(22/01/2026),
+                DateTime = new DateTimeOffset(2026, 02, 08, 12, 22, 5, TimeSpan.Zero),
                 ClientId = 1,
-                Amount = 84000,
+                Amount = 194000,
                 Status = OrderStatus.Pending,
               },
               new Order {
                 Id = 2,
-                DateTime = new DateTime(23/01/2026),
+                DateTime =  new DateTimeOffset(2026, 02, 09, 22, 10, 55, TimeSpan.Zero),
                 ClientId = 2,
                 Amount = 45000,
                 Status = OrderStatus.Approved,
               },
               new Order {
                 Id = 3,
-                DateTime = new DateTime(24/01/2026),
+                DateTime =  new DateTimeOffset(2026, 02, 10, 21, 42, 25, TimeSpan.Zero),
                 ClientId = 3,
                 Amount = 86000,
                 Status = OrderStatus.Approved,
               },
               new Order {
                 Id = 4,
-                DateTime = new DateTime(25/01/2026),
+                DateTime =  new DateTimeOffset(2026, 02, 11, 20, 12, 45, TimeSpan.Zero),
                 ClientId = 4,
                 Amount = 44000,
                 Status = OrderStatus.Canceled,

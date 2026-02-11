@@ -14,4 +14,15 @@ public class OrderModel {
     public OrderStatus Status { get; set; }
 
     public static OrderModel FromEntity(Order order) => order.Adapt<OrderModel>();
+
+    public int CalculadorAmount(ICollection<ProductInfoModel> Products) { 
+    var amount = 0;
+    var price = 0;
+        foreach (var product in Products) {
+            price = product.Price*product.Quantity;
+            amount = amount+price;
+        }
+        return amount;
+    }
+
 }

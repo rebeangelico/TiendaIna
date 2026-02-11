@@ -1,5 +1,4 @@
-﻿using TiendaIna.Core;
-using TiendaIna.Core.Entities;
+﻿using TiendaIna.Core.Entities;
 
 namespace TiendaIna.Infrastructure.DataStore {
     public interface IInMemoryProductsInfoStore : IList<ProductInfo> { }
@@ -16,6 +15,22 @@ namespace TiendaIna.Infrastructure.DataStore {
                 Name = "Oud for Glory",
                 Quantity = 2,
                 Price = 42000
+              },
+              new ProductInfo {
+                Id = 11,
+                IdProduct = 2,
+                OrderId = 1,
+                Name = "Glacier Bella",
+                Quantity = 1,
+                Price = 62000
+              },
+              new ProductInfo {
+                Id = 12,
+                IdProduct = 3,
+                OrderId = 1,
+                Name = "Al Haramain",
+                Quantity = 1,
+                Price = 48000
               },
               new ProductInfo {
                 Id = 2,
