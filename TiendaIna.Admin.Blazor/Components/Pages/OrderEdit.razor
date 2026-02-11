@@ -1,0 +1,138 @@
+﻿@page "/order/edit/{orderId:int}"
+@rendermode InteractiveServer
+@using Radzen
+@using Radzen.Blazor
+@using TiendaIna.Admin.Blazor.Components.Pages.Shared.Components
+@using TiendaIna.Core.Models
+@using TiendaIna.Core.Services
+@using TiendaIna.Core
+
+<h2>Editar pedido</h2>
+
+
+
+<div class="container-fluid">
+@if (Order != null) {
+    <div class="row">
+        <!-- Columna izquierda mia-->
+        <div class="col-md-7 col-12">
+
+             <div class="row">
+                    <div class="col-md-6 col-12 campo-formulario">
+                        <h4 class="titulo-campo">Numero de Pedido</h4>
+                        <RadzenNumeric Value="@Order.Id" Style="width: 100%; font-size: 1.1rem; height: 40px; resize:none" />
+                    </div>
+                    <div class="col-md-6 col-12 campo-formulario">
+                        <h4 class="titulo-campo">Fecha de Creacion</h4>
+                        <RadzenTextBox Value="@Order.DateTime.ToString("dd/MM/yyyy HH:mm")" ReadOnly="true"Style="width: 100%; font-size: 1.1rem; height: 40px;" />
+                    </div>
+             </div>
+
+             <div class="row">
+                    <div class="col-md-6 col-12 campo-formulario">
+                        <h4 class="titulo-campo">Precio Total</h4>
+                        <RadzenNumeric Value="@Order.Amount" Format="$#,##0" Min="0" Step="1" Style="width: 100%; height: 40px;" Class="numero-grande"/>
+                    </div>
+
+                    <div class="col-md-6 col-12 campo-formulario">
+                        <h4 class="titulo-campo">Estado Actual</h4>
+                        <RadzenDropDown @bind-Value="@Order.Status"
+                                        Data="Enum.GetValues(typeof(OrderStatus))"
+                                        TValue="OrderStatus"
+                                        Style="width: 100%; font-size: 1.1rem; height: 40px;" />
+                    </div>
+             </div>
+             
+             <div class="row">
+
+                    <div class="col-md-12 campo-formulario">
+                        <h4 class="titulo-campo">Datos del Cliente</h4>
+
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td><h4 class="titulo-campo">ID Cliente</h4></td>
+                                    <td>@Client.Id</td>
+                                </tr>
+                                <tr>
+                                    <td><h4 class="titulo-campo">Nombre</h4></td>
+                                    <td>@Client.Name</td>
+                                </tr>
+                                <tr>
+                                    <td><h4 class="titulo-campo">Correo Electrónico</h4></td>
+                                    <td>@Client.Email</td>
+                                </tr>
+                                <tr>
+                                    <td><h4 class="titulo-campo">DNI</h4></td>
+                                    <td>@Client.IdentificationNumber</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="mb-3 campo-formulario">
+                        <h4 class="titulo-campo">Pagos del pedido</h4>
+
+                        <RadzenDataGrid Data="@PaymentsData" TItem="PaymentModel" Class="table table-striped">
+                            <Columns>
+                                <RadzenDataGridColumn TItem="PaymentModel" Property="Method" Title="Método" />
+                                <RadzenDataGridColumn TItem="PaymentModel" Property="Status" Title="Estado" />
+                                <RadzenDataGridColumn TItem="PaymentModel" Property="DateTime" Title="Fecha" FormatString="{0:dd/MM/yyyy HH:mm}" />
+                                <RadzenDataGridColumn TItem="PaymentModel" Property="Amount" Title="Monto" />
+                                <RadzenDataGridColumn TItem="PaymentModel" Property="Details" Title="Detalles" />
+                            </Columns>
+                        </RadzenDataGrid>
+                    </div>
+             </div>
+
+                <RadzenButton Text="Guardar cambios" Style="margin: 10px;" Click="@SaveChanges" />
+        </div>
+        
+        <div class="col-md-5 col-12">
+                <!-- Columna derecha mia-->   
+                <div class="mb-3 campo-formulario">
+                    <h4 class="titulo-campo">Detalles del pedido</h4>
+
+                    <RadzenDataGrid Data="@ProductsInfo" TItem="ProductInfoModel" Class="table table-striped">
+                        <Columns>
+                            <RadzenDataGridColumn TItem="ProductInfoModel" Property="Name" Title="Producto" />
+                            <RadzenDataGridColumn TItem="ProductInfoModel" Property="Quantity" Title="Cantidad" />
+                            <RadzenDataGridColumn TItem="ProductInfoModel" Property="Price" Title="Precio" />
+                        </Columns>
+                    </RadzenDataGrid>
+                </div>
+
+
+        </div>
+    </div>
+
+    <!-- Fila inferior con márgenes -->
+    <div class="row mt-4 mb-5">
+        <div class="col-12">
+
+        </div>
+    </div>
+} else {
+    <p>Cargando producto...</p>
+}
+</div>
+
+<style>
+    .numero-grande input {
+        font-size: 1.1rem;
+    }
+
+    .campo-formulario {
+        border: 1px solid #ccc; /* Color del borde */
+        border-radius: 0.25rem; /* Bordes redondeados */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
+        margin-bottom: 1rem; /* Espacio entre campos */
+        padding: 0.75rem; /* Espacio interno */
+        background-color: #fff; /* Fondo blanco para destacar */
+    }
+
+    .titulo-campo {
+        font-size: 1.1rem;
+        margin-bottom: 0.25rem;
+    }
+</style>

@@ -21,7 +21,7 @@
                                           Icon="add_circle_outline"
                                           class="me-2"
                                           Text="Nuevo Pedido"
-                                          Click="@(() => NavigationManager.NavigateTo("/orders/editnew/0"))" />
+                                          Click="@(() => NavigationManager.NavigateTo("/order/edit/0"))" />
                         </div>
 
                         <div class="card-body">
@@ -48,7 +48,7 @@
                                             <RadzenButton Icon="edit"
                                                           ButtonStyle="ButtonStyle.Light"
                                                           Size="ButtonSize.Medium"
-                                                          Click="@(() => NavigationManager.NavigateTo($"/orders/editnew/{o.Id}"))"
+                                                          Click="@(() => NavigationManager.NavigateTo($"/order/edit/{o.Id}"))"
                                                           @onclick:stopPropagation="true" />
                                             <RadzenButton Icon="delete"
                                                           ButtonStyle="ButtonStyle.Danger"
