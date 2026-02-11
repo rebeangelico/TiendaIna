@@ -45,5 +45,11 @@ public class PaymentsService : IPaymentsService
         var entity = Payment.FromModel(payment);
         return _paymentsRepo.UpdateAsync(entity);
     }
+
+    public async Task<List<PaymentModel>> GetFromOrder(int OrderId) {
+        var payments = await _paymentsRepo.GetByOrder(OrderId);
+        var models = payments.Select(p => PaymentModel.FromEntity(p)).ToList();
+        return models;
+    }
 }
 

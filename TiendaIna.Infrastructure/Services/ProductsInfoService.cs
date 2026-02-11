@@ -1,4 +1,5 @@
-﻿using TiendaIna.Core.Entities;
+﻿using System.Collections.Generic;
+using TiendaIna.Core.Entities;
 using TiendaIna.Core.Models;
 using TiendaIna.Core.Repos;
 using TiendaIna.Core.Services;
@@ -35,9 +36,15 @@ public class ProductsInfoService : IProductsInfoService
         return models;
     }
 
-    public Task<List<ProductInfoModel>> GetFromOrder(int id)
-    {
-        throw new NotImplementedException();
+    public async Task<List<ProductInfoModel>> GetFromOrder(int orderId){
+        var models = new List<ProductInfoModel>();
+        var productsInfo = await _productsInfoRepo.GetByOrder(orderId);
+
+        foreach (var pi in productsInfo) {
+            var model = ProductInfoModel.FromEntity(pi);
+            models.Add(model);
+        }
+        return models;
     }
 
     public Task Update(ProductInfoModel entity)
