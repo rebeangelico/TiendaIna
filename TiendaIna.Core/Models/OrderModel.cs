@@ -8,16 +8,16 @@ public class OrderModel {
     public ClientModel? Client { get; set; }
     public DateTimeOffset DateTime { get; set; }
     public ICollection<ProductInfoModel>? Products { get; set; }
-    public int? Amount { get; set; }
+    public decimal? Amount { get; set; }
     public ICollection<PaymentModel>? Payments { get; set; }
     public PaymentModel? LastPayment { get; set; }
     public OrderStatus Status { get; set; }
 
     public static OrderModel FromEntity(Order order) => order.Adapt<OrderModel>();
 
-    public int CalculadorAmount(ICollection<ProductInfoModel> Products) { 
-    var amount = 0;
-    var price = 0;
+    public decimal CalculadorAmount(ICollection<ProductInfoModel> Products) { 
+    decimal amount = 0;
+    decimal price = 0;
         foreach (var product in Products) {
             price = product.Price*product.Quantity;
             amount = amount+price;
