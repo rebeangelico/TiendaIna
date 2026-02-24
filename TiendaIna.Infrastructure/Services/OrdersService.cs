@@ -91,10 +91,10 @@ public class OrdersService : IOrdersService
     #endregion
 
     #region Helper
-    public int CalculadorAmount(ICollection<ProductInfoModel> Products)
+    public decimal CalculadorAmount(ICollection<ProductInfoModel> Products)
     {
-        var amount = 0;
-        var price = 0;
+        decimal amount = 0;
+        decimal price = 0;
         foreach (var product in Products)
         {
             price = product.Price * product.Quantity;

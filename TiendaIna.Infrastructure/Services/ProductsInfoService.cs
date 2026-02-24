@@ -19,6 +19,16 @@ public class ProductsInfoService : IProductsInfoService
         return _productsInfoRepo.CreateAsync(Entity);
     }
 
+    public Task<int> Add(ProductModel entity, int quantity)
+    {
+        var x = new ProductInfoModel() {IdProduct = entity.Id , Name = entity.Name , Price = entity.Price, Quantity = quantity };
+
+        var Entity = ProductInfo.FromModel(x);
+        return _productsInfoRepo.CreateAsync(Entity);
+    }
+
+
+
     public Task Delete(int Id) {
         return _productsInfoRepo.DeleteAsync(Id);
     }
