@@ -19,61 +19,77 @@ public partial class ProductsCatalog : ComponentBase {
 
     #region fields
     private readonly IProductsService _productsService;
+    private readonly IProductsInfoService _productsInfoService;
     private readonly ICategoriesService _categoriesService;
     private readonly IBrandsService _brandsService;
+    private readonly ICartsService _cartsService;
     private readonly DialogService _dialogService;
     private readonly NotificationService _notificationService;
     #endregion
 
     #region properties
-
     public List<ProductModel>? Products { get; set; }
     public List<CategoryModel> Categories { get; set; } = [];
     public IEnumerable<ProductModel>? FilteredProducts { get; set; }
     public IEnumerable<ProductModel> PagedProducts = [];
-
     public List<ProductFiltersItems> FiltersApplied { get; set; } = [];
-    public IEnumerable<RadzenBreadCrumbItem> BreadCrumbItems =>
-    FiltersApplied.Select(f => new RadzenBreadCrumbItem {
-        Text = f.FilterText
-    });
-
     public int? BrandId;
     public int? CategoryId;
     private bool isSidebarOpen = false;
-
     private List<BrandModel>? Brands { get; set; }
-
     private int _pageSize = 9;
     private int _currentPage = 0;
     public bool IsLoading { get; set; } = false;
+
     #endregion
 
     #region constructors
-    public ProductsCatalog(IProductsService productsService, ICategoriesService categoriesService, IBrandsService brandsService, DialogService dialogService, NotificationService notificationService) : base() {
+    public ProductsCatalog(IProductsService productsService, IProductsInfoService productsInfoService, ICategoriesService categoriesService, IBrandsService brandsService, ICartsService cartsService, DialogService dialogService, NotificationService notificationService) : base() {
         _productsService = productsService ?? throw new ArgumentNullException(nameof(productsService));
+        _productsInfoService = productsInfoService ?? throw new ArgumentNullException(nameof(productsInfoService));
         _categoriesService = categoriesService ?? throw new ArgumentNullException(nameof(categoriesService));
         _brandsService = brandsService ?? throw new ArgumentNullException(nameof(brandsService));
+        _cartsService = cartsService ?? throw new ArgumentNullException(nameof(cartsService));
         _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
         _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
     }
     #endregion
 
     #region overriden methods
-    protected override async Task OnInitializedAsync() {
+
+    protected override async Task OnInitializedAsync()
+    {
         IsLoading = true;
         Products = await _productsService.Get();
         Categories = await _categoriesService.GetAll();
+
         SetFiltersFromUrl();
         ApplyFilters();
-        StateHasChanged();
+
         IsLoading = false;
         await base.OnInitializedAsync();
     }
+
     #endregion
 
+    
     #region methods
-    public void AddToCart(int productId, int amount) { } //implementar
+    public async Task AddToCart(int productId, int quantity)
+    {
+        var productModel = await _productsService.Get(productId);
+
+        var productInfo = new ProductInfoModel
+        {
+            IdProduct = productModel.Id,
+            Name = productModel.Name,
+            Price = productModel.Price,
+            Quantity = quantity
+        };
+
+        await _cartsService.AddItem(productInfo); // ✅ dispara OnChange
+        _notificationService.Notify(NotificationSeverity.Success, "Éxito", $"{productModel.Name} añadido al carrito");
+    }
+
     private void OnPageChanged(PagerEventArgs args) {
         _currentPage = args.PageIndex;
         UpdatePagedProducts();

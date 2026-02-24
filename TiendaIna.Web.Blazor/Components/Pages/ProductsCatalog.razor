@@ -105,8 +105,11 @@
                                     <RadzenColumn>
                                         <RadzenButton Text="Ver producto" Icon="visibility" ButtonStyle="ButtonStyle.Light"
                                                       Style="min-width:140px; margin:4px;" Click="@(() => NavigationManager.NavigateTo($"/productDetails/{product.Id}"))" />
-                                        <RadzenButton Text="Añadir al carrito" Icon="add_shopping_cart" ButtonStyle="ButtonStyle.Success"
-                                                      Style="min-width:140px; margin:4px;" Click="() => AddToCart(product.Id, 1)" />
+                                        <RadzenButton Text="Añadir al carrito"
+                                                      Icon="add_shopping_cart"
+                                                      ButtonStyle="ButtonStyle.Success"
+                                                      Style="min-width:140px; margin:4px;"
+                                                      Click="@(() => AddToCart(product.Id, 1))" />
                                     </RadzenColumn>
                                 </RadzenRow>
 
