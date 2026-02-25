@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Radzen;
-using Radzen.Blazor;
 using TiendaIna.Core.Extensions;
 using TiendaIna.Core.Models;
 using TiendaIna.Core.Services;
@@ -86,7 +85,7 @@ public partial class ProductsCatalog : ComponentBase {
             Quantity = quantity
         };
 
-        await _cartsService.AddItem(productInfo); // ✅ dispara OnChange
+        var x = await _cartsService.AddItem(productInfo); // ✅ dispara OnChange
         _notificationService.Notify(NotificationSeverity.Success, "Éxito", $"{productModel.Name} añadido al carrito");
     }
 

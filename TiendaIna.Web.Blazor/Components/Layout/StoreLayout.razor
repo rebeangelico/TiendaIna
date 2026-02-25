@@ -6,9 +6,6 @@
 @using TiendaIna.Web.Blazor.Components.Component
 @inherits LayoutComponentBase
 @inject NavigationManager NavigationManager
-@inject ICategoriesService _categoriesService
-@inject ICartsService CartsService
-
 
 <RadzenLayout>
     <RadzenHeader>
@@ -16,101 +13,24 @@
             <RadzenColumn Width="20%">
                 <RadzenTextBox Placeholder="Buscar productos..." Style="width:100%;" />
             </RadzenColumn>
-
             <RadzenColumn Width="60%" Style="text-align:center;">
                 <img src="lib/LOGO-NEGRO.png" alt="Logo" style="height:40px;" />
             </RadzenColumn>
-
-            <RadzenColumn Width="20%" Style="text-align:right;">
-                <RadzenIcon Icon="shopping_cart"
-                            Style="font-size: 24px; cursor: pointer;"
-                            @onclick="ToggleDropdown" />
-
-                @if (showDropdown)
-                {
-                    <div class="cart-dropdown">
-                        @if (Cart?.Products?.Any() == true)
-                        {
-                            <ul>
-                                @foreach (var product in Cart.Products!)
-                                {
-                                    <li>
-                                        <span>@product.Name</span> -
-                                        <span>Cant: @product.Quantity</span> -
-                                        <span>Precio: @product.Price.ToString("C")</span>
-                                    </li>
-                                }
-                            </ul>
-                            <RadzenButton Text="Comprar" Click="@GoToCart" Style="width:100%; margin-top:10px;" />
-                        }
-                        else
-                        {
-                            <p>El carrito está vacío</p>
-                        }
-                    </div>
-                }
+            <RadzenColumn Width="20%" Style="text-align:right; position:relative;">
+                <CartComponent />
             </RadzenColumn>
         </RadzenRow>
     </RadzenHeader>
-
     <RadzenBody>
         @Body
     </RadzenBody>
 </RadzenLayout>
 
-@code {
-    private bool showDropdown = false;
-    private CartModel? Cart;
-
-    protected override async Task OnInitializedAsync()
-    {
-        Cart = await CartsService.Get();
-        CartsService.OnChange += RefreshCart;
+<style>
+    .header-row {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        background-color: #f5f5f5;
     }
-
-    private async void RefreshCart()
-    {
-        Cart = await CartsService.Get();
-        await InvokeAsync(StateHasChanged); // ✅ refresca en el Dispatcher
-    }
-
-    private void ToggleDropdown() => showDropdown = !showDropdown;
-
-    private void GoToCart() => NavigationManager.NavigateTo("/cart");
-
-    public void Dispose()
-    {
-        CartsService.OnChange -= RefreshCart;
-    }
-}
-        <style>
-            .header-row {
-                display: flex;
-                align-items: center;
-                padding: 0.5rem 1rem;
-                background-color: #f5f5f5;
-            }
-
-            .cart-dropdown {
-            position: absolute;
-            right: 0;
-            background: white;
-            border: 1px solid #ccc;
-            padding: 10px;
-            width: 250px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            z-index: 1000;
-        }
-
-            .cart-dropdown ul {
-                list-style: none;
-                padding: 0;
-                margin: 0;
-            }
-
-            .cart-dropdown li {
-                margin-bottom: 5px;
-            }
-        </style>
-
-              
+</style>

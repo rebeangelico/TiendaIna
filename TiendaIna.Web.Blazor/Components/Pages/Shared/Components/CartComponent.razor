@@ -1,0 +1,150 @@
+﻿@rendermode InteractiveServer
+@implements IDisposable
+@inject ICartsService CartsService
+@inject NavigationManager NavigationManager
+@using TiendaIna.Core.Models
+@using TiendaIna.Core.Services
+@using Radzen
+@using Radzen.Blazor
+
+<div class="cart-icon-wrapper" @onclick="ToggleDropdown">
+    <RadzenIcon Icon="shopping_cart" Style="font-size: 24px; cursor: pointer;" />
+    @if (Cart?.QuantityProducts > 0)
+    {
+        <span class="cart-badge">@Cart.QuantityProducts</span>
+    }
+</div>
+
+@if (showDropdown)
+{
+    <div class="cart-dropdown">
+        @if (Cart?.Products?.Any() == true)
+        {
+            <ul>
+                @foreach (var product in Cart.Products)
+                {
+                    <li>
+                        <span class="product-name">@product.Name</span>
+                        <span class="product-detail">x@product.Quantity — @product.Price.ToString("C")</span>
+                    </li>
+                }
+            </ul>
+            <div class="cart-total">
+                Total: @Cart.TotalPrice.ToString("C")
+            </div>
+            <RadzenButton Text="Comprar" Click="@GoToCart"
+                          ButtonStyle="ButtonStyle.Primary"
+                          Style="width:100%; margin-top:10px;" />
+        }
+        else
+        {
+            <p style="margin:0; color:#888;">El carrito está vacío</p>
+        }
+    </div>
+}
+
+@code {
+    private bool showDropdown = false;
+    private CartModel? Cart;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Cart = await CartsService.Get();
+        CartsService.OnChange += RefreshCart;
+        Console.WriteLine($"🛒 CartWidget suscripto - HashCode: {CartsService.GetHashCode()}");
+    }
+
+    private async void RefreshCart()
+    {
+        Console.WriteLine("✅ RefreshCart ejecutado en CartWidget");
+        Cart = await CartsService.Get();
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private void ToggleDropdown() => showDropdown = !showDropdown;
+
+    private void GoToCart()
+    {
+        showDropdown = false;
+        NavigationManager.NavigateTo("/cart");
+    }
+
+    public void Dispose() => CartsService.OnChange -= RefreshCart;
+}
+
+<style>
+    .cart-icon-wrapper {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .cart-badge {
+        position: absolute;
+        top: -6px;
+        right: -8px;
+        background: #e53935;
+        color: white;
+        border-radius: 50%;
+        font-size: 11px;
+        font-weight: 700;
+        min-width: 18px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 3px;
+        line-height: 1;
+        pointer-events: none;
+    }
+
+    .cart-dropdown {
+        position: absolute;
+        right: 0;
+        top: 48px;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 12px;
+        width: 280px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 1000;
+    }
+
+        .cart-dropdown ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 8px 0;
+        }
+
+        .cart-dropdown li {
+            display: flex;
+            flex-direction: column;
+            padding: 6px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+            .cart-dropdown li:last-child {
+                border-bottom: none;
+            }
+
+    .product-name {
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    .product-detail {
+        font-size: 0.8rem;
+        color: #666;
+    }
+
+    .cart-total {
+        text-align: right;
+        font-weight: 700;
+        font-size: 0.95rem;
+        padding: 6px 0 2px;
+        border-top: 1px solid #eee;
+    }
+</style>
+
