@@ -27,6 +27,17 @@ public class ClientsService : IClientsService {
         return model;
     }
 
+    public async Task<ClientModel> GetByEmail(string email)
+    {
+        var clients = await _clientsRepo.GetAsync();
+        var client = clients.FirstOrDefault(e => e.Email == email);
+        if (client == null)
+            return null;
+
+        var model = ClientModel.FromEntity(client);
+        return model;
+    }
+
     public async Task<List<ClientModel>> GetAll() {
         var clients = await _clientsRepo.GetAsync();
         var models = clients.Select(c => ClientModel.FromEntity(c)).ToList();

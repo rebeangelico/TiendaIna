@@ -7,10 +7,10 @@ public class CartsService : ICartsService
 {
     private readonly CartModel _cart;
 
-    public CartsService()
+    public CartsService() // todos deben usar el servicio para modificar el estado del carro
     {
-        _cart = new CartModel() { Id = 5, TotalPrice = 10000, Products = new List<ProductInfoModel>() };
-    }
+        _cart = new CartModel() { Id = 5, TotalPrice = 110000, Products = new List<ProductInfoModel>() { new ProductInfoModel { Id= 1 , IdProduct= 1, Name= "Al Haramain by Armaf", Price= 55000, Quantity= 1} } };
+    }// carro creado a modo de ejemplo
 
     public event Action? OnChange;
 
