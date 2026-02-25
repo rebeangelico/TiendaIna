@@ -1,0 +1,229 @@
+﻿@page "/cart"
+@layout StoreLayout
+@rendermode InteractiveServer
+@inject NavigationManager Navigation
+@using TiendaIna.Web.Blazor.Components.Layout
+@using Radzen
+@using Radzen.Blazor
+@using TiendaIna.Core.Models
+@using TiendaIna.Core.Services
+@using TiendaIna.Core
+
+<PageTitle>Carrito de compras</PageTitle>
+
+<RadzenStack class="cart-page" Gap="2rem" style="padding: 2rem; max-width: 1100px; margin: 0 auto;">
+
+    @* ── HEADER ── *@
+    <RadzenRow AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
+        <RadzenText TextStyle="TextStyle.H4" style="font-weight:700; color: var(--rz-primary);">
+            🛒 Tu carrito
+        </RadzenText>
+        <RadzenBadge BadgeStyle="BadgeStyle.Primary" Text="@($"{NewCart?.QuantityProducts ?? 0} artículos")" />
+    </RadzenRow>
+
+    @if (IsLoading)
+    {
+        <RadzenProgressBarCircular ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+    }
+    else if (NewCart == null || NewCart.Products == null || !NewCart.Products.Any())
+    {
+        <RadzenCard style="text-align:center; padding: 3rem;">
+            <RadzenIcon Icon="shopping_cart" style="font-size:4rem; color: var(--rz-base-300);" />
+            <RadzenText TextStyle="TextStyle.H6" style="color: var(--rz-base-500); margin-top:1rem;">
+                Tu carrito está vacío
+            </RadzenText>
+            <RadzenButton Text="Ir a la tienda" Icon="store" ButtonStyle="ButtonStyle.Primary"
+                          Click="@(() => Navigation.NavigateTo("/products"))" style="margin-top:1rem;" />
+        </RadzenCard>
+    }
+    else
+    {
+        <RadzenRow Gap="2rem">
+
+            @* ════════════════════════════════════════
+               COLUMNA IZQUIERDA – Artículos + Totales
+               ════════════════════════════════════════ *@
+            <RadzenColumn Size="12" SizeMD="7">
+
+                @* ── Tabla de productos ── *@
+                <RadzenCard style="padding:0; overflow:hidden;">
+                    <RadzenStack Gap="0">
+
+                        @* Cabecera *@
+                        <div style="background: var(--rz-primary); color:#fff; padding: 0.75rem 1.25rem;
+                                    display:grid; grid-template-columns:1fr 140px 110px 36px;
+                                    gap:0.5rem; align-items:center; font-weight:600; font-size:.85rem;">
+                            <span>Producto</span>
+                            <span style="text-align:center;">Cantidad</span>
+                            <span style="text-align:right;">Subtotal</span>
+                            <span></span>
+                        </div>
+
+                        @* Filas *@
+                        @foreach (var item in NewCart.Products)
+                        {
+                            <div style="padding: 0.85rem 1.25rem;
+                                        display:grid; grid-template-columns:1fr 140px 110px 36px;
+                                        gap:0.5rem; align-items:center;
+                                        border-bottom: 1px solid var(--rz-base-200);">
+
+                                @* Nombre + precio unitario *@
+                                <RadzenStack Gap="0.1rem">
+                                    <RadzenText TextStyle="TextStyle.Body1" style="font-weight:600;">
+                                        @item.Name
+                                    </RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Caption" style="color:var(--rz-base-500);">
+                                        $@item.Price.ToString("N2") c/u
+                                    </RadzenText>
+                                </RadzenStack>
+
+                                @* Selector de cantidad *@
+                                <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center"
+                                             Gap="0.25rem" JustifyContent="JustifyContent.Center">
+                                    <RadzenButton Icon="remove" ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Small"
+                                                  Click="@(() => ChangeQuantity(item, -1))"
+                                                  Disabled="@(item.Quantity <= 1)" />
+                                    <RadzenText style="min-width:28px; text-align:center; font-weight:600;">
+                                        @item.Quantity
+                                    </RadzenText>
+                                    <RadzenButton Icon="add" ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Small"
+                                                  Click="@(() => ChangeQuantity(item, +1))" />
+                                </RadzenStack>
+
+                                @* Subtotal *@
+                                <RadzenText style="text-align:right; font-weight:700; color:var(--rz-primary);">
+                                    $@((item.Price * item.Quantity).ToString("N2"))
+                                </RadzenText>
+
+                                @* Eliminar *@
+                                <RadzenButton Icon="delete_outline" ButtonStyle="ButtonStyle.Danger"
+                                              Size="ButtonSize.Small" Variant="Variant.Text"
+                                              Click="@(() => RemoveItem(item))" />
+                            </div>
+                        }
+                    </RadzenStack>
+                </RadzenCard>
+
+                @* ── Resumen de totales ── *@
+                <RadzenCard style="margin-top:1rem; padding:1.25rem;">
+                    <RadzenStack Gap="0.5rem">
+                        <RadzenRow JustifyContent="JustifyContent.SpaceBetween">
+                            <RadzenText>Artículos:</RadzenText>
+                            <RadzenText>@NewCart.QuantityProducts</RadzenText>
+                        </RadzenRow>
+                        <RadzenRow JustifyContent="JustifyContent.SpaceBetween">
+                            <RadzenText>Subtotal:</RadzenText>
+                            <RadzenText>$@NewCart.TotalPrice.ToString("N2")</RadzenText>
+                        </RadzenRow>
+                        <hr style="border-color:var(--rz-base-200);" />
+                        <RadzenRow JustifyContent="JustifyContent.SpaceBetween" AlignItems="AlignItems.Center">
+                            <RadzenText TextStyle="TextStyle.H6" style="font-weight:700;">Total:</RadzenText>
+                            <RadzenText TextStyle="TextStyle.H5"
+                                        style="font-weight:800; color:var(--rz-primary);">
+                                $@NewCart.TotalPrice.ToString("N2")
+                            </RadzenText>
+                        </RadzenRow>
+                    </RadzenStack>
+                </RadzenCard>
+
+            </RadzenColumn>
+
+            @* ════════════════════════════════════════
+               COLUMNA DERECHA – Datos + Pago
+               ════════════════════════════════════════ *@
+            <RadzenColumn Size="12" SizeMD="5">
+                <RadzenCard style="padding:1.5rem;">
+                    <RadzenStack Gap="1.25rem">
+
+                        <RadzenText TextStyle="TextStyle.H6" style="font-weight:700;">
+                            Datos del cliente
+                        </RadzenText>
+
+                        <RadzenStack Gap="0.75rem">
+                            <div>
+                                <RadzenLabel Text="Nombre completo *" />
+                                <RadzenTextBox @bind-Value="ClientForm.Name" Placeholder="Ej: María García"
+                                               style="width:100%;" />
+                                @if (submitted && string.IsNullOrWhiteSpace(ClientForm.Name))
+                                {
+                                    <small style="color:var(--rz-danger);">El nombre es requerido.</small>
+                                }
+                            </div>
+
+                            <div>
+                                <RadzenLabel Text="Email *" />
+                                <RadzenTextBox @bind-Value="ClientForm.Email" Placeholder="correo@ejemplo.com"
+                                               style="width:100%;" />
+                                @if (submitted && string.IsNullOrWhiteSpace(ClientForm.Email))
+                                {
+                                    <small style="color:var(--rz-danger);">El email es requerido.</small>
+                                }
+                            </div>
+
+                            <div>
+                                <RadzenLabel Text="DNI / CUIT *" />
+                                <RadzenTextBox @bind-Value="ClientForm.IdentificationNumber"
+                                               Placeholder="Ej: 30123456"
+                                               style="width:100%;" />
+                                @if (submitted && string.IsNullOrWhiteSpace(ClientForm.IdentificationNumber))
+                                {
+                                    <small style="color:var(--rz-danger);">El número de identificación es requerido.</small>
+                                }
+                            </div>
+                        </RadzenStack>
+
+                        <RadzenText TextStyle="TextStyle.H6" style="font-weight:700; margin-top:0.5rem;">
+                            Medio de pago
+                        </RadzenText>
+
+                        <RadzenStack Gap="0.5rem">
+                            @foreach (var method in PaymentMethods)
+                            {
+                                var isSelected = SelectedPaymentMethod == method.Key;
+
+                                <div @onclick="@(() => SelectedPaymentMethod = method.Key)"
+                                     style="cursor:pointer; border: 2px solid @(isSelected ? "var(--rz-primary)" : "var(--rz-base-200)");
+                        border-radius:8px; padding:0.75rem 1rem;
+                        background:@(isSelected ? "var(--rz-primary-lighter)" : "transparent");
+                        transition: all .2s;">
+                                    <RadzenRow AlignItems="AlignItems.Center" Gap="0.75rem">
+                                        <RadzenIcon Icon="@method.Value.Icon" />
+                                        <RadzenStack Gap="0">
+                                            <RadzenText style="font-weight:600; margin:0;">@method.Value.Label</RadzenText>
+                                            <RadzenText TextStyle="TextStyle.Caption" style="color:var(--rz-base-500); margin:0;">
+                                                @method.Value.Description
+                                            </RadzenText>
+                                        </RadzenStack>
+                                    </RadzenRow>
+                                </div>
+                            }
+                            @if (submitted && string.IsNullOrWhiteSpace(SelectedPaymentMethod))
+                            {
+                                <small style="color:var(--rz-danger);">Seleccioná un medio de pago.</small>
+                            }
+                        </RadzenStack>
+
+                        @* Nota MercadoPago – placeholder futuro *@
+                        @if (SelectedPaymentMethod == "mercadopago")
+                        {
+                            <RadzenAlert AlertStyle="AlertStyle.Info" Shade="Shade.Lighter" AllowClose="false">
+                                Serás redirigido a Mercado Pago para completar el pago de forma segura.
+                            </RadzenAlert>
+                        }
+
+                        <RadzenButton Text="Confirmar pedido" Icon="check_circle"
+                                      ButtonStyle="ButtonStyle.Success" Size="ButtonSize.Large"
+                                      Click="@CreateOrder" IsBusy="@IsOrdering"
+                                      BusyText="Procesando..."
+                                      style="width:100%; margin-top:0.5rem; font-weight:700;" />
+
+                    </RadzenStack>
+                </RadzenCard>
+            </RadzenColumn>
+
+        </RadzenRow>
+    }
+
+</RadzenStack>
+
+<RadzenNotification />
