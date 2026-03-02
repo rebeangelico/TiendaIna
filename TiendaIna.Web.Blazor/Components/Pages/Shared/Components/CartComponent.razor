@@ -57,6 +57,8 @@
     private async void RefreshCart()
     {
         Console.WriteLine("✅ RefreshCart ejecutado en CartWidget");
+        Cart = null;                          // ← forzar cambio de referencia
+        await InvokeAsync(StateHasChanged);
         Cart = await CartsService.Get();
         await InvokeAsync(StateHasChanged);
     }

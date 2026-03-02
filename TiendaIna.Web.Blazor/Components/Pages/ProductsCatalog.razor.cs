@@ -71,7 +71,7 @@ public partial class ProductsCatalog : ComponentBase {
 
     #endregion
 
-    
+
     #region methods
     public async Task AddToCart(int productId, int quantity)
     {
@@ -85,8 +85,12 @@ public partial class ProductsCatalog : ComponentBase {
             Quantity = quantity
         };
 
-        var x = await _cartsService.AddItem(productInfo); // ✅ dispara OnChange
-        _notificationService.Notify(NotificationSeverity.Success, "Éxito", $"{productModel.Name} añadido al carrito");
+        NotifySuccess($"{productModel.Name} añadido al carrito");
+
+        await Task.Delay(50);
+
+        await _cartsService.AddItem(productInfo);
+        StateHasChanged();
     }
 
     private void OnPageChanged(PagerEventArgs args) {

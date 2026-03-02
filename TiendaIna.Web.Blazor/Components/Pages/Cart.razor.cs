@@ -3,7 +3,6 @@ using Radzen;
 using TiendaIna.Core;
 using TiendaIna.Core.Models;
 using TiendaIna.Core.Services;
-using TiendaIna.Infrastructure.Services;
 
 namespace TiendaIna.Web.Blazor.Components.Pages;
 public partial class Cart : ComponentBase {

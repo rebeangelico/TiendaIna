@@ -13,6 +13,8 @@
 
 <PageTitle>Products</PageTitle>
 
+@if (Products != null){
+
 <div class="barra-horizontal">
     <div class="barra-contenido">
         <div class="barra-izquierda">
@@ -127,9 +129,10 @@
                          PageChanged="OnPageChanged" />
         </div>
     </div>
+
 </div>
-
-
+    <RadzenNotification />
+}
 
 <style>
     .hamburger-button {
@@ -283,14 +286,3 @@
 
 
 </style>
-
-@* @if (FiltersApplied?.Any() == true) {
-                <RadzenBreadCrumb Items="@BreadCrumbItems">
-                    <Template Context="item">
-                        <span>@item.Text</span>
-                        <RadzenIcon Icon="close"
-                                    Style="cursor:pointer; margin-left:5px;"
-                                    Click="@(() => RemoveFilter(item.Text))" />
-                    </Template>
-                </RadzenBreadCrumb>
-            } *@
