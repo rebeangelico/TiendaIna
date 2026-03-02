@@ -7,10 +7,9 @@ public class CartsService : ICartsService
 {
     private readonly CartModel _cart;
 
-    public CartsService() // todos deben usar el servicio para modificar el estado del carro
-    {
-        _cart = new CartModel() { Id = 5, TotalPrice = 110000, Products = new List<ProductInfoModel>() { new ProductInfoModel { Id= 1 , IdProduct= 1, Name= "Al Haramain by Armaf", Price= 55000, Quantity= 1} } };
-    }// carro creado a modo de ejemplo
+    public CartsService() {
+        _cart = new CartModel() { };
+    }
 
     public event Action? OnChange;
 
@@ -32,7 +31,10 @@ public class CartsService : ICartsService
             _cart.TotalPrice = products.Sum(p => p.Price * p.Quantity);
         }
 
-        OnChange?.Invoke(); // ✅ Notificar a los componentes
+        var suscriptores = OnChange?.GetInvocationList().Length ?? 0;
+        Console.WriteLine($"🔔 OnChange invocado - suscriptores: {suscriptores}");
+
+        OnChange?.Invoke(); // Notifica a los componentes
         return Task.FromResult(_cart.QuantityProducts);
     }
 
@@ -44,7 +46,7 @@ public class CartsService : ICartsService
         _cart.QuantityProducts = _cart.Products.Sum(p => p.Quantity);
         _cart.TotalPrice = _cart.Products.Sum(p => p.Price * p.Quantity);
 
-        OnChange?.Invoke(); // ✅ Notificar
+        OnChange?.Invoke(); // Notificar
         return Task.CompletedTask;
     }
 
