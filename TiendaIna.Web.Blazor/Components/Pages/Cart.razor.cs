@@ -31,15 +31,17 @@ public partial class Cart : ComponentBase {
 
     private bool submitted = false;
 
-    // ── Opciones de pago ────────────────────────────────────────────────── REEMPLAZAR POR UN ENUM!!!
+    #endregion
+
+    #region Payments Resouces/Tools
     private record PaymentOption(string Label, string Icon, string Description);
 
-    private readonly Dictionary<string, PaymentOption> PaymentMethods = new()
-    {
+    private readonly Dictionary<string, PaymentOption> PaymentMethods = new() {
         ["efectivo"] = new("Efectivo", "payments", "Pago en efectivo al retirar"),
         ["transferencia"] = new("Transferencia", "account_balance", "CBU / Alias bancario"),
         ["mercadopago"] = new("Mercado Pago", "credit_card", "Tarjeta, QR o billetera virtual"),
     };
+
     #endregion
 
     #region constructors
@@ -56,49 +58,48 @@ public partial class Cart : ComponentBase {
 
     #region overriden methods
     protected override async Task OnInitializedAsync() {
-        try {
+        try
+        {
             IsLoading = true;
             NewCart = await _cartsService.Get();
+            _cartsService.OnChange += RefreshCart; // ← suscribir
             StateHasChanged();
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             NotifyError("Error al cargar el carrito", ex);
-        } finally {
+        }
+        finally
+        {
             IsLoading = false;
         }
     }
     #endregion
 
     #region methods
-    private void ChangeQuantity(ProductInfoModel item, int delta)
-    {
+    private async Task ChangeQuantity(ProductInfoModel item, int delta) {
         var newQty = item.Quantity + delta;
         if (newQty < 1) return;
 
-        item.Quantity = newQty;
-        RecalculateCart();
-    }
-
-    //Elimina un artículo del carrito y recalcula totales.
-    private void RemoveItem(ProductInfoModel item)
-    {
-        NewCart?.Products?.Remove(item);
-        RecalculateCart();
-    }
-
-    //Actualiza QuantityProducts y TotalPrice en el CartModel.
-    private void RecalculateCart()
-    {
-        if (NewCart?.Products == null) return;
-
-        NewCart.QuantityProducts = NewCart.Products.Sum(p => p.Quantity);
-        NewCart.TotalPrice = NewCart.Products.Sum(p => p.Price * p.Quantity);
-
+        await _cartsService.UpdateItemQuantity(item, newQty);
+        NewCart = await _cartsService.Get();
         StateHasChanged();
     }
 
-    // ── Crear pedido ──────────────────────────────────────────────────────
-    public async Task CreateOrder()
-    {
+    private async Task RemoveItem(ProductInfoModel item) {
+        await _cartsService.DeleteItem(item);
+        NewCart = await _cartsService.Get();
+        StateHasChanged();
+    }
+
+    private async void RefreshCart() {
+        NewCart = await _cartsService.Get();
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose() => _cartsService.OnChange -= RefreshCart; // ← implementar IDisposable
+
+    public async Task CreateOrder() {
         submitted = true;
 
         if (!IsFormValid()) return;
@@ -107,21 +108,16 @@ public partial class Cart : ComponentBase {
         {
             IsOrdering = true;
 
-            // 1. Resolver cliente (crear si no existe)
             var client = await ResolveClientAsync();
 
-            // 2. Construir el modelo de la orden
             var order = BuildOrderModel(client);
 
-            // 3. Persistir la orden a través del servicio
             var orderId = await _ordersService.Add(order);
             var createdOrder = await _ordersService.Get(orderId);
 
-            // 4. Construir y persistir el pago inicial
             var payment = BuildPaymentModel(createdOrder.Id, client.Id);
             var newPaymentId = await _paymentsService.Add(payment);
 
-            // 5. Notificar y navegar a la confirmación
             NotifySuccess("¡Pedido creado con éxito!"); 
 
 
@@ -146,11 +142,7 @@ public partial class Cart : ComponentBase {
         }
     }
 
-    // Busca el cliente por email; si no existe lo crea.
-    // Ajustar la lógica según el contrato de IClientsService.
-
-    private async Task<ClientModel> ResolveClientAsync()
-    {
+    private async Task<ClientModel> ResolveClientAsync() {
         var existing = await _clientsService.GetByEmail(ClientForm.Email!);
         if (existing != null) return existing;
 
@@ -158,8 +150,7 @@ public partial class Cart : ComponentBase {
         return await _clientsService.Get(id);
     }
 
-    private OrderModel BuildOrderModel(ClientModel client) => new()
-    {
+    private OrderModel BuildOrderModel(ClientModel client) => new() {
         Client = client,
         Products = NewCart!.Products!.ToList(),
         Amount = NewCart.TotalPrice,
@@ -167,8 +158,7 @@ public partial class Cart : ComponentBase {
         Status = OrderStatus.Pending
     };
 
-    private PaymentModel BuildPaymentModel(int orderId, int clientId) => new()
-    {
+    private PaymentModel BuildPaymentModel(int orderId, int clientId) => new() {
         OrderId = orderId,
         ClientId = clientId,
         Method = SelectedPaymentMethod,

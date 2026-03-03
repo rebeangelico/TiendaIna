@@ -73,8 +73,7 @@ public partial class ProductsCatalog : ComponentBase {
 
 
     #region methods
-    public async Task AddToCart(int productId, int quantity)
-    {
+    public async Task AddToCart(int productId, int quantity) {
         var productModel = await _productsService.Get(productId);
 
         var productInfo = new ProductInfoModel
@@ -86,8 +85,6 @@ public partial class ProductsCatalog : ComponentBase {
         };
 
         NotifySuccess($"{productModel.Name} añadido al carrito");
-
-        await Task.Delay(50);
 
         await _cartsService.AddItem(productInfo);
         StateHasChanged();

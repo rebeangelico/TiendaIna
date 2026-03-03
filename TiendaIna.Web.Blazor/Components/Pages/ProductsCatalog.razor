@@ -87,7 +87,7 @@
                                     <RadzenColumn>
                                         <RadzenRow AlignItems="AlignItems.Center" JustifyContent="JustifyContent.Start" Style="gap:4px; flex-wrap:wrap;">
                                             <strong>Categorias:</strong>
-                                            @foreach (var cat in product.Categories)
+                                            @foreach (var cat in product.Categories!)
                                             {
                                                 <RadzenButton Text="@cat.Name"
                                                               Size="ButtonSize.Small"
