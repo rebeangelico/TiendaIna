@@ -6,7 +6,7 @@ namespace TiendaIna.Core.Services {
         Task<CartModel> Create(); 
         Task DeleteItem(ProductInfoModel product);
         Task<CartModel> Get();
-        Task<CartModel> Update();
+        Task UpdateItemQuantity(ProductInfoModel product, int newQuantity);
 
         event Action? OnChange;
     }
