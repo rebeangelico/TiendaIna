@@ -70,14 +70,15 @@ public partial class ProductDetails : ComponentBase {
 
     }
     void NavigateToCategory(int categoryId) {
-        //implementar filtrado!!!
-        _navigationManager.NavigateTo($"{categoryId}");
+        _navigationManager.NavigateTo($"/products?categoryId={categoryId}");
+    }
+
+    private void NavigateToBrand() {
+        _navigationManager.NavigateTo($"/products?brandId={Product?.Brand?.Id}");
     }
 
     #endregion
-    private void ToggleSidebar() {
-        isSidebarOpen = !isSidebarOpen;
-    }
+
     #region Helpers
     private void NotifySuccess(string message) =>
         _notificationService.Notify(NotificationSeverity.Success, "Éxito", message);
