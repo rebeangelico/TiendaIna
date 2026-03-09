@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Routing;
 using Radzen;
 using TiendaIna.Core.Extensions;
 using TiendaIna.Core.Models;
 using TiendaIna.Core.Services;
-
 
 namespace TiendaIna.Web.Blazor.Components.Pages;
 public partial class ProductsCatalog : ComponentBase {
@@ -39,7 +39,6 @@ public partial class ProductsCatalog : ComponentBase {
     public List<ProductFiltersItems> FiltersApplied { get; set; } = [];
     public string SearchText { get; set; } = "";
     private bool isSidebarOpen = false;
-   // private List<BrandModel>? Brands { get; set; }
     private int _pageSize = 9;
     private int _currentPage = 0;
     public bool IsLoading { get; set; } = false;
@@ -60,8 +59,7 @@ public partial class ProductsCatalog : ComponentBase {
 
     #region overriden methods
 
-    protected override async Task OnInitializedAsync()
-    {
+    protected override async Task OnInitializedAsync() {
         IsLoading = true;
         Products = await _productsService.Get();
         Categories = await _categoriesService.GetAll();
@@ -69,10 +67,21 @@ public partial class ProductsCatalog : ComponentBase {
         SetFiltersFromUrl();
         ApplyFilters();
 
+        NavigationManager.LocationChanged += OnLocationChanged;
+
         IsLoading = false;
         await base.OnInitializedAsync();
     }
 
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e) {
+        SetFiltersFromUrl();
+        ApplyFilters();
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose() {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
     #endregion
 
 
@@ -116,23 +125,23 @@ public partial class ProductsCatalog : ComponentBase {
     #endregion
 
     #region Filters Methods
+
+
     private void ApplyFilters() {
         IsLoading = true;
         FiltersApplied.Clear();
 
         FilteredProducts = Products.DeepClone();
 
-        if (CategoryId is not null) {
+        if (CategoryId is not null)
+        {
             FilteredProducts = FilteredProducts?
                 .Where(p => p.Categories != null && p.Categories.Any(c => c.Id == CategoryId));
 
-            FiltersApplied.Add(new ProductFiltersItems {
+            FiltersApplied.Add(new ProductFiltersItems
+            {
                 FilterText = $"Categoría: {GetCategoryName(CategoryId.Value)}",
-                Action = () =>
-                {
-                    CategoryId = null;
-                    ApplyFilters();
-                }
+                Action = () => { CategoryId = null; ApplyFilters(); }
             });
         }
 
@@ -144,29 +153,20 @@ public partial class ProductsCatalog : ComponentBase {
             FiltersApplied.Add(new ProductFiltersItems
             {
                 FilterText = $"Marca: {GetBrandName(BrandId.Value)}",
-                Action = () =>
-                {
-                    BrandId = null;
-                    ApplyFilters();
-                }
+                Action = () => { BrandId = null; ApplyFilters(); }
             });
+        }
 
-            if (!string.IsNullOrWhiteSpace(SearchText))
+        if (!string.IsNullOrWhiteSpace(SearchText))
+        {
+            FilteredProducts = FilteredProducts?
+                .Where(p => p.Name!.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
+
+            FiltersApplied.Add(new ProductFiltersItems
             {
-                FilteredProducts = FilteredProducts?
-                    .Where(p => p.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
-
-                FiltersApplied.Add(new ProductFiltersItems
-                {
-                    FilterText = $"Búsqueda: {SearchText}",
-                    Action = () =>
-                    {
-                        SearchText = "";
-                        ApplyFilters();
-                    }
-                });
-            }
-
+                FilterText = $"Búsqueda: {SearchText}",
+                Action = () => { SearchText = ""; ApplyFilters(); }
+            });
         }
 
         _currentPage = 0;
@@ -182,12 +182,6 @@ public partial class ProductsCatalog : ComponentBase {
     private void FilterByCategory(int? categoryId) {
         CategoryId = categoryId;
         ApplyFilters();
-    }
-
-    private void ResetFilters() {
-        BrandId = null;
-        CategoryId = null;
-        StateHasChanged();
     }
 
     void RemoveFilter(ProductFiltersItems filtro) {

@@ -1,0 +1,35 @@
+﻿@rendermode InteractiveServer
+@inject NavigationManager NavigationManager
+@inject ICartsService CartsService
+@inject NavigationManager NavigationManager
+@using TiendaIna.Core.Models
+@using TiendaIna.Core.Services
+@using Radzen
+@using Radzen.Blazor
+
+
+<div class="rz-textbox" style="width:100%;">
+    <input type="text"
+           value="@searchText"
+           @oninput="@((e) => searchText = e.Value?.ToString() ?? "")"
+           @onkeydown="OnKeyDown"
+           placeholder="Buscar productos..."
+           style="width:100%; border:none; outline:none; background:transparent;" />
+</div>
+
+@code {
+    private string searchText = "";
+
+    protected override void OnInitialized()
+    {
+        var uri = new Uri(NavigationManager.Uri);
+        var queryParams = System.Web.HttpUtility.ParseQueryString(uri.Query);
+        searchText = queryParams["search"] ?? "";
+    }
+
+    private void OnKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+            NavigationManager.NavigateTo($"/products?search={Uri.EscapeDataString(searchText)}");
+    }
+}
