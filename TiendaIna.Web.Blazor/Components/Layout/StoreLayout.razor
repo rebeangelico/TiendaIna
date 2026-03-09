@@ -11,7 +11,10 @@
     <RadzenHeader>
         <RadzenRow class="header-row">
             <RadzenColumn Width="20%">
-                <RadzenTextBox Placeholder="Buscar productos..." Style="width:100%;" />
+                <RadzenTextBox @bind-Value="searchText"
+                               @onkeydown="OnKeyDown"
+                               Placeholder="Buscar productos..."
+                               Style="width:100%;" />
             </RadzenColumn>
             <RadzenColumn Width="60%" Style="text-align:center;">
                 <a href="/" style="display:inline-block;">
@@ -30,6 +33,16 @@
     </RadzenBody>
 </RadzenLayout>
 <RadzenNotification />
+
+@code {
+    private string searchText = "";
+
+    private void OnKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+            NavigationManager.NavigateTo($"/catalogo?search={Uri.EscapeDataString(searchText)}");
+    }
+}
 
 <style>
     .header-row {

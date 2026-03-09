@@ -29,13 +29,17 @@ public partial class ProductsCatalog : ComponentBase {
     #region properties
     public List<ProductModel>? Products { get; set; }
     public List<CategoryModel> Categories { get; set; } = [];
-    public IEnumerable<ProductModel>? FilteredProducts { get; set; }
-    public IEnumerable<ProductModel> PagedProducts = [];
-    public List<ProductFiltersItems> FiltersApplied { get; set; } = [];
+
     public int? BrandId;
     public int? CategoryId;
+
+    public IEnumerable<ProductModel>? FilteredProducts { get; set; }
+    public IEnumerable<ProductModel> PagedProducts = [];
+    
+    public List<ProductFiltersItems> FiltersApplied { get; set; } = [];
+    public string SearchText { get; set; } = "";
     private bool isSidebarOpen = false;
-    private List<BrandModel>? Brands { get; set; }
+   // private List<BrandModel>? Brands { get; set; }
     private int _pageSize = 9;
     private int _currentPage = 0;
     public bool IsLoading { get; set; } = false;
@@ -132,11 +136,13 @@ public partial class ProductsCatalog : ComponentBase {
             });
         }
 
-        if (BrandId is not null) {
+        if (BrandId is not null)
+        {
             FilteredProducts = FilteredProducts?
                 .Where(p => p.BrandId == BrandId);
 
-            FiltersApplied.Add(new ProductFiltersItems {
+            FiltersApplied.Add(new ProductFiltersItems
+            {
                 FilterText = $"Marca: {GetBrandName(BrandId.Value)}",
                 Action = () =>
                 {
@@ -144,6 +150,23 @@ public partial class ProductsCatalog : ComponentBase {
                     ApplyFilters();
                 }
             });
+
+            if (!string.IsNullOrWhiteSpace(SearchText))
+            {
+                FilteredProducts = FilteredProducts?
+                    .Where(p => p.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
+
+                FiltersApplied.Add(new ProductFiltersItems
+                {
+                    FilterText = $"Búsqueda: {SearchText}",
+                    Action = () =>
+                    {
+                        SearchText = "";
+                        ApplyFilters();
+                    }
+                });
+            }
+
         }
 
         _currentPage = 0;
@@ -180,6 +203,7 @@ public partial class ProductsCatalog : ComponentBase {
             BrandId = brandId;
         if (int.TryParse(queryParams["categoryId"], out var categoryId))
             CategoryId = categoryId;
+        SearchText = queryParams["search"] ?? "";
     }
 
     #endregion
