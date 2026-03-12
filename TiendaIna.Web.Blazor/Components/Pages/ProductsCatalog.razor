@@ -68,49 +68,43 @@
                                              alt="@product?.Name"
                                              style="width:100%; height:200px; object-fit:cover;" />
 
-                                        <div style="display:flex; justify-content:space-between; align-items:center; width:100%; padding:0 10px;">
-
-                                            <strong style="font-size:1.2rem; margin-left:10px;">
+                                        <div style="display:flex; align-items:center; width:100%; padding:0 10px;">
+                                            <strong style="font-size:1.2rem; margin-right:10px; flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
                                                 @product?.Name
                                             </strong>
 
-                                            <div style="flex:1; display:flex; justify-content:center;">
-                                                <RadzenBadge BadgeStyle="BadgeStyle.Success" Shade="Shade.Light" Variant="Variant.Outlined">
-                                                    <span style="font-size:1rem; padding:2px 8px; font-weight:600;">
-                                                        $@product?.Price
-                                                    </span>
-                                                </RadzenBadge>
-                                            </div>
-
+                                            <RadzenBadge BadgeStyle="BadgeStyle.Success" Shade="Shade.Light" Variant="Variant.Outlined">
+                                                <span style="font-size:1rem; padding:2px 8px; font-weight:600;">
+                                                    $@product?.Price
+                                                </span>
+                                            </RadzenBadge>
                                         </div>
                                     </RadzenRow>
 
-
-                                <RadzenRow AlignItems="AlignItems.Center"
-                                           Style="padding:5px 0; display:flex; justify-content:space-between;">
-                                    <div style="display:flex; align-items:center; gap:6px;">
-                                        <strong>Marca:</strong>
+                                    <RadzenRow AlignItems="AlignItems.Center"
+                                               Style="padding:5px 0; display:flex; justify-content:flex-start; gap:8px;">
+                                        <strong style="white-space:nowrap;">Marca:</strong>
                                         <RadzenButton Text="@product.Brand?.Name"
                                                       Size="ButtonSize.Small"
                                                       ButtonStyle="ButtonStyle.Light"
                                                       Style="margin:0; border-radius:6px; font-size:12px; padding:2px 10px;"
                                                       Click="@(() => FilterByBrand(product.BrandId))" />
-                                    </div>
-                                </RadzenRow>
+                                    </RadzenRow>
 
                                 <RadzenRow AlignItems="AlignItems.Center" Style="margin:4px 0;">
                                     <RadzenColumn>
-                                        <RadzenRow AlignItems="AlignItems.Center" JustifyContent="JustifyContent.Start" Style="gap:4px; flex-wrap:wrap;">
-                                            <strong>Categorias:</strong>
-                                            @foreach (var cat in product.Categories!)
-                                            {
-                                                <RadzenButton Text="@cat.Name"
-                                                              Size="ButtonSize.Small"
-                                                              ButtonStyle="ButtonStyle.Light"
-                                                              Style="border-radius:4px; font-size:11px; padding:2px 8px; margin:0;"
-                                                              Click="@(() => FilterByCategory(cat.Id))" />
-                                            }
-                                        </RadzenRow>
+                                            <RadzenRow AlignItems="AlignItems.Center" JustifyContent="JustifyContent.Start"
+                                                       Style="gap:6px; flex-wrap:wrap;">
+                                                <strong style="white-space:nowrap;">Categorías:</strong>
+                                                @foreach (var cat in product.Categories!)
+                                                {
+                                                    <RadzenButton Text="@cat.Name"
+                                                                  Size="ButtonSize.Small"
+                                                                  ButtonStyle="ButtonStyle.Light"
+                                                                  Style="border-radius:4px; font-size:11px; padding:2px 8px; margin:0;"
+                                                                  Click="@(() => FilterByCategory(cat.Id))" />
+                                                }
+                                            </RadzenRow>
                                     </RadzenColumn>
                                 </RadzenRow>
 

@@ -13,19 +13,19 @@ namespace TiendaIna.Infrastructure.DataStore {
               },
               new Category {
                 Id = 2,
-               Name = "Perfumes Masculinos",
+               Name = "Masculinos",
               },
               new Category {
                 Id = 3,
-               Name = "Perfumes Femeninos",
+               Name = "Femeninos",
               },
               new Category {
                 Id = 4,
-               Name = "Perfumes Unisex",
+               Name = "Unisex",
               },
               new Category {
                 Id = 5,
-               Name = "Perfumes Infantiles",
+               Name = "Infantiles",
               },
               new Category {
                 Id = 6,
